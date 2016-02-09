@@ -8,8 +8,10 @@ import java.util.Map;
 
 public class DobbelsteenModel {
     private int waarde;
+    private int gooiCounter = 0;
     private ArrayList<ActionListener> actionListenerList = new ArrayList<ActionListener>();
     private static Map<Integer, Integer> gooiStats = new LinkedHashMap<>();
+
 
     // Fill stats with default values
     static {
@@ -67,8 +69,13 @@ public class DobbelsteenModel {
     }
 
     private void processGooi(int waarde) {
+        gooiCounter++;
         int lastCount = gooiStats.get(waarde);
         lastCount = lastCount + 1; // Increment lastCount
         gooiStats.put(waarde, lastCount);
+    }
+
+    public int getCounter() {
+        return gooiCounter;
     }
 }
