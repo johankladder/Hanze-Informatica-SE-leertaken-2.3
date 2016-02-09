@@ -1,4 +1,4 @@
-package edited;
+package unedited.opdracht8;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,13 +9,13 @@ public class TekstView extends JPanel implements ActionListener
 {
 	private JTextField steenRoodVeld = new JTextField();
     DobbelsteenModel d;
-
+    
 	public TekstView()
 	{
 	    this.setLayout(new FlowLayout());
 	    this.add(steenRoodVeld);
 	}
-
+	
 	public void actionPerformed( ActionEvent e )
 	{
 	    d = (DobbelsteenModel) e.getSource();
