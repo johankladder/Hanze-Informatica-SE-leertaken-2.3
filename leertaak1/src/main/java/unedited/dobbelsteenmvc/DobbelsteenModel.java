@@ -1,4 +1,4 @@
-package unedited.opdracht8;
+package unedited.dobbelsteenmvc;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
