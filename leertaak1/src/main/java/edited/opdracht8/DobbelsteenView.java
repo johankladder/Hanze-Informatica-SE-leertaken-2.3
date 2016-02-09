@@ -1,4 +1,4 @@
-package edited;
+package edited.opdracht8;
 
 import javax.swing.*;
 import java.awt.*;
