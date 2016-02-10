@@ -11,8 +11,6 @@ public class DobbelsteenMVC extends JApplet {
     DobbelsteenController controller;             // Controller
 
     public void init() {
-        //test
-        //sdsd
         resize(250, 200);
 
         // Maak het model
