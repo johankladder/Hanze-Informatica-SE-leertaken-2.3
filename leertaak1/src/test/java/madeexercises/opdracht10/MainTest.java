@@ -1,4 +1,4 @@
-package edited.opdracht10;
+package madeexercises.opdracht10;
 
 import org.junit.Test;
 

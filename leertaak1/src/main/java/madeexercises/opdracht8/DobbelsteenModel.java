@@ -1,4 +1,4 @@
-package edited.opdracht8;
+package madeexercises.opdracht8;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

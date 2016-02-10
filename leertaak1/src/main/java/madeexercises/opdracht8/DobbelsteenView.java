@@ -1,4 +1,4 @@
-package edited.opdracht8;
+package madeexercises.opdracht8;
 
 import javax.swing.*;
 import java.awt.*;
