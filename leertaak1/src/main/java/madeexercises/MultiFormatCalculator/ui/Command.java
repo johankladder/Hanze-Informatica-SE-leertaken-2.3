@@ -24,7 +24,7 @@ import java.io.*;
  * De main-klasse die leest en schrijft naar de console.
  * 
  * @author Brugali
- * @author Baljé
+ * @author Baljï¿½
  */
 public class Command {
   Calculator calc=new Calculator();

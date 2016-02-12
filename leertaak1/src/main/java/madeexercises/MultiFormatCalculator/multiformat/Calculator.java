@@ -48,8 +48,13 @@ public class Calculator {
     operand_1 = new Rational();
   }
   public void divide() {
-    operand_0 = operand_1.div(operand_0);
-    operand_1 = new Rational();
+    try {
+      operand_0 = operand_1.div(operand_0);
+      operand_1 = new Rational();
+    } catch (DivideByZeroException e) {
+      e.printStackTrace();
+    }
+
   }
   public void delete() {
     operand_0 = operand_1;
