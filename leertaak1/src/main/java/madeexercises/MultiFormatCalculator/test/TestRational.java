@@ -66,6 +66,14 @@ public class TestRational {
 		assertEquals(2.0, r.getDenominator());		
 	}
 
+	@Test(expected = DivideByZeroException.class)
+	public void testDevideByZero() throws DivideByZeroException {
+		Rational r = new Rational(1,0);
+		Rational r2 = new Rational(1,2);
+		r.div(r2);
+	}
+
+
 
 
 }
