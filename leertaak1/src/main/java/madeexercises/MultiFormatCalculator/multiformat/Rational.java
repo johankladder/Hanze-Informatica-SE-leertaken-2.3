@@ -37,9 +37,17 @@ public class Rational {
      * @param den Denominator
      */
     public Rational(double num, double den) {
-        numerator = num;
-        denominator = den;
-        simplify();
+        try {
+            if (den != 0.0) {
+                numerator = num;
+                denominator = den;
+                simplify();
+            } else {
+                throw new DivideByZeroException();
+            }
+        } catch (DivideByZeroException e) {
+            e.printStackTrace();
+        }
     }
 
     public Rational() {
@@ -131,14 +139,10 @@ public class Rational {
     }
 
     public Rational div(Rational other) throws DivideByZeroException {
-        if (denominator != 0.0 && other.denominator != 0.0) {
             return new Rational(
                     numerator * other.denominator,
                     denominator * other.numerator);
-        } else {
 
-            throw new DivideByZeroException();
-        }
     }
 
     public void copyOf(Rational other) {
