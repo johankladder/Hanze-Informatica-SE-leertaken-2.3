@@ -21,6 +21,7 @@ package madeexercises.MultiFormatCalculator.multiformat;
 /**
  * Class representing a rational ('breuk').
  * @author J.Baljé: Added comments
+ * @version 1.0
  */
 public class Rational {
 	static final double PRECISION=10;
@@ -40,9 +41,16 @@ public class Rational {
 		simplify();
 	}
 
+	/**
+	 * Empty constructor
+	 */
 	public Rational() {
 	}
 
+	/**
+	 * Create a new Rational
+	 * @param number Numerator with other format
+	 */
 	public Rational(double number) {
 		numerator = number;
 		denominator = 1.0;
@@ -112,6 +120,11 @@ public class Rational {
 								,denominator * other.denominator);
 	}
 
+	/**
+	 * Substract two rationals
+	 * @param other Another Rational to subtract from this.
+	 * @return A new Rational representing the subtraction.
+	 */
 	public Rational minus(Rational other) {
 		if (denominator == other.denominator)
 			return new Rational(numerator - other.numerator, denominator);
@@ -121,18 +134,32 @@ public class Rational {
 								,denominator * other.denominator);
 	}
 
+	/**
+	 * Multiply two rationals
+	 * @param other Another Rational to multiply with this.
+	 * @return A new Rational representing the multiplication.
+	 */
 	public Rational mul(Rational other) {
 		return new Rational(
 			numerator * other.numerator,
 			denominator * other.denominator);
 	}
 
+	/**
+	 * Divide two rationals
+	 * @param other Another Rational to divide with this.
+	 * @return A new Rational representing the division.
+	 */
 	public Rational div(Rational other) {
 		return new Rational(
 			numerator * other.denominator,
 			denominator * other.numerator);
 	}
 
+	/**
+	 * Copy two rationals
+	 * @param other Another Rational to copy from.
+	 */
 	public void copyOf(Rational other) {
 		this.numerator = other.numerator;
 		this.denominator = other.denominator;
