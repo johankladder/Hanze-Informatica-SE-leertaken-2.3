@@ -62,7 +62,18 @@ public class Command {
       else if(command.equals("del")) calc.delete();
       else if(command.indexOf("op") >= 0) {
         try{
-        	calc.addOperand(command.substring(2).trim());
+          char[] values = command.substring(2).trim().toCharArray();
+          String digits = calc.getBase().getDigits();
+          try {
+            for(char c : values) {
+              if ((digits.indexOf(c) == -1) && (c != '.')) {
+                throw new NumberBaseException();
+              }
+            }
+          } catch (NumberBaseException e) {
+            e.printStackTrace();
+          }
+          calc.addOperand(command.substring(2).trim());
         }catch(FormatException e){
           System.out.println("Wrong operand: " + e.getMessage());
         }
