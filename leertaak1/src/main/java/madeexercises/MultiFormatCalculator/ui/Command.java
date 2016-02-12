@@ -101,6 +101,7 @@ public class Command {
     System.out.println("  dec          (switch to base 10)");
     System.out.println("  bin          (switch to binary base)");
     System.out.println("  hex          (switch to hexadecimal base)");
+    System.out.println("  oct          (switch to octal base)");
     System.out.println("  fixed        (switch to fixed point format)");
     System.out.println("  float        (switch to floating point format)");
     System.out.println("  rat          (switch to rational format)");
