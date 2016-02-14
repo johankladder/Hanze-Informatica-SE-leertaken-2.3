@@ -64,17 +64,22 @@ public class Command {
         try{
           char[] values = command.substring(2).trim().toCharArray();
           String digits = calc.getBase().getDigits();
+          Boolean succes = true;
+          for(char c : values) {
+            if ((digits.indexOf(c) == -1) && (c != '.')) {
+              succes = false;
+            }
+          }
           try {
-            for(char c : values) {
-              if ((digits.indexOf(c) == -1) && (c != '.')) {
-                throw new NumberBaseException();
-              }
+            if (succes) {
+              calc.addOperand(command.substring(2).trim());
+            } else {
+              throw new NumberBaseException();
             }
           } catch (NumberBaseException e) {
             e.printStackTrace();
           }
-          calc.addOperand(command.substring(2).trim());
-        }catch(FormatException e){
+        }catch(FormatException e) {
           System.out.println("Wrong operand: " + e.getMessage());
         }
       }else if(command.indexOf("read")>=0){
