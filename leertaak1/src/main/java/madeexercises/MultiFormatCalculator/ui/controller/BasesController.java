@@ -17,9 +17,13 @@ public class BasesController extends ComboBox {
 
     private void init() {
         setMaxWidth(Double.MAX_VALUE);
-        model.getBases().forEach((base)-> {
-            getItems().add(base);
-            getSelectionModel().select(base);
+        model.getBases().forEach((baseString, base)-> {
+            getItems().add(baseString);
+        });
+
+        getSelectionModel().select(model.getCalc().getBase().getName());
+        setOnAction(event -> {
+            model.setBase((String) getValue());
         });
     }
 

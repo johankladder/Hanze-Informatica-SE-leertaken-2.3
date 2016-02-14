@@ -6,28 +6,29 @@ import madeexercises.MultiFormatCalculator.ui.model.CalculatorModel;
 /**
  * Created by johankladder on 12-2-16.
  */
-public class FormatController extends ComboBox {
+public class OperatorController extends ComboBox {
 
     private CalculatorModel model;
 
-    public FormatController(CalculatorModel model) {
+    public OperatorController(CalculatorModel model) {
         this.model = model;
         init();
-
     }
 
     private void init() {
+
+        // Add empty entry:
+        getItems().add("");
+
         setMaxWidth(Double.MAX_VALUE);
-        model.getFormats().forEach((formatString, format) -> {
-            getItems().add(formatString);
+        model.getOperators().forEach((operatorString, method)-> {
+            getItems().add(operatorString);
         });
 
-        getSelectionModel().select(model.getCalc().getFormat().getName());
+        getSelectionModel().select("");
 
         setOnAction(event -> {
-            model.setFormat((String) getValue());
+            model.setOperator((String) getValue());
         });
     }
-
 }
-
