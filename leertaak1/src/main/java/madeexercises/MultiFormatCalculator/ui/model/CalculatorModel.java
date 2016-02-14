@@ -22,7 +22,6 @@ public class CalculatorModel extends AbstractModel {
 
 
     // Insert valid values:
-    // TODO: Place in init method!
     static {
         // Bases:
         bases.put("bin", new BinaryBase());

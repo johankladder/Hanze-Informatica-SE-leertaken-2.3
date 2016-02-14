@@ -1,6 +1,7 @@
 package madeexercises.MultiFormatCalculator.ui;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
@@ -44,6 +45,7 @@ public class JavaFXGui extends Application {
 
         StackPane root = new StackPane();
         GridPane pane = new GridPane();
+        pane.setPadding(new Insets(10,10,10,10));
         pane.setVgap(5);
         pane.setHgap(5);
         pane.add(baseLabel, 0, 0);
@@ -73,15 +75,16 @@ public class JavaFXGui extends Application {
         c2.setPercentWidth(20);
         c3.setPercentWidth(25);
         c4.setPercentWidth(25);
-        pane.getColumnConstraints().addAll(c1,c2,c3);
+        pane.getColumnConstraints().addAll(c1,c2,c3, c4);
 
 
 
         root.getChildren().add(pane);
         primaryStage.setScene(new Scene(root));
-        primaryStage.setMinWidth(500);
+        primaryStage.setMinWidth(400);
         primaryStage.setMinHeight(50);
         primaryStage.show();
+        primaryStage.setResizable(false);
 
         calcModel.updateViews();
 

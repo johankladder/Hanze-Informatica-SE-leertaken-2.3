@@ -27,6 +27,9 @@ public class TextInputController extends javafx.scene.control.TextField {
         addOpperandController.setOnAction(event -> {
             model.setOp(getText());
         });
+
+        // For placing cursor in center of the field:
+        setStyle("-fx-alignment: center");
     }
 
     public Button getController() {
