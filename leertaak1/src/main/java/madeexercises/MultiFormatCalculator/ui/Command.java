@@ -19,6 +19,7 @@
 package madeexercises.MultiFormatCalculator.ui;
 import madeexercises.MultiFormatCalculator.multiformat.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * De main-klasse die leest en schrijft naar de console.
@@ -61,11 +62,11 @@ public class Command {
       else if(command.equals("float")) calc.setFormat(new FloatingPointFormat());
       else if(command.equals("del")) calc.delete();
       else if(command.indexOf("op") >= 0) {
-        try{
+        try {
           char[] values = command.substring(2).trim().toCharArray();
           String digits = calc.getBase().getDigits();
           Boolean succes = true;
-          for(char c : values) {
+          for (char c : values) {
             if ((digits.indexOf(c) == -1) && (c != '.')) {
               succes = false;
             }
@@ -79,9 +80,26 @@ public class Command {
           } catch (NumberBaseException e) {
             e.printStackTrace();
           }
-        }catch(FormatException e) {
+        } catch (FormatException e) {
           System.out.println("Wrong operand: " + e.getMessage());
         }
+        // command var
+      } else if(command.indexOf("var") >= 0){
+        char [] input = command.substring(3).trim().toCharArray();
+        Boolean number = false;
+        ArrayList<Character> var = new ArrayList<>();
+        int i = 0;
+        for (char c : input) {
+          i++;
+          if (c == ',') {
+            number = true;
+          } else if (!number) {
+            var.add(c);
+          } else if (number) {
+            break;
+          }
+        }
+        calc.createVar(var, command.substring(3 + i).trim());
       }else if(command.indexOf("read")>=0){
         try{
           BufferedReader file = new  BufferedReader(
@@ -109,21 +127,22 @@ public class Command {
   void printHelp() {
     System.out.println();
     System.out.println("Insert one of the following commands:");
-    System.out.println("  op <numero>  (store an operand)");
-    System.out.println("  +            (sum the last two operands)");
-    System.out.println("  -            (substract the last operand from the previous one)");
-    System.out.println("  *            (multiply the last two operands)");
-    System.out.println("  /            (divide the last two operands)");
-    System.out.println("  dec          (switch to base 10)");
-    System.out.println("  bin          (switch to binary base)");
-    System.out.println("  hex          (switch to hexadecimal base)");
-    System.out.println("  oct          (switch to octal base)");
-    System.out.println("  fixed        (switch to fixed point format)");
-    System.out.println("  float        (switch to floating point format)");
-    System.out.println("  rat          (switch to rational format)");
-    System.out.println("  del          (remove last operand)");
-    System.out.println("  help         (print this command list)");
-    System.out.println("  exit         (terminate execution)");
+    System.out.println("  op <numero>           (store an operand)");
+    System.out.println("  var <name>, <value>   (create variable)");
+    System.out.println("  +                     (sum the last two operands)");
+    System.out.println("  -                     (substract the last operand from the previous one)");
+    System.out.println("  *                     (multiply the last two operands)");
+    System.out.println("  /                     (divide the last two operands)");
+    System.out.println("  dec                   (switch to base 10)");
+    System.out.println("  bin                   (switch to binary base)");
+    System.out.println("  hex                   (switch to hexadecimal base)");
+    System.out.println("  oct                   (switch to octal base)");
+    System.out.println("  fixed                 (switch to fixed point format)");
+    System.out.println("  float                 (switch to floating point format)");
+    System.out.println("  rat                   (switch to rational format)");
+    System.out.println("  del                   (remove last operand)");
+    System.out.println("  help                  (print this command list)");
+    System.out.println("  exit                  (terminate execution)");
     System.out.println();
   }
 
