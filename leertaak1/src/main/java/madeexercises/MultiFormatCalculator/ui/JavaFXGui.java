@@ -18,15 +18,10 @@ import madeexercises.MultiFormatCalculator.ui.view.CalcCounterView;
 import madeexercises.MultiFormatCalculator.ui.view.OperandView;
 import madeexercises.MultiFormatCalculator.ui.view.OutputView;
 
-/**
- * Created by johankladder on 12-2-16.
- */
 public class JavaFXGui extends Application {
 
-    private Label baseLabel = new Label("Select your base");
-    private Label formatLabel = new Label("Select your format");
-    //private Label operatorLabel = new Label("Select your operator");
-
+    private Label BASE_LABEL = new Label("Select your base");
+    private Label FORMAT_LABEL = new Label("Select your format");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -48,19 +43,19 @@ public class JavaFXGui extends Application {
 
         StackPane root = new StackPane();
         GridPane pane = new GridPane();
-        pane.setPadding(new Insets(10,10,10,10));
+        pane.setPadding(new Insets(10, 10, 10, 10));
         pane.setVgap(5);
         pane.setHgap(5);
-        pane.add(baseLabel, 0, 0);
-        pane.add(formatLabel, 0, 1);
+        pane.add(BASE_LABEL, 0, 0);
+        pane.add(FORMAT_LABEL, 0, 1);
         pane.add(baseController, 1, 0);
         pane.add(formatController, 1, 1);
-        pane.add(op1, 2, 0,1,2);
-        pane.add(op1.getController(), 3, 0,1,1);
-        pane.add(operatorController, 3, 1,1,1);
+        pane.add(op1, 2, 0, 1, 2);
+        pane.add(op1.getController(), 3, 0, 1, 1);
+        pane.add(operatorController, 3, 1, 1, 1);
         pane.add(outputView, 0, 2, 3, 1);
         pane.add(counterView, 3, 2);
-        pane.add(operandView, 0, 3, 4 ,1);
+        pane.add(operandView, 0, 3, 4, 1);
 
 
         RowConstraints r1 = new RowConstraints();
@@ -71,7 +66,7 @@ public class JavaFXGui extends Application {
         r2.setPercentHeight(20);
         r3.setPercentHeight(20);
         r4.setPercentHeight(90);
-        pane.getRowConstraints().addAll(r1,r2, r3, r4);
+        pane.getRowConstraints().addAll(r1, r2, r3, r4);
 
         ColumnConstraints c1 = new ColumnConstraints();
         ColumnConstraints c2 = new ColumnConstraints();
@@ -81,8 +76,7 @@ public class JavaFXGui extends Application {
         c2.setPercentWidth(20);
         c3.setPercentWidth(25);
         c4.setPercentWidth(25);
-        pane.getColumnConstraints().addAll(c1,c2,c3, c4);
-
+        pane.getColumnConstraints().addAll(c1, c2, c3, c4);
 
 
         root.getChildren().add(pane);
@@ -91,13 +85,14 @@ public class JavaFXGui extends Application {
         primaryStage.setMinHeight(100);
         primaryStage.show();
         primaryStage.setResizable(false);
+        primaryStage.setTitle("Leertaak 1 - Multiformat Calculator");
 
         calcModel.updateViews();
 
     }
 
-    public static void main(String args[]){
-        launch (args);
+    public static void main(String args[]) {
+        launch(args);
     }
 
 

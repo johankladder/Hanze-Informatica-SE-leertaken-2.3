@@ -3,9 +3,6 @@ package madeexercises.MultiFormatCalculator.ui.controller;
 import javafx.scene.control.ComboBox;
 import madeexercises.MultiFormatCalculator.ui.model.CalculatorModel;
 
-/**
- * Created by johankladder on 12-2-16.
- */
 public class FormatController extends ComboBox {
 
     private CalculatorModel model;
@@ -17,16 +14,16 @@ public class FormatController extends ComboBox {
     }
 
     private void init() {
+        // Add empty entry:
+        getItems().add("");
+
         setMaxWidth(Double.MAX_VALUE);
-        model.getFormats().forEach((formatString, format) -> {
-            getItems().add(formatString);
-        });
+
+        model.getFormats().forEach((formatString, format) -> getItems().add(formatString));
 
         getSelectionModel().select(model.getCalc().getFormat().getName());
 
-        setOnAction(event -> {
-            model.setFormat((String) getValue());
-        });
+        setOnAction(event -> model.setFormat((String) getValue()));
     }
 
 }

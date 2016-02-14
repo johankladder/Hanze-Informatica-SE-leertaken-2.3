@@ -3,9 +3,6 @@ package madeexercises.MultiFormatCalculator.ui.controller;
 import javafx.scene.control.ComboBox;
 import madeexercises.MultiFormatCalculator.ui.model.CalculatorModel;
 
-/**
- * Created by johankladder on 12-2-16.
- */
 public class OperatorController extends ComboBox {
 
     private CalculatorModel model;
@@ -16,12 +13,11 @@ public class OperatorController extends ComboBox {
     }
 
     private void init() {
-
         // Add empty entry:
         getItems().add("");
 
         setMaxWidth(Double.MAX_VALUE);
-        model.getOperators().forEach((operatorString, method)-> {
+        model.getOperators().forEach((operatorString, method) -> {
             getItems().add(operatorString);
         });
 
