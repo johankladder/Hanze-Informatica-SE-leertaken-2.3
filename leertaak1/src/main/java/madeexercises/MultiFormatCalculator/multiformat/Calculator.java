@@ -64,8 +64,16 @@ public class Calculator {
   public String firstOperand(){
     return format.toString(operand_1,base);
   }
+
+  public Rational firstOperandRat(){
+    return operand_0;
+  }
   public String secondOperand(){
     return format.toString(operand_0,base);
+  }
+
+  public Rational secondOperandRat(){
+    return operand_1;
   }
 
   public void setBase(Base newBase){

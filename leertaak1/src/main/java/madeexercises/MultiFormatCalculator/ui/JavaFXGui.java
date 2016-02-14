@@ -15,6 +15,7 @@ import madeexercises.MultiFormatCalculator.ui.controller.OperatorController;
 import madeexercises.MultiFormatCalculator.ui.controller.TextInputController;
 import madeexercises.MultiFormatCalculator.ui.model.CalculatorModel;
 import madeexercises.MultiFormatCalculator.ui.view.CalcCounterView;
+import madeexercises.MultiFormatCalculator.ui.view.OperandView;
 import madeexercises.MultiFormatCalculator.ui.view.OutputView;
 
 /**
@@ -34,8 +35,10 @@ public class JavaFXGui extends Application {
         // Views:
         OutputView outputView = new OutputView(calcModel);
         CalcCounterView counterView = new CalcCounterView(calcModel);
+        OperandView operandView = new OperandView(calcModel);
         calcModel.addView(outputView);
         calcModel.addView(counterView);
+        calcModel.addView(operandView);
 
         // Controllers:
         BasesController baseController = new BasesController(calcModel);
@@ -56,16 +59,19 @@ public class JavaFXGui extends Application {
         pane.add(op1.getController(), 3, 0,1,1);
         pane.add(operatorController, 3, 1,1,1);
         pane.add(outputView, 0, 2, 3, 1);
-        pane.add( counterView, 3, 2);
+        pane.add(counterView, 3, 2);
+        pane.add(operandView, 0, 3, 4 ,1);
 
 
         RowConstraints r1 = new RowConstraints();
         RowConstraints r2 = new RowConstraints();
         RowConstraints r3 = new RowConstraints();
-        r1.setPercentHeight(25);
-        r2.setPercentHeight(25);
-        r3.setPercentHeight(50);
-        pane.getRowConstraints().addAll(r1,r2, r3);
+        RowConstraints r4 = new RowConstraints();
+        r1.setPercentHeight(20);
+        r2.setPercentHeight(20);
+        r3.setPercentHeight(20);
+        r4.setPercentHeight(90);
+        pane.getRowConstraints().addAll(r1,r2, r3, r4);
 
         ColumnConstraints c1 = new ColumnConstraints();
         ColumnConstraints c2 = new ColumnConstraints();
@@ -82,7 +88,7 @@ public class JavaFXGui extends Application {
         root.getChildren().add(pane);
         primaryStage.setScene(new Scene(root));
         primaryStage.setMinWidth(400);
-        primaryStage.setMinHeight(50);
+        primaryStage.setMinHeight(100);
         primaryStage.show();
         primaryStage.setResizable(false);
 

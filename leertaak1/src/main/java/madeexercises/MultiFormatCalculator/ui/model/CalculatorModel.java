@@ -114,11 +114,11 @@ public class CalculatorModel extends AbstractModel {
 
 
     // TODO: DOC
-    public Map getBases() {
+    public Map<String, Base> getBases() {
         return bases;
     }
 
-    public Map getFormats() {
+    public Map<String, Format> getFormats() {
         return formats;
     }
 

@@ -22,7 +22,7 @@ public class RationalFormat extends Format {
 
   public String getName() { return "rat"; }
 
-  String toString(Rational number, Base base) {
+  public String toString(Rational number, Base base) {
     return base.toString(number.numerator) +
             "/" + base.toString(number.denominator);
   }

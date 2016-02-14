@@ -25,7 +25,7 @@ extends Format {
 
   public String getName() { return "fixed"; }
 
-  String toString(Rational number, Base base) {
+  public String toString(Rational number, Base base) {
     double value = (double)number.numerator / (double)number.denominator;
     String result = base.toString(Math.abs(value));
     if(result.equals("0")) result += ".0";

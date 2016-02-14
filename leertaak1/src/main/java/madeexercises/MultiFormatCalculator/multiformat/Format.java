@@ -28,7 +28,7 @@ public abstract class Format {
    * Translate the internal Rational to a String representation
    * using the correct Format and Base.
    */
-  abstract String toString(Rational p_number, Base p_base);
+  public abstract String toString(Rational p_number, Base p_base);
   
   /**
    * Translate a string representation in a specific format and base to
