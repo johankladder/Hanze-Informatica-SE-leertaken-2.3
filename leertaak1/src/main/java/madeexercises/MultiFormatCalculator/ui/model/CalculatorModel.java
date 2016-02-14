@@ -1,44 +1,111 @@
 package madeexercises.MultiFormatCalculator.ui.model;
 
-import madeexercises.MultiFormatCalculator.multiformat.Calculator;
+import madeexercises.MultiFormatCalculator.multiformat.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by johankladder on 12-2-16.
  */
 public class CalculatorModel extends AbstractModel {
 
-    private static ArrayList<String> bases = new ArrayList<>();
-    private static ArrayList<String> formats = new ArrayList<>();
+    private static Map<String, Base> bases = new HashMap<>();
+    private static Map<String, Format> formats = new HashMap<>();
+    private static Map<String, Method> operators = new HashMap<>();
+
 
     // Insert valid values:
     static {
         // Bases:
-        bases.add("bin");
-        bases.add("oct");
-        bases.add("hex");
-        bases.add("dec");
+        bases.put("bin", new BinaryBase());
+        bases.put("oct", new OctBase());
+        bases.put("hex", new HexBase());
+        bases.put("dec", new DecimalBase());
 
         // Formats
-        formats.add("rat");
-        formats.add("fixed");
-        formats.add("float");
+        formats.put("rat", new RationalFormat());
+        formats.put("fixed", new FixedPointFormat());
+        formats.put("float", new FloatingPointFormat());
+
+        // Operatoren:
+        try {
+            operators.put("+", Calculator.class.getMethod("add"));
+            operators.put("-", Calculator.class.getMethod("subtract"));
+            operators.put("/", Calculator.class.getMethod("divide"));
+            operators.put("*", Calculator.class.getMethod("multiply"));
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
     private Calculator calc = new Calculator();
 
+    public void setBase(String base) {
+        Base foundBase = bases.get(base);
+        if (foundBase != null) {
+            calc.setBase(foundBase);
+        }
+    }
+
+    public void setFormat(String format) {
+        Format foundFormat = formats.get(format);
+        if (foundFormat != null) {
+            calc.setFormat(foundFormat);
+        }
+    }
+
+    public void setOperator(String operator) {
+        Method method = operators.get(operator);
+        if (method != null) {
+            try {
+                method.invoke(calc);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setOp(String op) {
+        try {
+            char[] values = op.toCharArray();
+            String digits = calc.getBase().getDigits();
+
+            try {
+                for (char c : values) {
+                    if ((digits.indexOf(c) == -1) && (c != '.')) {
+                        throw new NumberBaseException();
+                    }
+                }
+            } catch (NumberBaseException e) {
+                e.printStackTrace();
+            }
+
+            calc.addOperand(op);
+        } catch (FormatException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     // TODO: DOC
-    public List getBases() {
+    public Map getBases() {
         return bases;
     }
 
-    public List getFormats() {
+    public Map getFormats() {
         return formats;
     }
+
+    public Map getOperators() {
+        return operators;
+    }
+
 
 }
