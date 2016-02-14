@@ -18,54 +18,135 @@
  */
 package madeexercises.MultiFormatCalculator.multiformat;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
 /**
  * The multiformat calculator
  */
 public class Calculator {
-  private Rational operand_0 = new Rational();
-  private Rational operand_1 = new Rational();
-  
+  private Stack<Rational> operands = new Stack<Rational>();
+
+  Map<String, Rational> map = new HashMap<String, Rational>();
+
   // The current format of the calculator
   private Format format = new FixedPointFormat();
   // The current numberbase of the calculator
   private Base base = new DecimalBase();
 
   public void addOperand(String newOperand) throws FormatException {
-	  operand_1 = operand_0;
-      operand_0 = format.parse(newOperand, base);
+    pushToStack(format.parse(newOperand, base));
+  }
+
+  /**
+   * Create variable
+   *
+   * @param var ArrayList with characters that represent the variable name
+   * @param newOperand String with the value of the variable
+   */
+  public void createVar(ArrayList<Character> var, String newOperand) {
+    StringBuilder builder = new StringBuilder(var.size());
+    for(char c : var) {
+      builder.append(c);
+    }
+    try {
+      map.put(builder.toString(), format.parse(newOperand, base));
+    } catch (FormatException e) {
+      e.printStackTrace();
+    }
+    System.out.println("Variable " + builder.toString() + " = " + map.get("test").getNumerator());
+  }
+
+  /**
+   * Push Rational to the stack
+   *
+   * @param newOperand Rational to be pushed
+   */
+  public void pushToStack(Rational newOperand) {
+    operands.push(newOperand);
+  }
+
+  /**
+   * Pop last Rational from the stack
+   *
+   * @return latest Rational
+   */
+  public Rational popFromStack() {
+    if(operands.size() < 1) {
+      return new Rational();
+    }else {
+      return operands.pop();
+    }
+  }
+
+  /**
+   * Delete last from stack
+   */
+  public void deleteFromStack() {
+    if(operands.size() > 0) {
+      operands.remove(0);
+    }
+  }
+
+  /**
+   * Get from stack by index
+   *
+   * @param index int with index to be returned
+   * @return Rational
+   */
+  public Rational getFromStack(int index) {
+    if(operands.size() > index){
+      return operands.get(index);
+    }
+    return null;
   }
 
   public void add(){
-    operand_0 = operand_1.plus(operand_0);
-    operand_1 = new Rational();
+    Rational firstOperand = popFromStack();
+    Rational secondOperand = popFromStack();
+
+    pushToStack(secondOperand.plus(firstOperand));
   }
   public void subtract() {
-    operand_0 = operand_1.minus(operand_0);
-    operand_1 = new Rational();
+    Rational firstOperand = popFromStack();
+    Rational secondOperand = popFromStack();
+
+    pushToStack(secondOperand.minus(firstOperand));
   }
   public void multiply() {
-    operand_0 = operand_1.mul(operand_0);
-    operand_1 = new Rational();
+    Rational firstOperand = popFromStack();
+    Rational secondOperand = popFromStack();
+
+    pushToStack(secondOperand.mul(firstOperand));
   }
   public void divide() {
     try {
-      operand_0 = operand_1.div(operand_0);
-      operand_1 = new Rational();
+      Rational firstOperand = popFromStack();
+      Rational secondOperand = popFromStack();
+
+      pushToStack(secondOperand.div(firstOperand));
     } catch (DivideByZeroException e) {
       e.printStackTrace();
     }
 
   }
   public void delete() {
-    operand_0 = operand_1;
-    operand_1 = new Rational();
+    deleteFromStack();
   }
 
   public String firstOperand(){
-    return format.toString(operand_1,base);
+    if(operands.size() == 0){
+      return format.toString(new Rational(), base);
+    }
+    return format.toString(getFromStack(0),base);
   }
   public String secondOperand(){
-    return format.toString(operand_0,base);
+    if(operands.size() <= 1){
+      return format.toString(new Rational(), base);
+    }
+    return format.toString(getFromStack(1),base);
   }
 
   public void setBase(Base newBase){
