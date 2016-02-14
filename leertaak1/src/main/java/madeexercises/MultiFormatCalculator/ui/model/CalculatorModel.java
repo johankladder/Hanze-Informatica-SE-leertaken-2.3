@@ -1,11 +1,11 @@
 package madeexercises.MultiFormatCalculator.ui.model;
 
 import madeexercises.MultiFormatCalculator.multiformat.*;
+import madeexercises.MultiFormatCalculator.ui.view.ModelView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by johankladder on 12-2-16.
@@ -17,7 +17,12 @@ public class CalculatorModel extends AbstractModel {
     private static Map<String, Method> operators = new HashMap<>();
 
 
+    private Calculator calc = new Calculator();
+    private int calcCounter = 0 ;
+
+
     // Insert valid values:
+    // TODO: Place in init method!
     static {
         // Bases:
         bases.put("bin", new BinaryBase());
@@ -40,16 +45,26 @@ public class CalculatorModel extends AbstractModel {
             e.printStackTrace();
         }
 
-
     }
 
-    private Calculator calc = new Calculator();
+
+    /*
+    Methods:
+     */
+
+    public void addView(ModelView view) {
+        if (view != null) {
+            views.add(view);
+        }
+    }
+
 
     public void setBase(String base) {
         Base foundBase = bases.get(base);
         if (foundBase != null) {
             calc.setBase(foundBase);
         }
+        updateViews();
     }
 
     public void setFormat(String format) {
@@ -57,6 +72,7 @@ public class CalculatorModel extends AbstractModel {
         if (foundFormat != null) {
             calc.setFormat(foundFormat);
         }
+        updateViews();
     }
 
     public void setOperator(String operator) {
@@ -64,12 +80,14 @@ public class CalculatorModel extends AbstractModel {
         if (method != null) {
             try {
                 method.invoke(calc);
+                calcCounter++;
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
         }
+        updateViews();
     }
 
     public void setOp(String op) {
@@ -79,6 +97,7 @@ public class CalculatorModel extends AbstractModel {
 
             try {
                 for (char c : values) {
+                    // FIXME: Not working with rational values? -> /
                     if ((digits.indexOf(c) == -1) && (c != '.')) {
                         throw new NumberBaseException();
                     }
@@ -88,6 +107,7 @@ public class CalculatorModel extends AbstractModel {
             }
 
             calc.addOperand(op);
+            updateViews();
         } catch (FormatException e) {
             e.printStackTrace();
         }
@@ -106,6 +126,18 @@ public class CalculatorModel extends AbstractModel {
     public Map getOperators() {
         return operators;
     }
+
+    public int getCalcCounter() {
+        return calcCounter;
+    }
+
+    public String getValues() {
+        return ("\n[" + calc.getBase().getName() + ","
+                + calc.getFormat().getName() + ","
+                + calc.firstOperand() + ", "
+                + calc.secondOperand() + "]");
+    }
+
 
 
 }
