@@ -96,5 +96,9 @@ public class JavaFXGui extends Application {
 
     }
 
+    public static void main(String args[]){
+        launch (args);
+    }
+
 
 }

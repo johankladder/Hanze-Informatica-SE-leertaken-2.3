@@ -31,8 +31,8 @@ public class OperandView extends BorderPane implements ModelView {
         GridPane pane = new GridPane();
         pane.setHgap(10);
         pane.setVgap(5);
-        Rational op1 = model.getCalc().firstOperandRat();
-        Rational op2 = model.getCalc().secondOperandRat();
+        Rational op1 = model.getCalc().firstOperandRational();
+        Rational op2 = model.getCalc().secondOperandRational();
 
         Format format = model.getCalc().getFormat();
 
