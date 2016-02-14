@@ -20,8 +20,9 @@ public class FormatController extends ComboBox {
         setMaxWidth(Double.MAX_VALUE);
         model.getFormats().forEach((formatString, format) -> {
             getItems().add(formatString);
-            getSelectionModel().select(formatString);
         });
+
+        getSelectionModel().select(model.getCalc().getFormat().getName());
 
         setOnAction(event -> {
             model.setFormat((String) getValue());

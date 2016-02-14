@@ -138,6 +138,10 @@ public class CalculatorModel extends AbstractModel {
                 + calc.secondOperand() + "]");
     }
 
+    public Calculator getCalc() {
+        return calc;
+    }
+
 
 
 }

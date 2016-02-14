@@ -16,11 +16,16 @@ public class OperatorController extends ComboBox {
     }
 
     private void init() {
+
+        // Add empty entry:
+        getItems().add("");
+
         setMaxWidth(Double.MAX_VALUE);
         model.getOperators().forEach((operatorString, method)-> {
             getItems().add(operatorString);
-            getSelectionModel().select(operatorString);
         });
+
+        getSelectionModel().select("");
 
         setOnAction(event -> {
             model.setOperator((String) getValue());
