@@ -166,9 +166,13 @@ public class Rational {
 	 * @return A new Rational representing the division.
 	 */
     public Rational div(Rational other) throws DivideByZeroException {
+        if(denominator != 0.0 && other.denominator != 0.0) {
             return new Rational(
                     numerator * other.denominator,
                     denominator * other.numerator);
+        } else {
+            throw new DivideByZeroException();
+        }
     }
 
 	/**

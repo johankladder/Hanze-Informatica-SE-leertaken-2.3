@@ -1,12 +1,11 @@
 package madeexercises.MultiFormatCalculator.ui.model;
 
-import madeexercises.MultiFormatCalculator.multiformat.*;
-import madeexercises.MultiFormatCalculator.ui.view.ModelView;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import madeexercises.MultiFormatCalculator.multiformat.*;
+import madeexercises.MultiFormatCalculator.ui.view.ModelView;
 
 /**
  * Model that holds all the logic for communicating with the Calculator class.
@@ -59,7 +58,7 @@ public class CalculatorModel extends AbstractModel {
     /**
      * Adds a view to this model. This view will be invoked when setters of this model are called.
      *
-     * @param view The view liked to bed added to this model
+     * @param view The view liked to be added to this model
      * @see ModelView
      */
     public void addView(ModelView view) {

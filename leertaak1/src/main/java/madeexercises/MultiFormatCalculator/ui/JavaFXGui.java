@@ -74,8 +74,8 @@ public class JavaFXGui extends Application {
         ColumnConstraints c4 = new ColumnConstraints();
         c1.setPercentWidth(30);
         c2.setPercentWidth(20);
-        c3.setPercentWidth(25);
-        c4.setPercentWidth(25);
+        c3.setPercentWidth(20);
+        c4.setPercentWidth(30);
         pane.getColumnConstraints().addAll(c1, c2, c3, c4);
 
 
