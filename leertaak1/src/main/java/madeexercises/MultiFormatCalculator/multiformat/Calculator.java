@@ -56,7 +56,7 @@ public class Calculator {
         } catch (FormatException e) {
             e.printStackTrace();
         }
-        System.out.println("Variable " + builder.toString() + " = " + map.get("test").getNumerator());
+        System.out.println("Variable " + builder.toString() + " = " + map.get(builder.toString()).getNumerator());
     }
 
     /**
