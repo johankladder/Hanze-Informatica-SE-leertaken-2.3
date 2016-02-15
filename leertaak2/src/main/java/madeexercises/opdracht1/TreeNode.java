@@ -7,6 +7,8 @@ public class TreeNode {
 
     public TreeNode left;
     public TreeNode right;
+    public boolean pop = false;
+
     int data;
 
     public TreeNode(int data) {

@@ -13,6 +13,8 @@ public class Traversal {
         traversal.inOrderTraversal();
         System.out.println("\n");
         traversal.preOrderTraversal();
+        System.out.println("\n");
+        traversal.postOrderTraversal();
     }
 
     public Traversal() {
@@ -90,5 +92,27 @@ public class Traversal {
             }
 
         } while (current != null && !stack.isEmpty());
+    }
+    
+    public void postOrderTraversal() {
+        System.out.println("post order traversal");
+        TreeNode current = rootNode;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+
+        while (current != null || !stack.isEmpty()) {
+            if (current != null) {
+                stack.push(current);
+                current = current.right;
+            } else {
+                TreeNode found = stack.pop();
+                if (found.pop) {
+                    current = found.left;
+                    System.out.print(found.data + " ");
+                } else {
+                    found.pop = true;
+                    stack.push(found);
+                }
+            }
+        }
     }
 }
