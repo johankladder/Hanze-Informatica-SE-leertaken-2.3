@@ -1,5 +1,7 @@
 package madeexercises.opdracht1;
 
+import java.util.Stack;
+
 /**
  * Created by johankladder on 15-2-16.
  */
@@ -24,34 +26,43 @@ public class Traversal {
      */
     private TreeNode initBinaryTree() {
         // Nodes: // For visual, check resource!
-        TreeNode root = new TreeNode(50);
-        TreeNode r1 = new TreeNode(20);
-        TreeNode r2 = new TreeNode(10);
-        TreeNode r3 = new TreeNode(25);
-        TreeNode r4 = new TreeNode(5);
+        TreeNode root = new TreeNode(40);
+        TreeNode r20 = new TreeNode(20);
+        TreeNode r10 = new TreeNode(10);
+        TreeNode r30 = new TreeNode(30);
 
-        TreeNode r5 = new TreeNode(70);
-        TreeNode r6 = new TreeNode(40);
-        TreeNode r7 = new TreeNode(85);
-        TreeNode r8 = new TreeNode(30);
+
+        TreeNode r50 = new TreeNode(50);
+        TreeNode r60 = new TreeNode(60);
+        TreeNode r70 = new TreeNode(70);
 
         // Relations (Parent and child):
-        root.left = r1;
-        r1.left = r2;
-        r1.right = r3;
-        r2.left = r4;
+        root.left = r20;
+        r20.left = r10;
+        r20.right = r30;
 
-        root.right = r5;
-        r5.left = r6;
-        r5.right = r7;
-        r7.left = r8;
+        root.right = r60;
+        r60.left = r50;
+        r60.right = r70;
 
         return root;
     }
 
-    // TODO: Create in order traversal on created binary tree
-    public boolean inOrderTraversal() {
-        return false;
+    public void inOrderTraversal() {
+        TreeNode current = rootNode;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+
+        while (current != null || !stack.empty()) {
+            if (current != null) {
+                stack.push(current);
+                current = current.left;
+            } else {
+                current = stack.pop();
+                System.out.println(current.data);
+                current = current.right;
+            }
+        }
+
     }
 
     // TODO: Create pre order traversal on created binary tree

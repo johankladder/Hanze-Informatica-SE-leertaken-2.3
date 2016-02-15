@@ -50,7 +50,7 @@ public class Main {
 
     public static void main(String[] args) throws ArraySizeException {
         Main main = new Main();
-        int[] array1 = {1, 2, 3};
+        int[] array1 = {1, 2, 3, 6};
         int[] array2 = {4, 5, 6,};
         int[] arrayResult1 = main.getSumOfArrays(array1, array2);
         System.out.println(Arrays.toString(arrayResult1));
