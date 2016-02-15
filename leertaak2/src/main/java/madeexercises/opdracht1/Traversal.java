@@ -2,9 +2,8 @@ package madeexercises.opdracht1;
 
 import java.util.Stack;
 
-/**
- * Created by johankladder on 15-2-16.
- */
+// TODO: JavaDoc
+
 public class Traversal {
 
     TreeNode rootNode; // Root-node of the created binary-tree
@@ -12,6 +11,7 @@ public class Traversal {
     public static void main(String[] args) {
         Traversal traversal = new Traversal();
         traversal.inOrderTraversal();
+        System.out.println("\n");
         traversal.preOrderTraversal();
     }
 
@@ -49,6 +49,8 @@ public class Traversal {
     }
 
     public void inOrderTraversal() {
+        System.out.println("in order traversal:");
+
         TreeNode current = rootNode;
         Stack<TreeNode> stack = new Stack<TreeNode>();
 
@@ -58,15 +60,35 @@ public class Traversal {
                 current = current.left;
             } else {
                 current = stack.pop();
-                System.out.println(current.data);
+                System.out.print(current.data + " ");
                 current = current.right;
             }
         }
 
     }
 
-    // TODO: Create pre order traversal on created binary tree
-    public boolean preOrderTraversal() {
-        return false;
+    public void preOrderTraversal() {
+        System.out.println("pre order traversal:");
+
+        TreeNode current = rootNode;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.push(current);
+        do {
+            if (current != null) {
+                TreeNode found = stack.pop();
+                System.out.print(found.data + " ");
+
+                if (found.right != null) {
+                    stack.push(found.right);
+                }
+                if (found.left != null) {
+                    stack.push(found.left);
+                }
+
+            } else {
+                stack.push(current);
+            }
+
+        } while (current != null && !stack.isEmpty());
     }
 }
