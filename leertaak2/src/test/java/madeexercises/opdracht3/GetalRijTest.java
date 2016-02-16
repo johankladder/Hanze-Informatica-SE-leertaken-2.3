@@ -13,6 +13,7 @@ public class GetalRijTest {
         // Value needs to be less then 1 million.
         long methodAmilli = 0;
         long methodBmilli = 0;
+        long methodCmilli = 0;
         int testTimes = 10;
         Random r = new Random();
         for (int i = 0; i < testTimes; i++) {
@@ -22,12 +23,14 @@ public class GetalRijTest {
             if (map != null) {
                 methodAmilli = methodAmilli + (Long) map.get("a");
                 methodBmilli = methodBmilli + (Long) map.get("b");
+                methodCmilli = methodCmilli + (Long) map.get("c");
             }
             System.out.println("Test for " + rI + " done. \n");
         }
 
         System.out.println("Average methodA = " + methodAmilli / testTimes);
         System.out.println("Average methodB = " + methodBmilli / testTimes);
+        System.out.println("Average methodC = " + methodCmilli / testTimes);
 
     }
 }

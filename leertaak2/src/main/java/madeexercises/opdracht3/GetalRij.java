@@ -52,8 +52,15 @@ public class GetalRij {
         return hit;
     }
 
+    /**
+     * Methods thats is lookinh if an int is in the array. In combination with a sorted array
+     *
+     * @param zoekWaarde
+     * @return
+     */
     public boolean zitErinC(int zoekWaarde) {
-        return false;
+        sorteer();
+        return zitErinB(zoekWaarde);
     }
 
     public boolean zitErinD(int zoekWaarde) {
@@ -78,13 +85,13 @@ public class GetalRij {
         Map<String, Long> map = new HashMap<String, Long>();
         final long[] tDeltaA = {0};
         final long[] tDeltaB = {0};
+        final long[] tDeltaC = {0};
 
         final Thread thread1 = new Thread(new Runnable() {
             public void run() {
                 long tStart = System.currentTimeMillis();
                 GetalRij rij = new GetalRij(10000, 1000000);
-                boolean status = rij.zitErinA(value);
-
+                rij.zitErinA(value);
                 long tEnd = System.currentTimeMillis();
                 long tDelta = tEnd - tStart;
                 tDeltaA[0] = tDelta;
@@ -95,21 +102,36 @@ public class GetalRij {
                 long tStart = System.currentTimeMillis();
 
                 GetalRij rij = new GetalRij(10000, 1000000);
-                boolean status = rij.zitErinB(value);
-
+                rij.zitErinB(value);
                 long tEnd = System.currentTimeMillis();
                 long tDelta = tEnd - tStart;
                 tDeltaB[0] = tDelta;
             }
         });
 
+        Thread thread3 = new Thread(new Runnable() {
+            public void run() {
+                long tStart = System.currentTimeMillis();
+
+                GetalRij rij = new GetalRij(10000, 1000000);
+                rij.zitErinC(value);
+                long tEnd = System.currentTimeMillis();
+                long tDelta = tEnd - tStart;
+                tDeltaC[0] = tDelta;
+            }
+        });
+
+        Thread[] arrayForThread = {thread1, thread2, thread3};
         try {
-            thread1.start();
-            thread1.join();
-            thread2.start();
-            thread2.join();
+            for (int i = 0; i < arrayForThread.length; i++) {
+                Thread tempThread = arrayForThread[i];
+                tempThread.start();
+                tempThread.join();
+            }
+
             map.put("a", tDeltaA[0]);
             map.put("b", tDeltaB[0]);
+            map.put("c", tDeltaC[0]);
             return map;
         } catch (InterruptedException e) {
             e.printStackTrace();
