@@ -53,7 +53,7 @@ public class GetalRij {
     }
 
     /**
-     * Methods thats is looking if an int is in the array. In combination with a sorted array
+     * Methods thats is lookinh if an int is in the array. In combination with a sorted array
      *
      * @param zoekWaarde
      * @return
