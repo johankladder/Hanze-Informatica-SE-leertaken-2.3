@@ -1,4 +1,4 @@
-package opdracht2;
+package madeexercises.opdracht2;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
