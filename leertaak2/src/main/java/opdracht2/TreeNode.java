@@ -2,7 +2,7 @@ package opdracht2;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-public abstract class TreeNode extends DefaultMutableTreeNode {
+public class TreeNode extends DefaultMutableTreeNode {
 
     private String name;
 
