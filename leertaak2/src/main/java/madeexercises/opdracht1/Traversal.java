@@ -9,22 +9,26 @@ public class Traversal {
     TreeNode rootNode; // Root-node of the created binary-tree
 
     public static void main(String[] args) {
-        Traversal traversal = new Traversal();
-        traversal.inOrderTraversal();
-        System.out.println("\n");
-        traversal.preOrderTraversal();
-        System.out.println("\n");
-        traversal.postOrderTraversal();
+        new Traversal();
     }
 
     public Traversal() {
         rootNode = initBinaryTree();
+        startCalculations();
+    }
+
+    private void startCalculations() {
+        inOrderTraversal(rootNode);
+        System.out.println("\n");
+        preOrderTraversal(rootNode);
+        System.out.println("\n");
+        postOrderTraversal(rootNode);
     }
 
     /*
     Creates a binary tree based on the structure mentioned in the
-    resources. Will return the rootNode if the tree when done
-    initialising.
+    picture placed under resources.
+    Will return the rootNode if the tree when done initialising.
      */
     private TreeNode initBinaryTree() {
         // Nodes: // For visual, check resource!
@@ -50,7 +54,7 @@ public class Traversal {
         return root;
     }
 
-    public void inOrderTraversal() {
+    public void inOrderTraversal(TreeNode rootNode) {
         System.out.println("in order traversal:");
 
         TreeNode current = rootNode;
@@ -69,7 +73,7 @@ public class Traversal {
 
     }
 
-    public void preOrderTraversal() {
+    public void preOrderTraversal(TreeNode rootNode) {
         System.out.println("pre order traversal:");
 
         TreeNode current = rootNode;
@@ -94,7 +98,7 @@ public class Traversal {
         } while (current != null && !stack.isEmpty());
     }
     
-    public void postOrderTraversal() {
+    public void postOrderTraversal(TreeNode rootNode) {
         System.out.println("post order traversal");
         TreeNode current = rootNode;
         Stack<TreeNode> stack = new Stack<TreeNode>();
