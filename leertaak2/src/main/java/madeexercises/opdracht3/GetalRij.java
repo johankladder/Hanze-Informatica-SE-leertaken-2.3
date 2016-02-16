@@ -87,7 +87,7 @@ public class GetalRij {
      */
     public static Map<String, Long> testTime(final Integer value) {
 
-        Map<String, Long> map = new HashMap<String, Long>();
+        final Map<String, Long> map = new HashMap<String, Long>();
         final long[] tDeltaA = {0};
         final long[] tDeltaB = {0};
         final long[] tDeltaC = {0};
@@ -112,6 +112,7 @@ public class GetalRij {
                 long tEnd = System.currentTimeMillis();
                 long tDelta = tEnd - tStart;
                 tDeltaB[0] = tDelta;
+
             }
         });
 
@@ -141,9 +142,15 @@ public class GetalRij {
 
         Thread[] arrayForThread = {thread1, thread2, thread3, thread4};
         try {
+            // Start all the threads:
             for (int i = 0; i < arrayForThread.length; i++) {
                 Thread tempThread = arrayForThread[i];
                 tempThread.start();
+            }
+
+            // For split all the processes on different cpu's:
+            for (int i = 0; i < arrayForThread.length; i++) {
+                Thread tempThread = arrayForThread[i];
                 tempThread.join();
             }
 
