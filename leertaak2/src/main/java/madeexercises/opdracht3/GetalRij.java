@@ -53,7 +53,7 @@ public class GetalRij {
     }
 
     /**
-     * Methods thats is lookinh if an int is in the array. In combination with a sorted array
+     * Methods thats is looking if an int is in the array. In combination with a sorted array
      *
      * @param zoekWaarde
      * @return
@@ -64,6 +64,11 @@ public class GetalRij {
     }
 
     public boolean zitErinD(int zoekWaarde) {
+        sorteer();
+        int retval = Arrays.binarySearch(getallen, zoekWaarde);
+        if(retval > -1) {
+            return true;
+        }
         return false;
     }
 
@@ -86,6 +91,7 @@ public class GetalRij {
         final long[] tDeltaA = {0};
         final long[] tDeltaB = {0};
         final long[] tDeltaC = {0};
+        final long[] tDeltaD = {0};
 
         final Thread thread1 = new Thread(new Runnable() {
             public void run() {
@@ -121,7 +127,19 @@ public class GetalRij {
             }
         });
 
-        Thread[] arrayForThread = {thread1, thread2, thread3};
+        Thread thread4 = new Thread(new Runnable() {
+            public void run() {
+                long tStart = System.currentTimeMillis();
+
+                GetalRij rij = new GetalRij(10000, 1000000);
+                rij.zitErinC(value);
+                long tEnd = System.currentTimeMillis();
+                long tDelta = tEnd - tStart;
+                tDeltaD[0] = tDelta;
+            }
+        });
+
+        Thread[] arrayForThread = {thread1, thread2, thread3, thread4};
         try {
             for (int i = 0; i < arrayForThread.length; i++) {
                 Thread tempThread = arrayForThread[i];
@@ -132,6 +150,7 @@ public class GetalRij {
             map.put("a", tDeltaA[0]);
             map.put("b", tDeltaB[0]);
             map.put("c", tDeltaC[0]);
+            map.put("d", tDeltaD[0]);
             return map;
         } catch (InterruptedException e) {
             e.printStackTrace();
