@@ -15,19 +15,21 @@ public class GetalRijTest {
         long methodBmilli = 0;
         long methodCmilli = 0;
         int testTimes = 10;
+        int counter = 0;
         Random r = new Random();
+        System.out.println("Performing speed-test, average of " + testTimes + " tries");
         for (int i = 0; i < testTimes; i++) {
             int rI = r.nextInt(1000000);
-            System.out.println("Performing test if " + rI + " exists in Getalrij of 1000000");
             Map map = GetalRij.testTime(rI);
             if (map != null) {
                 methodAmilli = methodAmilli + (Long) map.get("a");
                 methodBmilli = methodBmilli + (Long) map.get("b");
                 methodCmilli = methodCmilli + (Long) map.get("c");
             }
-            System.out.println("Test for " + rI + " done. \n");
+            counter++;
+            System.out.println("Test for random int " + rI + " done. " + (testTimes - counter) + " tests to go!");
         }
-
+        System.out.println("\n");
         System.out.println("Average methodA = " + methodAmilli / testTimes);
         System.out.println("Average methodB = " + methodBmilli / testTimes);
         System.out.println("Average methodC = " + methodCmilli / testTimes);
