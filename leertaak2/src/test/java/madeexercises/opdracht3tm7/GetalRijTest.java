@@ -1,4 +1,4 @@
-package madeexercises.opdracht3;
+package madeexercises.opdracht3tm7;
 
 import org.junit.Test;
 
