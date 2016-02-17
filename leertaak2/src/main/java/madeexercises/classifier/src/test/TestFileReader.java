@@ -1,6 +1,6 @@
-package test;
+package madeexercises.classifier.test;
 import junit.framework.TestCase;
-import classifier.*;
+import madeexercises.classifier.classifier.*;
 
 import java.io.*;
 import java.net.URL;

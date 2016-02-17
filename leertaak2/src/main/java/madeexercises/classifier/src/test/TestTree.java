@@ -1,6 +1,6 @@
-package test;
+package madeexercises.classifier.test;
 import junit.framework.TestCase;
-import classifier.*;
+import madeexercises.classifier.classifier.*;
 
 
 public class TestTree extends TestCase {

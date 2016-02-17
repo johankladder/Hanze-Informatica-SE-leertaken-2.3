@@ -1,10 +1,10 @@
-package test;
+package madeexercises.classifier.test;
 import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
-import classifier.*;
+import madeexercises.classifier.classifier.*;
 
 public class TestTraining extends TestCase {
 

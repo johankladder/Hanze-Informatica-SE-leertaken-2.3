@@ -21,7 +21,7 @@ package madeexercises.classifier.classifier;
 /**
  * Represents the generic interface for a classifier.
  * Different classes can implement this interface.
- * @see classifier.DecisionTree
+ * @see madeexercises.classifier.classifier.DecisionTree
  */
 
 public interface  Classifier {

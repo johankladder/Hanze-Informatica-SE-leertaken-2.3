@@ -1,5 +1,5 @@
-package test;
-import classifier.*;
+package madeexercises.classifier.test;
+import madeexercises.classifier.classifier.*;
 import junit.framework.TestCase;
 
 
@@ -41,7 +41,8 @@ public class TestClassifier extends TestCase {
 
 		Feature[] features = new Feature[]
 		{ new Feature("AC","yes",yn),
-		  new Feature("ABS","yes",yn)
+		  new Feature("ABS","yes",yn),
+		  new Feature("Turbo","yes",yn)
 		};
 		
 		Item item = new Item("car",features);
