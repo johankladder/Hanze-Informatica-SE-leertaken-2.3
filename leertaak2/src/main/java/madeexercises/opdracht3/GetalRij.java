@@ -85,7 +85,7 @@ public class GetalRij {
     /*
     Test method. This method is used in the test, to indicate which method is the fastest.
      */
-    public static Map<String, Long> testTime(final Integer value) {
+    public static Map<String, Long> testTime(final Integer value, boolean multipleCore) {
 
         final Map<String, Long> map = new HashMap<String, Long>();
         final long[] tDeltaA = {0};
@@ -146,12 +146,17 @@ public class GetalRij {
             for (int i = 0; i < arrayForThread.length; i++) {
                 Thread tempThread = arrayForThread[i];
                 tempThread.start();
+                if(!multipleCore) {
+                    tempThread.join();
+                }
             }
 
-            // For split all the processes on different cpu's:
-            for (int i = 0; i < arrayForThread.length; i++) {
-                Thread tempThread = arrayForThread[i];
-                tempThread.join();
+            if(multipleCore) {
+                // For split all the processes on different cpu's:
+                for (int i = 0; i < arrayForThread.length; i++) {
+                    Thread tempThread = arrayForThread[i];
+                    tempThread.join();
+                }
             }
 
             map.put("a", tDeltaA[0]);

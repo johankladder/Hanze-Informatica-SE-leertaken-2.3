@@ -22,7 +22,7 @@ public class GetalRijTest {
         System.out.println("Performing speed-test, average of " + testTimes + " tries\n");
         for (int i = 0; i < testTimes; i++) {
             int rI = r.nextInt(1000000);
-            Map map = GetalRij.testTime(rI);
+            Map map = GetalRij.testTime(rI, false);
             if (map != null) {
                 methodAmilli = methodAmilli + (Long) map.get("a");
                 methodBmilli = methodBmilli + (Long) map.get("b");
