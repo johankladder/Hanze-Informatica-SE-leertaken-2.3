@@ -97,7 +97,7 @@ public class Traversal {
 
         } while (current != null && !stack.isEmpty());
     }
-    
+
     public void postOrderTraversal(TreeNode rootNode) {
         System.out.println("post order traversal");
         TreeNode current = rootNode;
