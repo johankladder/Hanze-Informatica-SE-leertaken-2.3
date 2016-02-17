@@ -1,9 +1,6 @@
 package madeexercises.classifier.src.classifier;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +9,8 @@ import java.util.Map;
  * Created by kevin on 17-2-2016.
  */
 public class TextFileReader {
-    private static final String FEATURE_PATH = "OptiesText.txt";
-    private static final String SET_PATH = "TrainingSet.txt";
+    private String featurePath;
+    private String setPath;
     private BufferedReader featureReader;
     private BufferedReader setReader;
     private FeatureType yn;
@@ -22,13 +19,17 @@ public class TextFileReader {
     private String[] features;
 
     public TextFileReader() throws IOException {
+        File file = new File("resources/OptiesText.txt");
+        featurePath = file.getAbsolutePath();
+        file = new File("resources/TrainingSet.txt");
+        setPath = file.getAbsolutePath();
         // Yes/No FeatureType
         yn = new FeatureType("YesNo"
                 ,new String[]{"yes","no"});
         // FileReaders
         try {
-            this.featureReader = new BufferedReader(new FileReader(FEATURE_PATH));
-            this.setReader = new BufferedReader(new FileReader(SET_PATH));
+            this.featureReader = new BufferedReader(new FileReader(featurePath));
+            this.setReader = new BufferedReader(new FileReader(setPath));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -36,6 +37,7 @@ public class TextFileReader {
         this.features = parseFeatures();
         this.featureMap = new HashMap<String, FeatureType>();
         this.setMap = new HashMap<Item, String>();
+        parseSet();
     }
 
     /**
