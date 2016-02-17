@@ -1,4 +1,4 @@
-package madeexercises.classifier.main;
+package madeexercises.classifier.src.main;
 
 import java.io.IOException;
 

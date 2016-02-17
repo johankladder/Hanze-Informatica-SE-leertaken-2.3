@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  * 02111-1307  USA
  */
-package madeexercises.classifier.classifier;
+package madeexercises.classifier.src.classifier;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -241,6 +241,11 @@ public class DecisionTree implements Classifier {
 			info += freq * Math.log(freq) / Math.log(2.0);
 		}
 		return -info;
+	}
+
+	// getters
+	public Node getRoot() {
+		return root;
 	}
 
 }
