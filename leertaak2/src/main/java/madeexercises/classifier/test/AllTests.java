@@ -1,4 +1,4 @@
-package madeexercises.classifier.src.test;
+package madeexercises.classifier.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 

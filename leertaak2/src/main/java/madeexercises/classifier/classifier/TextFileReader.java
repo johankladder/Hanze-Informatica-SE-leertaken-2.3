@@ -1,7 +1,8 @@
-package madeexercises.classifier.src.classifier;
+package madeexercises.classifier.classifier;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,13 +20,13 @@ public class TextFileReader {
     private String[] features;
 
     public TextFileReader() throws IOException {
-        File file = new File("resources/OptiesText.txt");
+        File file = new File("OptiesText.txt");
         featurePath = file.getAbsolutePath();
-        file = new File("resources/TrainingSet.txt");
+        file = new File("TrainingSet.txt");
         setPath = file.getAbsolutePath();
         // Yes/No FeatureType
         yn = new FeatureType("YesNo"
-                ,new String[]{"yes","no"});
+                ,new String[]{"1","0"});
         // FileReaders
         try {
             this.featureReader = new BufferedReader(new FileReader(featurePath));

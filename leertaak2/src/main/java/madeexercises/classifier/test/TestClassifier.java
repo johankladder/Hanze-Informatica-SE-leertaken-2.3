@@ -1,5 +1,5 @@
-package madeexercises.classifier.src.test;
-import madeexercises.classifier.src.classifier.*;
+package madeexercises.classifier.test;
+import madeexercises.classifier.classifier.*;
 import junit.framework.TestCase;
 
 

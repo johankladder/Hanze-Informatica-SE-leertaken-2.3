@@ -1,7 +1,7 @@
-package madeexercises.classifier.src.test;
+package madeexercises.classifier.test;
 import junit.framework.TestCase;
 
-import madeexercises.classifier.src.classifier.*;
+import madeexercises.classifier.classifier.*;
 
 public class TestItem extends TestCase {
 

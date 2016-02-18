@@ -1,7 +1,6 @@
-package madeexercises.classifier.src.test;
+package madeexercises.classifier.test;
 import junit.framework.TestCase;
-import madeexercises.classifier.src.classifier.*;
-
+import madeexercises.classifier.classifier.*;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
