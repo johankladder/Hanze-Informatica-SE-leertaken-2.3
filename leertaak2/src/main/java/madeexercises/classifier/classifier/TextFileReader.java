@@ -1,9 +1,7 @@
 package madeexercises.classifier.classifier;
 
 import java.io.*;
-import java.nio.Buffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,37 +9,21 @@ import java.util.Map;
  * Created by kevin on 17-2-2016.
  */
 public class TextFileReader {
-    private static String featurePath = "OptiesText.txt";
-    private String trainingsPath = "TrainingSet.txt";
-    private FileReader trainingReader;
-    private FeatureType yn;
-    private HashMap<String, FeatureType> featureMap;
-    private HashMap<Item, String> setMap;
+    private static final String FEATURE_PATH = "OptiesText.txt";
+    private static final String TRAININGS_PATH = "TrainingSet.txt";
+    private static FeatureType yn = new FeatureType("YesNo", new String[]{"1", "0"});
+
+    private HashMap<String, FeatureType> featureMap = new HashMap<String, FeatureType>();
+    private HashMap<Item, String> setMap = new HashMap<Item, String>();
     private String[] features;
 
     public TextFileReader() throws IOException {
-        // Yes/No FeatureType
-        yn = new FeatureType("YesNo"
-                , new String[]{"1", "0"});
-        // FileReaders
-        try {
 
-            InputStream in = getClass().getResourceAsStream("/" + featurePath);
-            BufferedReader featureReader = new BufferedReader(new InputStreamReader(in));
+        BufferedReader featureReader = createReader(FEATURE_PATH);
+        BufferedReader trainingReader = createReader(TRAININGS_PATH);
 
-            InputStream ins = getClass().getResourceAsStream("/" + trainingsPath);
-            BufferedReader trainingReader = new BufferedReader(new InputStreamReader(ins));
-
-            this.features = parseFeatures(featureReader);
-            this.featureMap = new HashMap<String, FeatureType>();
-            this.setMap = new HashMap<Item, String>();
-
-            parseSet(trainingReader);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        // Get Feature names from OptiesText.txt
-
+        parseFeatures(featureReader);
+        parseSet(trainingReader);
     }
 
     /**
@@ -72,7 +54,7 @@ public class TextFileReader {
      * @return String array with Feature names
      * @throws IOException
      */
-    public String[] parseFeatures(BufferedReader featureReader) throws IOException {
+    public void parseFeatures(BufferedReader featureReader) throws IOException {
         ArrayList<String> temp = new ArrayList<String>();
 
         // Read OptiesText.txt
@@ -85,7 +67,7 @@ public class TextFileReader {
         String[] temp2 = new String[temp.size()];
         temp.toArray(temp2);
 
-        return temp2;
+        features = temp2;
     }
 
     /**
@@ -114,6 +96,12 @@ public class TextFileReader {
     }
 
     // getters
+    public BufferedReader createReader(String path) {
+        InputStream in = getClass().getResourceAsStream("/" + path);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        return reader;
+    }
+
     public String[] getFeaturesArray() {
         return this.features;
     }
