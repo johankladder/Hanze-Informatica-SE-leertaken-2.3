@@ -28,10 +28,35 @@ public class CanvasDrawer {
         final GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        int y = 10;
+        int y = 10; // Space between circels:
+        double lastCenter  = canvas.getWidth()/2;
+        boolean first = true;
+        double middell = 0;
+        double middelr = 0;
         for(int i= 0; i < 7; i++) {
-            gc.strokeOval(canvas.getWidth()/2, y , 60, 20);
+            boolean left = true;
+            for(int j = 0; j < i; j++) {
+                if(first) {
+                    gc.strokeOval(lastCenter, y, 5, 5);
+                    middell = lastCenter - (lastCenter * 0.75);
+                    middelr = lastCenter + (lastCenter * 0.75);
+                    first = false;
+                } else {
+                    if(left) {
+                        gc.strokeOval(middell, y, 5, 5);
+                        left = false;
+                        middell = middell - (middell * 0.75);
+                    } else {
+                        gc.strokeOval(middelr, y, 5, 5);
+                        left = true;
+                        middelr = middelr + (middelr * 0.75);
+                    }
+                }
+            }
+            //lastCenter =
             y = y + 50;
+            //lastCenter = lastCenter * 2;
+
         }
 
 
