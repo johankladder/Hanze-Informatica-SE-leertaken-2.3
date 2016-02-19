@@ -11,8 +11,8 @@ import javafx.scene.layout.GridPane;
 public class QuestionController extends BorderPane implements View{
 
     private QuestionModel model;
-    private Label trueLabel = new Label("True");
-    private Label falseLabel = new Label("False");
+    private Label trueLabel = new Label("T");
+    private Label falseLabel = new Label("F");
 
     private CheckBox trueCheckBox = new CheckBox();
     private CheckBox falseCheckBox = new CheckBox();

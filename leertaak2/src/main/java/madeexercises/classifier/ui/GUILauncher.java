@@ -44,5 +44,9 @@ public class GUILauncher extends Application{
 
         QuestionView view = new QuestionView(questionModel);
         borderPane.setCenter(view);
+
+        questionModel.addView(view);
+
+        questionModel.updateViews();
     }
 }

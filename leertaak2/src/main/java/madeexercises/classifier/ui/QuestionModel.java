@@ -37,7 +37,7 @@ public class QuestionModel {
 
     public void updateViews() {
         for(View v : views) {
-            updateViews();
+            v.updateView();
         }
     }
 }
