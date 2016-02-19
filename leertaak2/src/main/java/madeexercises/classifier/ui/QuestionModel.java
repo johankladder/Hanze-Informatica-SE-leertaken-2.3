@@ -9,6 +9,7 @@ import madeexercises.classifier.classifier.Node;
 public class QuestionModel {
     Node root;
     Node currentNode;
+    Node nextNode;
 
     public QuestionModel() {
     }
@@ -19,8 +20,11 @@ public class QuestionModel {
     }
 
     public void setAnswer(Node node, Boolean answer) {
-        currentNode = node;
-        node.getChild().get("0");
+        if(answer) {
+            currentNode = (Node) node.getChild().get("1");
+        } else {
+            currentNode = (Node) node.getChild().get("0");
+        }
     }
 
     // getters
