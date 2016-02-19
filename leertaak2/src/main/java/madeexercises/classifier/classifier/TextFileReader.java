@@ -1,6 +1,7 @@
 package madeexercises.classifier.classifier;
 
 import java.io.*;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,35 +11,37 @@ import java.util.Map;
  * Created by kevin on 17-2-2016.
  */
 public class TextFileReader {
-    private String featurePath;
-    private String setPath;
-    private BufferedReader featureReader;
-    private BufferedReader setReader;
+    private static String featurePath = "OptiesText.txt";
+    private String trainingsPath = "TrainingSet.txt";
+    private FileReader trainingReader;
     private FeatureType yn;
     private HashMap<String, FeatureType> featureMap;
     private HashMap<Item, String> setMap;
     private String[] features;
 
     public TextFileReader() throws IOException {
-        File file = new File("OptiesText.txt");
-        featurePath = file.getAbsolutePath();
-        file = new File("TrainingSet.txt");
-        setPath = file.getAbsolutePath();
         // Yes/No FeatureType
         yn = new FeatureType("YesNo"
-                ,new String[]{"1","0"});
+                , new String[]{"1", "0"});
         // FileReaders
         try {
-            this.featureReader = new BufferedReader(new FileReader(featurePath));
-            this.setReader = new BufferedReader(new FileReader(setPath));
+
+            InputStream in = getClass().getResourceAsStream("/" + featurePath);
+            BufferedReader featureReader = new BufferedReader(new InputStreamReader(in));
+
+            InputStream ins = getClass().getResourceAsStream("/" + trainingsPath);
+            BufferedReader trainingReader = new BufferedReader(new InputStreamReader(ins));
+
+            this.features = parseFeatures(featureReader);
+            this.featureMap = new HashMap<String, FeatureType>();
+            this.setMap = new HashMap<Item, String>();
+
+            parseSet(trainingReader);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         // Get Feature names from OptiesText.txt
-        this.features = parseFeatures();
-        this.featureMap = new HashMap<String, FeatureType>();
-        this.setMap = new HashMap<Item, String>();
-        parseSet();
+
     }
 
     /**
@@ -47,12 +50,12 @@ public class TextFileReader {
      * @param values array with values from txt file
      * @return Feature array
      */
-    private Feature[] getFeatures(String [] values) {
+    private Feature[] getFeatures(String[] values) {
         ArrayList<Feature> temp3 = new ArrayList<Feature>();
 
         // create 8 Features with corresponding values from txt file
-        for(int i = 0; i < 8; i++) {
-            Feature f = new Feature(this.features[i], values[i+1], yn);
+        for (int i = 0; i < 8; i++) {
+            Feature f = new Feature(this.features[i], values[i + 1], yn);
             temp3.add(f);
             featureMap.put(this.features[i], yn);
         }
@@ -69,12 +72,12 @@ public class TextFileReader {
      * @return String array with Feature names
      * @throws IOException
      */
-    public String[] parseFeatures() throws IOException {
+    public String[] parseFeatures(BufferedReader featureReader) throws IOException {
         ArrayList<String> temp = new ArrayList<String>();
 
         // Read OptiesText.txt
         String line;
-        while((line = featureReader.readLine()) != null) {
+        while ((line = featureReader.readLine()) != null) {
             temp.add(line);
         }
 
@@ -88,16 +91,17 @@ public class TextFileReader {
     /**
      * Read training set from TrainingSet.txt and create Items
      *
+     * @param setReader
      * @throws IOException
      */
-    public void parseSet() throws IOException {
+    public void parseSet(BufferedReader setReader) throws IOException {
         // skip first two lines
         setReader.readLine();
         setReader.readLine();
 
         // read rest of file
         String line;
-        while((line = setReader.readLine()) != null) {
+        while ((line = setReader.readLine()) != null) {
             String[] items = line.split(";");
             // name
             String name = items[9];
@@ -113,9 +117,11 @@ public class TextFileReader {
     public String[] getFeaturesArray() {
         return this.features;
     }
+
     public Map<Item, String> getTrainingsSet() {
         return this.setMap;
     }
+
     public Map<String, FeatureType> getFeaturesMap() {
         return this.featureMap;
     }
