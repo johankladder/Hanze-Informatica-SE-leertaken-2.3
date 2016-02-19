@@ -8,9 +8,10 @@ import java.util.ArrayList;
  * Created by kevin on 19-2-2016.
  */
 public class QuestionModel {
-    Node root;
-    Node currentNode;
-    ArrayList<View> views = new ArrayList<View>();
+
+    private Node root;
+    private Node currentNode;
+    private ArrayList<View> views = new ArrayList<View>();
 
     public QuestionModel() {
     }
@@ -30,6 +31,11 @@ public class QuestionModel {
         } else {
             currentNode = (Node) node.getChild().get("0");
         }
+        updateViews();
+    }
+
+    public void reset() {
+        currentNode = root;
         updateViews();
     }
 
