@@ -1,5 +1,6 @@
 package madeexercises.classifier.ui;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import madeexercises.classifier.classifier.Node;
 
 /**
@@ -14,12 +15,15 @@ public class QuestionModel {
 
     public void setRoot(Node root){
         this.root = root;
+        setAnswer(root, true);
     }
 
-    public void getAnswer(Node node, Boolean answer) {
+    public void setAnswer(Node node, Boolean answer) {
         currentNode = node;
+        node.getChild().get("0");
     }
 
+    // getters
     public Node getCurrentNode() {
         return currentNode;
     }
