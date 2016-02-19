@@ -16,10 +16,7 @@ public class QuestionView extends BorderPane implements View {
     public QuestionView(QuestionModel model) {
         this.model = model;
         this.controller = new QuestionController(model);
-    }
-
-    public void init() {
-
+        model.addView(controller);
     }
 
     public void updateView() {
@@ -29,6 +26,9 @@ public class QuestionView extends BorderPane implements View {
         GridPane pane = new GridPane();
         pane.add(nodeLabel, 0, 0);
         pane.add(controller, 1, 0);
+        pane.setHgap(10);
+
+        setCenter(pane);
     }
 
 

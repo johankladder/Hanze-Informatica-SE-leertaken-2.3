@@ -12,12 +12,14 @@ import java.io.IOException;
  * Created by kevin on 19-2-2016.
  */
 public class GUILauncher extends Application{
+
+    BorderPane borderPane;
     ClassifierModel model;
     QuestionModel  questionModel = new QuestionModel();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        BorderPane borderPane = new BorderPane();
+        borderPane = new BorderPane();
         Scene scene =  new Scene(borderPane);
         primaryStage.setScene(scene);
         primaryStage.setWidth(100);
@@ -39,5 +41,12 @@ public class GUILauncher extends Application{
         thread.start();
         thread.join();
         questionModel.setRoot(model.getRoot());
+
+        QuestionView view = new QuestionView(questionModel);
+        borderPane.setCenter(view);
+
+        questionModel.addView(view);
+
+        questionModel.updateViews();
     }
 }
