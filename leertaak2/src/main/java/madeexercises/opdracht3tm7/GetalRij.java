@@ -133,7 +133,7 @@ public class GetalRij {
                 long tStart = System.currentTimeMillis();
 
                 GetalRij rij = new GetalRij(10000, 1000000);
-                rij.zitErinC(value);
+                rij.zitErinD(value);
                 long tEnd = System.currentTimeMillis();
                 long tDelta = tEnd - tStart;
                 tDeltaD[0] = tDelta;
