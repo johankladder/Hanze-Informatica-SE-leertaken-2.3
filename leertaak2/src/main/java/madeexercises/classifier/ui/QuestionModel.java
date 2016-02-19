@@ -1,6 +1,5 @@
 package madeexercises.classifier.ui;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import madeexercises.classifier.classifier.Node;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class QuestionModel {
 
     public void setRoot(Node root){
         this.root = root;
-        setAnswer(root, true);
+        currentNode = root;
     }
 
     public void setAnswer(Node node, Boolean answer) {
@@ -31,6 +30,7 @@ public class QuestionModel {
         } else {
             currentNode = (Node) node.getChild().get("0");
         }
+        updateViews();
     }
 
     // getters

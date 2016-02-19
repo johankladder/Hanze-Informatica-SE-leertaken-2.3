@@ -21,13 +21,17 @@ public class QuestionView extends BorderPane implements View {
 
     public void updateView() {
         Node currentNode = model.getCurrentNode();
-        Label nodeLabel = new Label(currentNode.getLabel());
 
         GridPane pane = new GridPane();
+        Label nodeLabel = new Label(currentNode.getLabel());
         pane.add(nodeLabel, 0, 0);
-        pane.add(controller, 1, 0);
+        if(!currentNode.isLeaf()) {
+            pane.add(controller, 1, 0);
+            controller.setNode(currentNode);
+        } else {
+           // No controller;
+        }
         pane.setHgap(10);
-
         setCenter(pane);
     }
 
