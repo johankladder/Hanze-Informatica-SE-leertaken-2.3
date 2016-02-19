@@ -18,10 +18,6 @@ public class QuestionView extends BorderPane implements View {
         this.controller = new QuestionController(model);
     }
 
-    public void init() {
-
-    }
-
     public void updateView() {
         Node currentNode = model.getCurrentNode();
         Label nodeLabel = new Label(currentNode.getLabel());
