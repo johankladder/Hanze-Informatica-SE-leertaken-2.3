@@ -1,4 +1,4 @@
-package madeexercises.classifier.ui;
+package madeexercises.opdracht18.ui;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;

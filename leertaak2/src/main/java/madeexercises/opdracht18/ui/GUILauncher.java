@@ -1,4 +1,4 @@
-package madeexercises.classifier.ui;
+package madeexercises.opdracht18.ui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

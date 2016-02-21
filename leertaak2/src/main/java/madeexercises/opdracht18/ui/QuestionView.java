@@ -1,4 +1,4 @@
-package madeexercises.classifier.ui;
+package madeexercises.opdracht18.ui;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -29,7 +29,7 @@ public class QuestionView extends BorderPane implements View {
             pane.add(controller, 1, 0);
             controller.setNode(currentNode);
         } else {
-            // No controller;
+           // No controller;
             Label nodeLabel = new Label("Uw auto valt in de categorie " + currentNode.getLabel());
             pane.add(nodeLabel, 0, 0);
         }
