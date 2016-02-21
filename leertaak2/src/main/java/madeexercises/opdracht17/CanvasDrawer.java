@@ -2,7 +2,13 @@ package madeexercises.opdracht17;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import madeexercises.classifier.classifier.Node;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 /**
  * Created by johankladder on 19-2-16.
@@ -10,8 +16,11 @@ import madeexercises.classifier.classifier.Node;
 public class CanvasDrawer {
 
     private Canvas canvas;
-    private static double orW;
-    private static double orH;
+    private Stack<Node> nodes = new Stack<>();
+
+    private int counter = 0;
+
+    private HashMap<Node, Location> locationMap = new HashMap<>();
 
     public CanvasDrawer(Canvas canvas) {
         this.canvas = canvas;
@@ -21,23 +30,69 @@ public class CanvasDrawer {
     private void init() {
         canvas.setHeight(700);
         canvas.setWidth(1000);
-        orW = canvas.getWidth();
-        orH = canvas.getHeight();
     }
 
     public void draw(Node node) {
-        drawNode(node, canvas.getWidth(), 0);
+        drawNodes(node, canvas.getWidth());
     }
 
-    public void drawNode(Node node, double width, int lastY) {
-        if(node != null) {
-            double v = width / 2;
-            final GraphicsContext gc = canvas.getGraphicsContext2D();
-            gc.strokeOval(v, lastY + 70, 20,20);
-            drawNode((Node) node.getChild().get("1"), v, lastY + 70);
+
+    public void drawNodes(Node node, double width) {
+
+        Node current = node;
+        double middle = width / 2;
+        double y = 20;
+        Map<Node, Location> locationMap = new HashMap<>();
+
+        Stack<Node> nodeStack = new Stack<>();
+
+        while (current != null) {
+
+            GraphicsContext gc = canvas.getGraphicsContext2D();
+
+            Node lNode = (Node) current.getChild().get("1");
+            Node rNode = (Node) current.getChild().get("0");
+
+            if (lNode != null) {
+                if(!current.isSecondPop()) {
+                    drawText(current, middle, y, gc);
+                    locationMap.put(current, new Location(middle, y));
+                    current = lNode;
+                    nodeStack.push(current);
+                } else {
+                    Location location = locationMap.get(current);
+                    drawText(rNode, location.getX() + 50, location.getY() + 50, gc);
+                    System.out.println(rNode.getLabel() + " " + rNode.isLeaf());
+                    current = null;
+                }
+            } else {
+                // Draw one right node:
+
+                if(rNode != null) {
+                    current = rNode;
+                } else {
+                    // Check if leaf:
+                    drawText(current, middle, y, gc);
+                    current = nodeStack.pop();
+                    current.setSecondPop();
+                }
+
+            }
+            y = y + 50;
+
+            middle = middle / 2;
         }
     }
 
+    private void drawText(Node node, double x, double y, GraphicsContext gc) {
+        gc.setFont(new Font(8));
+        if (node.isLeaf()) {
+            gc.setStroke(Color.RED);
+        } else {
+            gc.setStroke(Color.BLACK);
+        }
+        gc.strokeText(node.getLabel(), x, y);
+    }
 
 
 }

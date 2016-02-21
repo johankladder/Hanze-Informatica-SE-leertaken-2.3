@@ -42,6 +42,8 @@ public class Node {
 	//              --"no"---> node "Low"
 	private Map<String, Node> arcs=new HashMap<String, Node>();
 
+	private boolean secondPop = false;
+
 	/**
 	 * @param label For internal nodes this label describes the feature.
 	 *              For external nodes (=leaves at the end of the tree) 
@@ -96,5 +98,13 @@ public class Node {
 		}
 		buffer.append("]\n");
 		return buffer.toString();
+	}
+
+	public boolean isSecondPop() {
+		return secondPop;
+	}
+
+	public void setSecondPop() {
+		this.secondPop = true;
 	}
 }
