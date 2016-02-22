@@ -30,6 +30,8 @@ public class GuiLauncher extends Application {
         primaryStage.setScene(scene);
 
         primaryStage.setFullScreen(true);
+        primaryStage.setMinHeight(200);
+        primaryStage.setMinWidth(200);
         primaryStage.show();
         initt(pane);
     }
