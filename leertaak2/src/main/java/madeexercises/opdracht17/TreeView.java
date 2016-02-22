@@ -41,7 +41,7 @@ public class TreeView extends JPanel implements ActionListener{
         this.model = model;
         //model.addActionListener(this);
         this.setBackground(Color.DARK_GRAY);
-        this.setPreferredSize(new Dimension(4500, 4500));
+        this.setPreferredSize(new Dimension(5000, 500));
         this.validate();
         this.setVisible(true);
 

@@ -25,8 +25,16 @@ public class QuestionModel {
         currentNode = root;
     }
 
+    /**
+     * Set the answer given in the controller
+     *
+     * @param node current Node
+     * @param answer true if checkbox is checked
+     * @param label value of the Feature
+     */
     public void setAnswer(Node node, Boolean answer, String label) {
         if(answer) {
+            // Get the child belonging to the answer
             if (label.equals("Ja")) {
                 currentNode = (Node) node.getChild().get("1");
             } else if (label.equals("Nee ")) {

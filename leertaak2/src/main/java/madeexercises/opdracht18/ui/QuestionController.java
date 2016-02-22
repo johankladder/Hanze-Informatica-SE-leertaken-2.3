@@ -27,6 +27,9 @@ public class QuestionController extends BorderPane implements View {
         addListeners();
     }
 
+    /**
+     * Initialize checkboxes with labels
+     */
     private void init() {
         GridPane gridPane = new GridPane();
         checkBoxes = new HashMap<CheckBox, String>();
@@ -36,6 +39,7 @@ public class QuestionController extends BorderPane implements View {
         if(node == null) {
             node = model.getCurrentNode();
         }
+        // Create label and checkbox for each possible Feature value
         Iterator it = node.getChild().entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
@@ -56,6 +60,9 @@ public class QuestionController extends BorderPane implements View {
         }
     }
 
+    /**
+     * Add listeners to the checkboxes
+     */
     private void addListeners() {
         Iterator it = checkBoxes.entrySet().iterator();
         while (it.hasNext()) {
@@ -64,6 +71,7 @@ public class QuestionController extends BorderPane implements View {
             cb.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 public void changed(ObservableValue<? extends Boolean> ov,
                                     Boolean old_val, Boolean new_val) {
+                    // give the answer to the model
                     model.setAnswer(node, new_val, (String) pair.getValue());
                 }
             });

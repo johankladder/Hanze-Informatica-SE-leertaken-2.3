@@ -19,6 +19,9 @@ public class QuestionView extends BorderPane implements View {
         model.addView(controller);
     }
 
+    /**
+     * Create question with possible answers
+     */
     public void updateView() {
         Node currentNode = model.getCurrentNode();
 
@@ -26,11 +29,12 @@ public class QuestionView extends BorderPane implements View {
         if(!currentNode.isLeaf()) {
             Label nodeLabel;
             if (currentNode.getLabel().equals("Color")) {
-                nodeLabel = new Label("Kies de  " + currentNode.getLabel() + " van uw auto.");
+                nodeLabel = new Label("Kies de " + currentNode.getLabel() + " van uw auto.");
             } else {
                 nodeLabel = new Label("Heeft uw auto " + currentNode.getLabel() + "?");
             }
             pane.add(nodeLabel, 0, 0);
+            // Let the controller make the checkboxes with labels
             pane.add(controller, 1, 0);
             controller.setNode(currentNode);
         } else {
