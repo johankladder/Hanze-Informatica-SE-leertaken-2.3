@@ -24,28 +24,20 @@ public class TreeView extends JPanel implements ActionListener{
 
     private static final long serialVersionUID = 1L;
 
-    private static final int Y_OFFSET = 200;
+    private static final int Y_OFFSET = 50;
 
     private ClassifierModel model;
     private BufferedImage image;
 
     public TreeView(ClassifierModel model){
-        super();
-
-//		try{
-//			this.image = ImageIO.read(new URL("http://www.nasa.gov/images/content/178493main_sig07-009-hires.jpg"));
-//		}catch(IOException io){
-//			Logger.getLogger(TreeView.class.getName()).log(Level.SEVERE, null, io);
-//		}
-
         this.model = model;
-        //model.addActionListener(this);
         this.setBackground(Color.DARK_GRAY);
         this.setPreferredSize(new Dimension(5000, 500));
-        this.validate();
+
         this.setVisible(true);
 
         JScrollPane scrollPane = new JScrollPane(this);
+
         JFrame frame = new JFrame();
         frame.add(scrollPane);
         frame.setPreferredSize(new Dimension(1024, 768));
@@ -57,10 +49,7 @@ public class TreeView extends JPanel implements ActionListener{
     @Override
     public void paint(Graphics g){
         super.paint(g);
-        g.drawImage(image, 0, 0, null);
         g.setFont(new Font("Arial", 0, 10));
-
-
         Node root = model.getRoot();
 
         drawNode(root, this.getWidth()/2, TreeView.Y_OFFSET, this.getWidth()/4, 20, g,"1");
