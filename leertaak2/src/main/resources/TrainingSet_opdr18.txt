@@ -1,0 +1,58 @@
+Features;8
+Items;256
+Item1;1;1;1;1;1;1;1;Blue;Royal de luxe
+Item2;1;1;1;1;1;1;1;Yellow;Royal de luxe
+Item3;1;1;1;1;1;1;0;Yellow;Royal de luxe
+Item4;1;1;1;1;1;1;0;Red;Royal de luxe
+Item5;1;1;1;1;1;0;1;Orange;Royal de luxe
+Item17;1;1;1;0;1;1;1;Green;Royal
+Item18;1;1;1;0;1;1;1;Green;Royal
+Item19;1;1;1;0;1;1;0;Blue;Royal
+Item20;1;1;1;0;1;1;0;Blue;Royal
+Item21;1;1;1;0;1;0;1;Blue;Royal
+Item26;1;1;1;0;0;1;1;Orange;De luxe
+Item27;1;1;1;0;0;1;0;Green;De luxe
+Item28;1;1;1;0;0;1;0;Yellow;De luxe
+Item29;1;1;1;0;0;0;1;Orange;De luxe
+Item30;1;1;1;0;0;0;1;Red;De luxe
+Item31;1;1;1;0;0;0;0;Red;De luxe
+Item38;1;1;0;1;1;0;1;Blue;Comfort Plus
+Item41;1;1;0;1;0;1;1;Orange;Comfort
+Item42;1;1;0;1;0;1;1;Green;Comfort
+Item43;1;1;0;1;0;1;0;Yellow;Comfort
+Item44;1;1;0;1;0;1;0;Red;Comfort
+Item45;1;1;0;1;0;0;1;Blue;Comfort
+Item46;1;1;0;1;0;0;1;Red;Comfort
+Item55;1;1;0;0;1;0;0;Green;Comfort
+Item56;1;1;0;0;1;0;0;Yellow;Medium
+Item57;1;1;0;0;0;1;1;Yellow;Medium
+Item58;1;1;0;0;0;1;1;Green;Medium
+Item59;1;1;0;0;0;1;0;Red;Medium
+Item60;1;1;0;0;0;1;0;Blue;Medium
+Item61;1;1;0;0;0;0;1;Green;Medium
+Item62;1;1;0;0;0;0;1;Orange;Medium
+Item63;1;1;0;0;0;0;0;Red;Medium
+Item125;1;0;0;0;0;0;1;Blue;Medium Low
+Item126;1;0;0;0;0;0;1;Orange;Medium Low
+Item127;1;0;0;0;0;0;0;Yellow;Medium Low
+Item128;1;0;0;0;0;0;0;Blue;Medium Low
+Item129;0;1;1;1;1;1;1;Red;Medium Low
+Item139;0;1;1;1;0;1;0;Red;Saver
+Item140;0;1;1;1;0;1;0;Yellow;Saver
+Item141;0;1;1;1;0;0;1;Green;Saver
+Item142;0;1;1;1;0;0;1;Blue;Saver
+Item143;0;1;1;1;0;0;0;Red;Saver
+Item144;0;1;1;1;0;0;0;Orange;Saver
+Item162;0;1;0;1;1;1;1;Red;Cheap saver
+Item163;0;1;0;1;1;1;0;Blue;Cheap saver
+Item164;0;1;0;1;1;1;0;Yellow;Cheap saver
+Item165;0;1;0;1;1;0;1;Orange;Cheap saver
+Item166;0;1;0;1;1;0;1;Green;Cheap saver
+Item167;0;1;0;1;1;0;0;Red;Cheap saver
+Item208;0;0;1;1;0;0;0;Blue;Super saver
+Item209;0;0;1;0;1;1;1;Blue;Super saver
+Item210;0;0;1;0;1;1;1;Green;Super saver
+Item211;0;0;1;0;1;1;0;Orange;Super saver
+Item212;0;0;1;0;1;1;0;Yellow;Super saver
+Item213;0;0;1;0;1;0;1;Red;Super saver
+Item214;0;0;1;0;1;0;1;Red;Super saver

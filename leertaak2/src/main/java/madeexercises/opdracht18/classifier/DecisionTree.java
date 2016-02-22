@@ -69,6 +69,7 @@ public class DecisionTree implements Classifier {
 	 */
 	public DecisionTree(Map<Item, String> trainingsSet, Map<String, FeatureType> features) {
 		root = buildDecisionTree(trainingsSet,features);
+		System.out.println(toString());
 	}
 
 
@@ -100,7 +101,7 @@ public class DecisionTree implements Classifier {
 		//     a subset of cars with airco=no)
 		Map<String, HashMap<Item, String>> partitions = performSplit(trainingsSet,splitFeature,splitType.allowedValues());
 		for (Iterator<String> iter = partitions.keySet().iterator(); iter.hasNext();) {
-			String value = iter.next();		
+			String value = iter.next();
 			//    a)  be ni the result of a recursive execution of this algorithm where
 			//        the fist input is: Ti = { item in T | item.s == vi }
 			//        the second input is: A - { s }

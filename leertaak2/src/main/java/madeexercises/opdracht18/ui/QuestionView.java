@@ -3,10 +3,10 @@ package madeexercises.opdracht18.ui;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import madeexercises.classifier.classifier.Node;
+import madeexercises.opdracht18.classifier.Node;
 
 /**
- * Created by johankladder on 19-2-16.
+ * Created by kevin haitsma on 19-2-16.
  */
 public class QuestionView extends BorderPane implements View {
 
@@ -24,12 +24,17 @@ public class QuestionView extends BorderPane implements View {
 
         GridPane pane = new GridPane();
         if(!currentNode.isLeaf()) {
-            Label nodeLabel = new Label("Heeft uw auto " + currentNode.getLabel() + "?");
+            Label nodeLabel;
+            if (currentNode.getLabel().equals("Color")) {
+                nodeLabel = new Label("Kies de  " + currentNode.getLabel() + " van uw auto.");
+            } else {
+                nodeLabel = new Label("Heeft uw auto " + currentNode.getLabel() + "?");
+            }
             pane.add(nodeLabel, 0, 0);
             pane.add(controller, 1, 0);
             controller.setNode(currentNode);
         } else {
-           // No controller;
+            // No controller;
             Label nodeLabel = new Label("Uw auto valt in de categorie " + currentNode.getLabel());
             pane.add(nodeLabel, 0, 0);
         }

@@ -1,6 +1,6 @@
 package madeexercises.opdracht18.main;
 
-import madeexercises.classifier.classifier.ClassifierModel;
+import madeexercises.opdracht18.classifier.ClassifierModel;
 
 import java.io.IOException;
 

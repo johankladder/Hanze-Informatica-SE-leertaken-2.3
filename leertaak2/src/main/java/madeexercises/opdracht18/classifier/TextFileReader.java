@@ -9,9 +9,10 @@ import java.util.Map;
  * Created by kevin on 17-2-2016.
  */
 public class TextFileReader {
-    private static final String FEATURE_PATH = "OptiesText.txt";
-    private static final String TRAININGS_PATH = "TrainingSet.txt";
+    private static final String FEATURE_PATH = "OptiesText_opdr18.txt";
+    private static final String TRAININGS_PATH = "TrainingSet_opdr18.txt";
     private static FeatureType yn = new FeatureType("YesNo", new String[]{"1", "0"});
+    private static FeatureType color = new FeatureType("Color", new String[]{"Blue", "Red", "Yellow", "Green", "Orange"});
 
     private HashMap<String, FeatureType> featureMap = new HashMap<String, FeatureType>();
     private HashMap<Item, String> setMap = new HashMap<Item, String>();
@@ -37,9 +38,15 @@ public class TextFileReader {
 
         // create 8 Features with corresponding values from txt file
         for (int i = 0; i < 8; i++) {
-            Feature f = new Feature(this.features[i], values[i + 1], yn);
-            temp3.add(f);
-            featureMap.put(this.features[i], yn);
+            if (values[i+1].equals("1") || values[i+1].equals("0")) {
+                Feature f = new Feature(this.features[i], values[i + 1], yn);
+                temp3.add(f);
+                featureMap.put(this.features[i], yn);
+            } else {
+                Feature f = new Feature(this.features[i], values[i + 1], color);
+                temp3.add(f);
+                featureMap.put(this.features[i], color);
+            }
         }
 
         // return 8 Features

@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import madeexercises.classifier.classifier.ClassifierModel;
+import madeexercises.opdracht18.classifier.ClassifierModel;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ public class GUILauncher extends Application{
         borderPane = new BorderPane();
         Scene scene =  new Scene(borderPane);
         primaryStage.setScene(scene);
-        primaryStage.setWidth(300);
+        primaryStage.setWidth(500);
         primaryStage.setHeight(100);
         primaryStage.show();
         initModels();
