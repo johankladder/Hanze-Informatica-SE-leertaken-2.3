@@ -19,5 +19,7 @@ public class Runner {
         //Initialize model
         this.model = new ClassifierModel();
         this.treeView = new TreeView(model);
+
+
     }
 }
