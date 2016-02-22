@@ -1,4 +1,4 @@
-package cards;
+package madeexercises.cards;
 import java.util.LinkedList;
 import java.util.Iterator;
 public class Candidates extends LinkedList<Candidate>

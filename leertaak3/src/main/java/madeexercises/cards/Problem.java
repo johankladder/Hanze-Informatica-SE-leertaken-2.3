@@ -1,4 +1,4 @@
-package cards;
+package madeexercises.cards;
 import java.util.Scanner;
 
 public class Problem

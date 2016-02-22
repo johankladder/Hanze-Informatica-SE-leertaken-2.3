@@ -1,4 +1,4 @@
-package cards;
+package madeexercises.cards;
 public class Candidate
 {
     private char cardChar;
