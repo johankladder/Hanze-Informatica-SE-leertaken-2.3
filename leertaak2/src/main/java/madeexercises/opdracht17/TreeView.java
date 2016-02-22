@@ -24,31 +24,23 @@ public class TreeView extends JPanel implements ActionListener{
 
     private static final long serialVersionUID = 1L;
 
-    private static final int Y_OFFSET = 200;
+    private static final int Y_OFFSET = 50;
 
     private ClassifierModel model;
-    private BufferedImage image;
 
     public TreeView(ClassifierModel model){
         super();
 
-//		try{
-//			this.image = ImageIO.read(new URL("http://www.nasa.gov/images/content/178493main_sig07-009-hires.jpg"));
-//		}catch(IOException io){
-//			Logger.getLogger(TreeView.class.getName()).log(Level.SEVERE, null, io);
-//		}
-
         this.model = model;
-        //model.addActionListener(this);
         this.setBackground(Color.DARK_GRAY);
-        this.setPreferredSize(new Dimension(5000, 500));
+        this.setPreferredSize(new Dimension(5000, 300));
         this.validate();
         this.setVisible(true);
 
         JScrollPane scrollPane = new JScrollPane(this);
         JFrame frame = new JFrame();
         frame.add(scrollPane);
-        frame.setPreferredSize(new Dimension(1024, 768));
+        frame.setPreferredSize(new Dimension(1024, 400));
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -57,17 +49,16 @@ public class TreeView extends JPanel implements ActionListener{
     @Override
     public void paint(Graphics g){
         super.paint(g);
-        g.drawImage(image, 0, 0, null);
         g.setFont(new Font("Arial", 0, 10));
 
 
         Node root = model.getRoot();
 
-        drawNode(root, this.getWidth()/2, TreeView.Y_OFFSET, this.getWidth()/4, 20, g,"1");
+        drawNode(root, this.getWidth()/2, TreeView.Y_OFFSET, this.getWidth()/4, 20, g, "1");
 
     }
 
-    public void drawNode(Node n, int x, int y, int xOffset, int yOffset, Graphics g,String direction){
+    public void drawNode(Node n, int x, int y, int xOffset, int yOffset, Graphics g, String direction){
         g.setColor(Color.YELLOW);
         g.drawString(n.getLabel(),x,y);
         Map<String,Node> children = n.getChild();
@@ -95,16 +86,6 @@ public class TreeView extends JPanel implements ActionListener{
             drawNode(childNode, xPos, yPos, xOffset/2, yOffset, g,newDirection);
         }
     }
-
-//	public void drawNode
-//		printNode
-//		for(Children c : Node.children)
-//			if(c.label.equals ( RIGHT ) )
-//				drawNode(RIGHT Version)
-//			else if( c.label.equals( LEFT ) )
-//			else
-//				NO BINARY TREE DESU!!!
-//	
 
     @Override
     public void actionPerformed(ActionEvent e) {
