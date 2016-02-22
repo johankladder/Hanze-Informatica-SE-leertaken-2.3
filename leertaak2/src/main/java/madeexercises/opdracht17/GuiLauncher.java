@@ -3,6 +3,7 @@ package madeexercises.opdracht17;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import madeexercises.classifier.classifier.ClassifierModel;
@@ -17,21 +18,25 @@ public class GuiLauncher extends Application {
     private ClassifierModel model;
     private CanvasDrawer drawer;
 
+    private TreeView view;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        BorderPane pane = new BorderPane();
-        Canvas canvas = new Canvas();
-        pane.setCenter(canvas);
 
-        Scene scene = new Scene(pane);
+        BorderPane pane = new BorderPane();
+        ScrollPane scrollPane = new ScrollPane(pane);
+
+        Scene scene = new Scene(scrollPane);
         primaryStage.setScene(scene);
 
-        drawer = new CanvasDrawer(canvas);
+        primaryStage.setFullScreen(true);
+        primaryStage.setMinHeight(200);
+        primaryStage.setMinWidth(200);
         primaryStage.show();
-        initt();
+        initt(pane);
     }
 
-    public void initt() throws InterruptedException {
+    public void initt(BorderPane pane) throws InterruptedException {
         Thread thread = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -44,7 +49,10 @@ public class GuiLauncher extends Application {
         thread.start();
         thread.join();
 
-        drawer.draw(model.getRoot());
+        view  = new TreeView(model);
+        drawer = new CanvasDrawer(view);
+        drawer.draw(view);
+        pane.setCenter(view);
 
 
     }
