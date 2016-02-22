@@ -5,13 +5,13 @@ import java.io.IOException;
 /**
  * Created by kevin on 17-2-2016.
  */
-public class ClassifierModel{
+public class ClassifierModel {
 
     private TextFileReader reader;
 
     private DecisionTree tree;
 
-    public ClassifierModel()throws IOException {
+    public ClassifierModel() throws IOException {
         this.reader = new TextFileReader();
         this.tree = new DecisionTree(reader.getTrainingsSet(), reader.getFeaturesMap());
     }
@@ -25,8 +25,6 @@ public class ClassifierModel{
         //return tree;
         return this.tree.getRoot();
     }
-
-
 
 
 }
