@@ -26,24 +26,26 @@ public class QuestionView extends BorderPane implements View {
         Node currentNode = model.getCurrentNode();
 
         GridPane pane = new GridPane();
-        if(!currentNode.isLeaf()) {
-            Label nodeLabel;
-            if (currentNode.getLabel().equals("Color")) {
-                nodeLabel = new Label("Kies de " + currentNode.getLabel() + " van uw auto.");
+        if(currentNode != null) {
+            if (!currentNode.isLeaf()) {
+                Label nodeLabel;
+                if (currentNode.getLabel().equals("Color")) {
+                    nodeLabel = new Label("Kies de " + currentNode.getLabel() + " van uw auto.");
+                } else {
+                    nodeLabel = new Label("Heeft uw auto " + currentNode.getLabel() + "?");
+                }
+                pane.add(nodeLabel, 0, 0);
+                // Let the controller make the checkboxes with labels
+                pane.add(controller, 1, 0);
+                controller.setNode(currentNode);
             } else {
-                nodeLabel = new Label("Heeft uw auto " + currentNode.getLabel() + "?");
+                // No controller;
+                Label nodeLabel = new Label("Uw auto valt in de categorie " + currentNode.getLabel());
+                pane.add(nodeLabel, 0, 0);
             }
-            pane.add(nodeLabel, 0, 0);
-            // Let the controller make the checkboxes with labels
-            pane.add(controller, 1, 0);
-            controller.setNode(currentNode);
-        } else {
-            // No controller;
-            Label nodeLabel = new Label("Uw auto valt in de categorie " + currentNode.getLabel());
-            pane.add(nodeLabel, 0, 0);
+            pane.setHgap(10);
+            setCenter(pane);
         }
-        pane.setHgap(10);
-        setCenter(pane);
     }
 
 
