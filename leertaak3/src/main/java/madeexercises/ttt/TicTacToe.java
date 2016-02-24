@@ -1,10 +1,12 @@
 package madeexercises.ttt;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.Random;
 public class TicTacToe
 {
-	private static final int HUMAN        = 0; 
-	private static final int COMPUTER     = 1; 
+	public static final int HUMAN        = 0;
+	public static final int COMPUTER     = 1;
 	public  static final int EMPTY        = 2;
 
 	public  static final int HUMAN_WIN    = 0;
@@ -50,9 +52,9 @@ public class TicTacToe
 
 	public int chooseMove()
 	{
-	    //Best best=chooseMove(COMPUTER);
-	    //return best.row*3+best.column;
-	    return 0;
+	    Best best=chooseMove(COMPUTER);
+	    return best.row*3+best.column;
+	    //return 0;
     }
     
     // Find optimal move
@@ -102,11 +104,68 @@ public class TicTacToe
 	}
 
 	// Returns whether 'side' has won in this position
-	private boolean isAWin( int side )
+	public boolean isAWin( int side )
 	{
-	    //TODO:
-	    return true;
+		if ((isAWinHorizontal(side)) || (isAWinVertical(side)) || (isAWinDiagonal(side))) {
+			return true;
+		} else {
+			return false;
+		}
     }
+
+	private boolean isAWinDiagonal(int side) {
+		Boolean isAWinDiagonal = false;
+		for (int i = 0; i < 3 && !isAWinDiagonal; i++) {
+			Boolean temp = true;
+			int row = 0;
+			for (int j = 0; j <= 1 && temp; j++) {
+				if (j == 0) {
+					row = i;
+				} else if (j == 1) {
+					if (i == 0) {
+						row = 2;
+					} else if (i == 1) {
+						row = 1;
+					} else if (i == 2) {
+						row = 0;
+					}
+				}
+				if (board[row][i] != side) {
+					temp = false;
+				}
+				isAWinDiagonal = temp;
+			}
+		}
+		return isAWinDiagonal;
+	}
+
+	private boolean isAWinVertical(int side) {
+		Boolean isAWinVertical = false;
+		for (int i = 0; i < 3 && !isAWinVertical; i++) {
+			Boolean temp = true;
+			for (int j = 0; j < 3 && temp; j++) {
+				if (board[j][i] != side) {
+					temp = false;
+				}
+			}
+			isAWinVertical = temp;
+		}
+		return isAWinVertical;
+	}
+
+	private boolean isAWinHorizontal(int side) {
+		Boolean isAWinHorizontal = false;
+		for (int i = 0; i < 3 && !isAWinHorizontal; i++) {
+			Boolean temp = true;
+			for (int j = 0; j < 3 && temp; j++) {
+				if (board[i][j] != side) {
+					temp = false;
+				}
+			}
+			isAWinHorizontal = temp;
+		}
+		return isAWinHorizontal;
+	}
 
 	// Play a move, possibly clearing a square
 	private void place( int row, int column, int piece )
@@ -120,10 +179,16 @@ public class TicTacToe
 	}
 
 	// Compute static value of current position (win, draw, etc.)
-	private int positionValue( )
-	{
-		// TODO:
-		return UNCLEAR;
+	private int positionValue( ) {
+		if(isAWin(COMPUTER)){
+			return COMPUTER_WIN;
+		} else if(isAWin(HUMAN)){
+			return HUMAN_WIN;
+		} else if(boardIsFull()){
+			return DRAW;
+		} else{
+			return UNCLEAR;
+		}
 	}
 	
 	
