@@ -14,7 +14,10 @@ public class Solution extends Stack<Candidate> {
     // 1---.
     // 2.---
     // 3..-.
-    private Candidate[][] board = new Candidate[4][4];
+
+    private static final int ROW_COUNT = 4;
+    private static final int COLUMN_COUNT = 4;
+    private Candidate[][] board = new Candidate[ROW_COUNT][COLUMN_COUNT];
 
     // card positions on the board
     // the first card position on the board are
@@ -64,16 +67,14 @@ public class Solution extends Stack<Candidate> {
             }
         }
 
-        // TODO: Var
-        if ((column + 1) < 4) {
+        if ((column + 1) < COLUMN_COUNT) {
             char eastChar = board[row][column + 1].getCardChar();
             if (eastChar == cardChar) {
                 return true;
             }
         }
 
-        // TODO: Var
-        if ((row + 1) < 4) {
+        if ((row + 1) < ROW_COUNT) {
             char southChar = board[row + 1][column].getCardChar();
             if (southChar == cardChar) {
                 return true;
@@ -136,9 +137,22 @@ public class Solution extends Stack<Candidate> {
      *
      * @return true if all checks are correct.
      */
-    // uses methods borderCard and mustBeAdjacent to
     private boolean isCorrect() {
-        //TODO
+        for (int row = 0; row < ROW_COUNT; row++) {
+            for (int column = 0; column < COLUMN_COUNT; column++) {
+
+                // Get char of position
+                char foundCard = board[row][column].getCardChar();
+
+                // Get the adjacent card of found chard
+                char adjacentCard = mustBeAdjacentTo(foundCard);
+
+                // Check if foundCard is bordering the adjacent card
+                if (!bordersCard(row, column, adjacentCard)) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 

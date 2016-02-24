@@ -3,85 +3,89 @@ package madeexercises.ttt;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.Random;
-public class TicTacToe
-{
-	public static final int HUMAN        = 0;
-	public static final int COMPUTER     = 1;
-	public  static final int EMPTY        = 2;
 
-	public  static final int HUMAN_WIN    = 0;
-	public  static final int DRAW         = 1;
-	public  static final int UNCLEAR      = 2;
-	public  static final int COMPUTER_WIN = 3;
+public class TicTacToe {
 
-	private int [ ] [ ] board = new int[ 3 ][ 3 ];
-    private Random random=new Random();  
-	private int side=random.nextInt(2);  
-	private int position=UNCLEAR;
-	private char computerChar,humanChar;
+    private static final int ROW_COUNT = 3;
+    private static final int COLUMN_COUNT = 3;
 
-	// Constructor
-	public TicTacToe( )
-	{
-		clearBoard( );
-		initSide();
-	}
-	
-	private void initSide()
-	{
-	    if (this.side==COMPUTER) { computerChar='X'; humanChar='O'; }
-		else                     { computerChar='O'; humanChar='X'; }
-    }
-    
-    public void setComputerPlays()
-    {
-        this.side=COMPUTER;
-        initSide();
-    }
-    
-    public void setHumanPlays()
-    {
-        this.side=HUMAN;
+    public static final int HUMAN = 0;
+    public static final int COMPUTER = 1;
+    private static final int EMPTY = 2;
+
+    public static final int HUMAN_WIN = 0;
+    public static final int DRAW = 1;
+    public static final int UNCLEAR = 2;
+    public static final int COMPUTER_WIN = 3;
+
+    private Random random = new Random();
+
+    private int side = random.nextInt(2);
+    private int position = UNCLEAR;
+
+    private char computerChar, humanChar;
+
+    private int[][] board = new int[ROW_COUNT][COLUMN_COUNT];
+
+    // Constructor
+    public TicTacToe() {
+        clearBoard();
         initSide();
     }
 
-	public boolean computerPlays()
-	{
-	    return side==COMPUTER;
+    private void initSide() {
+        if (this.side == COMPUTER) {
+            computerChar = 'X';
+            humanChar = 'O';
+        } else {
+            computerChar = 'O';
+            humanChar = 'X';
+        }
+    }
+
+    public void setComputerPlays() {
+        this.side = COMPUTER;
+        initSide();
+    }
+
+    public void setHumanPlays() {
+        this.side = HUMAN;
+        initSide();
+    }
+
+	public int chooseMove() {
+		Best best = chooseMove(COMPUTER);
+		return best.row * 3 + best.column;
+		//return 0;
 	}
 
-	public int chooseMove()
-	{
-	    Best best=chooseMove(COMPUTER);
-	    return best.row*3+best.column;
-	    //return 0;
+    public boolean computerPlays() {
+        return side == COMPUTER;
     }
-    
+
     // Find optimal move
-	private Best chooseMove( int side )
-	{
-		int opp;              // The other side
-		Best reply;           // Opponent's best reply
-		int simpleEval;       // Result of an immediate evaluation
-		int bestRow = 0;
-		int bestColumn = 0;
-		int value;
+    private Best chooseMove(int side) {
+        int opp;              // The other side
+        Best reply;           // Opponent's best reply
+        int simpleEval;       // Result of an immediate evaluation
+        int bestRow = 0;
+        int bestColumn = 0;
+        int value;
 
-		if( ( simpleEval = positionValue( ) ) != UNCLEAR )
-			return new Best( simpleEval );
+        if ((simpleEval = positionValue()) != UNCLEAR)
+            return new Best(simpleEval);
 
-		// TODO: implementeren m.b.v. recursie/backtracking
-	    return null;
+        // TODO: implementeren m.b.v. recursie/backtracking
+        return null;
     }
 
-   
+
     //check if move ok
-    public boolean moveOk(int move)
-    {
- 	//return ( move>=0 && move <=8 && board[move/3 ][ move%3 ] == EMPTY );
- 	return true;
+    public boolean moveOk(int move) {
+        //return ( move>=0 && move <=8 && board[move/3 ][ move%3 ] == EMPTY );
+        return true;
     }
-    
+
     // play move
     public void playMove(int move)
     {
@@ -91,15 +95,30 @@ public class TicTacToe
 
 
 	// Simple supporting routines
-	private void clearBoard( )
-	{
-		//TODO:
+	/**
+	 * Clears board -> initialise board as an new int array with ROW_COUNT and COLUMN_COUNT
+	 */
+	private void clearBoard() {
+		board = new int[ROW_COUNT][COLUMN_COUNT];
 	}
 
 
-	private boolean boardIsFull( )
-	{
-		//TODO:
+	/**
+	 * Check whether the board is full. The method is doing this with checking the entries in the two arrays from
+	 * the board and will directly return it's result when it finds out if there is still place for another move.
+	 *
+	 * @return Boolean if the board is full or not
+	 */
+	private boolean boardIsFull() {
+
+		for (int row = 0; row < ROW_COUNT; row++) {
+			for (int column = 0; column < COLUMN_COUNT; column++) {
+				// -> A '0' value means that there is still space on the board
+				if (board[row][column] == 0) {
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 
@@ -223,8 +242,6 @@ public class TicTacToe
       
        public Best( int v, int r, int c )
         { val = v; row = r; column = c; }
-    } 
-	
-	
+    }
 }
 
