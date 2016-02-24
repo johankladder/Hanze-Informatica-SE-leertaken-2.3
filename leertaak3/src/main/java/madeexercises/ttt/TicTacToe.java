@@ -82,17 +82,23 @@ public class TicTacToe {
 			value = COMPUTER_WIN;
 		}
 
+		// look for best move
 		for (int row = 0; row < ROW_COUNT; row++){
 			for (int col = 0; col < COLUMN_COUNT; col++){
 				if (squareIsEmpty(row,col)){
+					// move to this square
 					place (row, col, side);
+					// continue playing
 					reply = chooseMove (opp);
+					// empty position just used
 					place (row, col, EMPTY);
 
-					// update if better!
-					if (side == COMPUTER && reply.val > value ||
-							side == HUMAN && reply.val < value) {
+					// check if current player is winning
+					if (side == COMPUTER && reply.val == COMPUTER_WIN ||
+							side == HUMAN && reply.val == HUMAN_WIN) {
+						// current player is winning
 						value = reply.val;
+						// best possible move
 						bestRow = row;
 						bestColumn = col;
 					}

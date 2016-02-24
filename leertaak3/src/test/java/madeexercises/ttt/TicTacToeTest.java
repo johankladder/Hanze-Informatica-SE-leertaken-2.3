@@ -99,9 +99,11 @@ public class TicTacToeTest {
         game = new TicTacToe();
         game.setComputerPlays();
         game.playMove(0);
-        game.playMove(8);
+        game.playMove(4);
         game.playMove(1);
+        game.playMove(2);
         game.playMove(6);
-        assertEquals(2, game.chooseMove());
+        game.playMove(3);
+        assertEquals(5, game.chooseMove());
     }
 }
