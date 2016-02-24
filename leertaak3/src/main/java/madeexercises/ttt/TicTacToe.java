@@ -100,8 +100,22 @@ public class TicTacToe {
     }
 
 
+    /**
+     * Check whether the board is full. The method is doing this with checking the entries in the two arrays from
+     * the board and will directly return it's result when it finds out if there is still place for another move.
+     *
+     * @return Boolean if the board is full or not
+     */
     private boolean boardIsFull() {
-        //TODO:
+
+        for (int row = 0; row < ROW_COUNT; row++) {
+            for (int column = 0; column < COLUMN_COUNT; column++) {
+                // -> A '0' value means that there is still space on the board
+                if (board[row][column] == 0) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -158,6 +172,11 @@ public class TicTacToe {
             row = r;
             column = c;
         }
+    }
+
+    public static void main(String[] args) {
+        TicTacToe ttt = new TicTacToe();
+        ttt.boardIsFull();
     }
 
 
