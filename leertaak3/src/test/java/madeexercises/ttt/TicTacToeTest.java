@@ -79,7 +79,29 @@ public class TicTacToeTest {
         assertEquals(false, game.isAWin(TicTacToe.COMPUTER));
     }
 
+    @Test
     public void testChooseMove() {
+        game = new TicTacToe();
+        game.setHumanPlays();
+        game.playMove(6);
+        game.playMove(4);
+        game.playMove(8);
+        assertEquals(7, game.chooseMove());
 
+        game = new TicTacToe();
+        game.setComputerPlays();
+        game.playMove(0);
+        game.playMove(2);
+        game.playMove(3);
+        game.playMove(6);
+        assertEquals(4, game.chooseMove());
+
+        game = new TicTacToe();
+        game.setComputerPlays();
+        game.playMove(0);
+        game.playMove(8);
+        game.playMove(1);
+        game.playMove(6);
+        assertEquals(2, game.chooseMove());
     }
 }

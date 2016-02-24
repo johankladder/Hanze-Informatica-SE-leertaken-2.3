@@ -1,7 +1,5 @@
 package madeexercises.ttt;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.Random;
 
 public class TicTacToe {
@@ -75,15 +73,39 @@ public class TicTacToe {
         if ((simpleEval = positionValue()) != UNCLEAR)
             return new Best(simpleEval);
 
-        // TODO: implementeren m.b.v. recursie/backtracking
-        return null;
-    }
+		// select opponent and value
+		if (side == COMPUTER) {
+			opp = HUMAN;
+			value = HUMAN_WIN;
+		} else {
+			opp = COMPUTER;
+			value = COMPUTER_WIN;
+		}
 
+		for (int row = 0; row < ROW_COUNT; row++){
+			for (int col = 0; col < COLUMN_COUNT; col++){
+				if (squareIsEmpty(row,col)){
+					place (row, col, side);
+					reply = chooseMove (opp);
+					place (row, col, EMPTY);
+
+					// update if better!
+					if (side == COMPUTER && reply.val > value ||
+							side == HUMAN && reply.val < value) {
+						value = reply.val;
+						bestRow = row;
+						bestColumn = col;
+					}
+				}
+			}
+
+		}
+        return new Best(value, bestRow, bestColumn);
+    }
 
     //check if move ok
     public boolean moveOk(int move) {
-        //return ( move>=0 && move <=8 && board[move/3 ][ move%3 ] == EMPTY );
-        return true;
+        return ( move>=0 && move <=8 && board[move/3 ][ move%3 ] == EMPTY );
     }
 
     // play move
@@ -99,7 +121,7 @@ public class TicTacToe {
 	 * Clears board -> initialise board as an new int array with ROW_COUNT and COLUMN_COUNT
 	 */
 	private void clearBoard() {
-		board = new int[ROW_COUNT][COLUMN_COUNT];
+		this.board = new int[ROW_COUNT][COLUMN_COUNT];
 	}
 
 
@@ -222,7 +244,6 @@ public class TicTacToe {
         else if (this.position==HUMAN_WIN   ) return "human";
         else                                  return "nobody";
     }
-    
 	
 	private class Best
     {
