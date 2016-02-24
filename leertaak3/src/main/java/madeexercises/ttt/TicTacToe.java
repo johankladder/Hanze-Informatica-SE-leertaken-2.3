@@ -130,6 +130,9 @@ public class TicTacToe {
 		this.board = new int[ROW_COUNT][COLUMN_COUNT];
 	}
 
+	public int[][] getBoard() {
+		return board;
+	}
 
 	/**
 	 * Check whether the board is full. The method is doing this with checking the entries in the two arrays from

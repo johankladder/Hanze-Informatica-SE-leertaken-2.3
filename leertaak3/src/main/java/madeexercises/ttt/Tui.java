@@ -21,9 +21,20 @@ class Tui
             {
                t.playMove(move());
                System.out.println(t);
+                for(int[] row : t.getBoard()) {
+                    printRow(row);
+                }
             }
             System.out.println("Game over " + t.winner() + " wins");
         } while (nextGame());
+    }
+
+    public static void printRow(int[] row) {
+        for (int i : row) {
+            System.out.print(i);
+            System.out.print("\t");
+        }
+        System.out.println();
     }
     
     public static void main( String [ ] args ) { new Tui();}
