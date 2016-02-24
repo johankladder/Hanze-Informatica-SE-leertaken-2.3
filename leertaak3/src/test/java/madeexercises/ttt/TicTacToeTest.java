@@ -1,16 +1,18 @@
 package madeexercises.ttt;
 
-import junit.framework.TestCase;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by kevin on 24-2-2016.
  */
-public class TicTacToeTest extends TestCase {
+public class TicTacToeTest {
 
     private TicTacToe game;
 
-    public TicTacToeTest(String arg0){
-        super(arg0);
+    public TicTacToeTest(){
         game = new TicTacToe();
     }
 
@@ -18,6 +20,7 @@ public class TicTacToeTest extends TestCase {
 
     }
 
+    @Test
     public void testIsAWin() {
         game = new TicTacToe();
         game.setHumanPlays();
