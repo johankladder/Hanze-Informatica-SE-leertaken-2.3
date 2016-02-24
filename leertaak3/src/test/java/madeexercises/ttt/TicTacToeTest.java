@@ -25,10 +25,10 @@ public class TicTacToeTest {
         game = new TicTacToe();
         game.setHumanPlays();
         game.playMove(0);
-        game.playMove(8);
-        game.playMove(1);
+        game.playMove(6);
+        game.playMove(4);
         game.playMove(7);
-        game.playMove(2);
+        game.playMove(8);
         assertEquals(true, game.isAWin(TicTacToe.HUMAN));
         assertEquals(false, game.isAWin(TicTacToe.COMPUTER));
 

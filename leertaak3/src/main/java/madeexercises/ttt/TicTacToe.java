@@ -9,9 +9,9 @@ public class TicTacToe {
     private static final int ROW_COUNT = 3;
     private static final int COLUMN_COUNT = 3;
 
-    public static final int HUMAN = 0;
+    public static final int HUMAN = 2;
     public static final int COMPUTER = 1;
-    private static final int EMPTY = 2;
+    private static final int EMPTY = 0;
 
     public static final int HUMAN_WIN = 0;
     public static final int DRAW = 1;
