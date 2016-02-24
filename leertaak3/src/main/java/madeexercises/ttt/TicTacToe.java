@@ -1,7 +1,7 @@
 package madeexercises.ttt;
 
 import java.util.Random;
-class TicTacToe
+public class TicTacToe
 {
 	private static final int HUMAN        = 0; 
 	private static final int COMPUTER     = 1; 
