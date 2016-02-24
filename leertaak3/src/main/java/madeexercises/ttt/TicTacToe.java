@@ -3,20 +3,27 @@ package madeexercises.ttt;
 import java.util.Random;
 
 public class TicTacToe {
+
+    private static final int ROW_COUNT = 3;
+    private static final int COLUMN_COUNT = 3;
+
     private static final int HUMAN = 0;
     private static final int COMPUTER = 1;
-    public static final int EMPTY = 2;
+    private static final int EMPTY = 2;
 
     public static final int HUMAN_WIN = 0;
     public static final int DRAW = 1;
     public static final int UNCLEAR = 2;
     public static final int COMPUTER_WIN = 3;
 
-    private int[][] board = new int[3][3];
     private Random random = new Random();
+
     private int side = random.nextInt(2);
     private int position = UNCLEAR;
+
     private char computerChar, humanChar;
+
+    private int[][] board = new int[ROW_COUNT][COLUMN_COUNT];
 
     // Constructor
     public TicTacToe() {
@@ -85,9 +92,11 @@ public class TicTacToe {
     }
 
 
-    // Simple supporting routines
+    /**
+     * Clears board -> initialise board as an new int array with ROW_COUNT and COLUMN_COUNT
+     */
     private void clearBoard() {
-        board = new int[3][3];
+        board = new int[ROW_COUNT][COLUMN_COUNT];
     }
 
 
