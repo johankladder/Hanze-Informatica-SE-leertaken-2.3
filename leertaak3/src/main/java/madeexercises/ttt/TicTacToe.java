@@ -20,7 +20,7 @@ public class TicTacToe {
 
     private Random random = new Random();
 
-    private int side = random.nextInt(2);
+    private int side = random.nextInt(2) + 1;
     private int position = UNCLEAR;
 
     private char computerChar, humanChar;
@@ -133,26 +133,19 @@ public class TicTacToe {
     }
 
 	private boolean isAWinDiagonal(int side) {
-		Boolean isAWinDiagonal = false;
-		for (int i = 0; i < 3 && !isAWinDiagonal; i++) {
-			Boolean temp = true;
-			int row = 0;
-			for (int j = 0; j <= 1 && temp; j++) {
-				if (j == 0) {
-					row = i;
-				} else if (j == 1) {
-					if (i == 0) {
-						row = 2;
-					} else if (i == 1) {
-						row = 1;
-					} else if (i == 2) {
-						row = 0;
-					}
+		Boolean isAWinDiagonal = true;
+		for (int i = 0; i < ROW_COUNT && isAWinDiagonal; i++) {
+			if (board[i][i] != side) {
+				isAWinDiagonal = false;
+			}
+		}
+		if (!isAWinDiagonal) {
+			isAWinDiagonal = true;
+			int col = COLUMN_COUNT - 1;
+			for (int j = 0; j < ROW_COUNT && isAWinDiagonal; j++, col--) {
+				if (board[j][col] != side) {
+					isAWinDiagonal = false;
 				}
-				if (board[row][i] != side) {
-					temp = false;
-				}
-				isAWinDiagonal = temp;
 			}
 		}
 		return isAWinDiagonal;
@@ -198,7 +191,7 @@ public class TicTacToe {
 	}
 
 	// Compute static value of current position (win, draw, etc.)
-	private int positionValue( ) {
+	public int positionValue( ) {
 		if(isAWin(COMPUTER)){
 			return COMPUTER_WIN;
 		} else if(isAWin(HUMAN)){

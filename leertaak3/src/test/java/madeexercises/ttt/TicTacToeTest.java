@@ -16,8 +16,40 @@ public class TicTacToeTest {
         game = new TicTacToe();
     }
 
+    @Test
     public void testPositionValue() {
+        game = new TicTacToe();
+        game.setComputerPlays();
+        assertEquals(TicTacToe.UNCLEAR, game.positionValue());
 
+        game.playMove(0);
+        game.playMove(6);
+        game.playMove(1);
+        game.playMove(7);
+        game.playMove(2);
+        assertEquals(TicTacToe.COMPUTER_WIN, game.positionValue());
+
+        game = new TicTacToe();
+        game.setHumanPlays();
+        game.playMove(0);
+        game.playMove(6);
+        game.playMove(1);
+        game.playMove(7);
+        game.playMove(2);
+        assertEquals(TicTacToe.HUMAN_WIN, game.positionValue());
+
+        game = new TicTacToe();
+        game.setHumanPlays();
+        game.playMove(0);
+        game.playMove(1);
+        game.playMove(2);
+        game.playMove(5);
+        game.playMove(3);
+        game.playMove(6);
+        game.playMove(7);
+        game.playMove(8);
+        game.playMove(4);
+        assertEquals(TicTacToe.DRAW, game.positionValue());
     }
 
     @Test
