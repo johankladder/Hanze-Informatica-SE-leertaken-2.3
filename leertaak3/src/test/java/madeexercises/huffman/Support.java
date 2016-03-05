@@ -1,4 +1,4 @@
-package huffman;
+package madeexercises.huffman;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

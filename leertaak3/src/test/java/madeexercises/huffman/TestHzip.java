@@ -1,4 +1,4 @@
-package huffman;
+package madeexercises.huffman;
 
 import java.util.Arrays;
 import junit.framework.TestCase;
