@@ -65,7 +65,7 @@ public class TestHzip extends TestCase {
 			Hzip.uncompress(support.testFileEnc);
 		}
 		catch (Exception e) {
-			System.err.println("Fatal error: could not make the comress/decompress chain.");
+			System.err.println("Fatal error: could not make the compress/decompress chain.");
 		}
 		int[] result = support.readFile(support.testFileDec);
 		assertTrue(Arrays.equals(support.text1, result));
@@ -75,7 +75,7 @@ public class TestHzip extends TestCase {
 			Hzip.uncompress(support.testFileEnc);
 		}
 		catch (Exception e) {
-			System.err.println("Fatal error: could not make the comress/decompress chain.");
+			System.err.println("Fatal error: could not make the compress/decompress chain.");
 		}
 		result = support.readFile(support.testFileDec);
 		assertTrue(Arrays.equals(support.text2, result));
