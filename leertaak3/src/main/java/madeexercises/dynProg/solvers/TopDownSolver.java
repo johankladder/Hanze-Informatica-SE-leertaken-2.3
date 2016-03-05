@@ -15,18 +15,22 @@ public class TopDownSolver implements Solver {
     }
 
     private  boolean findSolution(int[] numbers, int sum) {
+        // always true
         if( sum == 0 ) {
             return true;
         }
+        // not possible
         if( numbers.length == 0 || sum < 0) {
             return false;
         }
+        // if position is empty
         if(solution[numbers.length - 1][sum] == null) {
             solution[numbers.length - 1][sum] = doSolve(numbers, sum);
         }
         return solution[numbers.length - 1][sum];
     }
 
+    // same as RecursiveSolver
     private boolean doSolve(int[] numbers, int sum) {
         int n = numbers.length - 1;
         int[] shorterNumbersCopy = new int[n];
