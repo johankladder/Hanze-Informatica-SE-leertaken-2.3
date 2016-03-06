@@ -12,13 +12,9 @@ import java.net.URL;
  */
 public class TestCompression {
 
-    private static final String TEST_PATH = "TestA.dat";
-
     @Test
     public void testCompression() throws IOException {
-
-        URL url = Thread.currentThread().getContextClassLoader().getResource(TEST_PATH);
-        File file = new File(url.getPath());
+        File file = new File("src/data/TestA.dat");
         Hzip.compress(file.getPath());
         Hzip.uncompress(file.getPath() + ".huf");
     }

@@ -154,6 +154,8 @@ public class HuffmanTree
 	             theNodes[ i ] =  newNode;
 	             ar.add( newNode );
 	         }
+
+
 	              
 	     // TODO = opdracht      
 	     
