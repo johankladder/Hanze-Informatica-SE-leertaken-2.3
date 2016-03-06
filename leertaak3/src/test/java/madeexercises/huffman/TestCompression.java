@@ -3,18 +3,23 @@ package madeexercises.huffman;
 import org.junit.Test;
 import madeexercises.huffman.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by kevin on 5-3-2016.
  */
 public class TestCompression {
 
-    private static final String FEATURE_PATH = "OptiesText.txt";
+    private static final String TEST_PATH = "TestA.dat";
 
     @Test
     public void testCompression() throws IOException {
-        Hzip.compress("C:\\Users\\kevin\\Documents\\GitHub\\leertaken2.3\\leertaak3\\src\\main\\resources\\" + FEATURE_PATH);
-        Hzip.uncompress("C:\\Users\\kevin\\Documents\\GitHub\\leertaken2.3\\leertaak3\\src\\main\\resources\\" + FEATURE_PATH + ".huf");
+
+        URL url = Thread.currentThread().getContextClassLoader().getResource(TEST_PATH);
+        File file = new File(url.getPath());
+        Hzip.compress(file.getPath());
+        Hzip.uncompress(file.getPath() + ".huf");
     }
 }
