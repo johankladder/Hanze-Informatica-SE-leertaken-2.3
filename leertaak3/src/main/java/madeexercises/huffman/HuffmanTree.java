@@ -76,8 +76,21 @@ public class HuffmanTree {
      * Get the character corresponding to code.
      */
     public int getChar(String code) {
-        return 0;
-        // TODO = opdracht
+        HuffNode cN = this.root; // Initialise root
+        for (char c : code.toCharArray()) {
+            String lr = String.valueOf(c);
+            if (lr.equals("0")) {
+                cN = cN.left;
+            } else {
+                cN = cN.right;
+            }
+        }
+
+        if (cN.value > -1) {
+            return cN.value;
+        } else {
+            return INCOMPLETE_CODE;
+        }
     }
 
     /**

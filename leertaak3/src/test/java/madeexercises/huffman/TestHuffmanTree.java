@@ -2,10 +2,7 @@ package madeexercises.huffman;
 
 //import huffman.HuffmanTree;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 
 import junit.framework.*;
 
@@ -20,9 +17,12 @@ public class TestHuffmanTree extends TestCase {
 	 * create a HuffmanTree and an encoded test file. Load the test file into the HuffmanTree and
 	 * then iterate over each entry and compare. Same for the next method.
 	 */
-	public void testGetCode() {	
+	public void testGetCode() {
 		HuffmanTree ht = new HuffmanTree();
 		support.prepareTest(support.rawEncoding1, support.testFileEnc);
+
+		File file = new File(support.testFileEnc);
+		System.out.println(file.exists());
 		try {
 			InputStream fin = new BufferedInputStream(new FileInputStream(support.testFileEnc));
 			ht.readEncodingTable(new DataInputStream(fin));
@@ -39,7 +39,7 @@ public class TestHuffmanTree extends TestCase {
 			assertEquals(temp, support.codes[i]);
 		}
 	}
-	
+
 	public void testGetChar() {
 		HuffmanTree ht = new HuffmanTree();
 		support.prepareTest(support.rawEncoding1, support.testFileEnc);
