@@ -1,6 +1,7 @@
 package madeexercises.huffman;
 
 import java.io.*;
+import org.apache.commons.io.FileUtils;
 
 /**
  * Main file. 
@@ -65,6 +66,15 @@ public class Hzip
 		fout.close( );
 	}
 
+	public static boolean compare (String file1, String file2) {
+		try {
+			return FileUtils.contentEquals(new File(file1), new File(file2));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	/**
 	 * Main methode van het Huffmann programma. Merk op dat er twee commandline
 	 * parameters nodig zijn. Deze kun je in Eclipse standaard meegeven door 
@@ -72,7 +82,7 @@ public class Hzip
 	 * 2e tab: arguments.
 	 *  
 	 * @param -c of -u voor compress of uncompress
-	 * @param filenaam van de file die gecomprimeerd of 'uitgepakt' moet worden
+	 * @param args van de file die gecomprimeerd of 'uitgepakt' moet worden
 	 * @throws IOException
 	 */
 	public static void main( String [ ] args ) throws IOException
