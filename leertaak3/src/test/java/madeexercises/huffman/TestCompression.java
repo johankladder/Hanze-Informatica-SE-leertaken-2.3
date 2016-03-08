@@ -1,19 +1,16 @@
 package madeexercises.huffman;
 
+import junit.framework.TestCase;
 import org.junit.Test;
-import madeexercises.huffman.*;
-
 import java.io.*;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by kevin on 5-3-2016.
  */
-public class TestCompression {
+public class TestCompression extends TestCase {
 
     private static ArrayList<Character> normal = new ArrayList<>();
     private static ArrayList<Character> decoded = new ArrayList<>();
@@ -81,5 +78,6 @@ public class TestCompression {
             char ch = (char) r;
             decoded.add(ch);
         }
+
     }
 }

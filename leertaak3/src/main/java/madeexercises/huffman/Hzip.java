@@ -65,6 +65,7 @@ public class Hzip
 		fout.close( );
 	}
 
+
 	/**
 	 * Main methode van het Huffmann programma. Merk op dat er twee commandline
 	 * parameters nodig zijn. Deze kun je in Eclipse standaard meegeven door 
@@ -72,7 +73,7 @@ public class Hzip
 	 * 2e tab: arguments.
 	 *  
 	 * @param -c of -u voor compress of uncompress
-	 * @param filenaam van de file die gecomprimeerd of 'uitgepakt' moet worden
+	 * @param args van de file die gecomprimeerd of 'uitgepakt' moet worden
 	 * @throws IOException
 	 */
 	public static void main( String [ ] args ) throws IOException
