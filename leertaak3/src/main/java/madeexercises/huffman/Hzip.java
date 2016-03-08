@@ -1,7 +1,6 @@
 package madeexercises.huffman;
 
 import java.io.*;
-import org.apache.commons.io.FileUtils;
 
 /**
  * Main file. 
@@ -66,14 +65,6 @@ public class Hzip
 		fout.close( );
 	}
 
-	public static boolean compare (String file1, String file2) {
-		try {
-			return FileUtils.contentEquals(new File(file1), new File(file2));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
 
 	/**
 	 * Main methode van het Huffmann programma. Merk op dat er twee commandline

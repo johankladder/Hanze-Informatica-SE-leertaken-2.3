@@ -80,9 +80,13 @@ public class HuffmanTree {
         for (char c : code.toCharArray()) {
             String lr = String.valueOf(c);
             if (lr.equals("0")) {
-                cN = cN.left;
+                if(cN != null) {
+                    cN = cN.left;
+                }
             } else {
-                cN = cN.right;
+                if(cN != null) {
+                    cN = cN.right;
+                }
             }
         }
 
@@ -160,7 +164,7 @@ public class HuffmanTree {
         // Sort the above mentioned array -> Because we need to know what the lowest weights are
         Collections.sort(ar);
 
-        root = ar.remove(0);
+        root = ar.remove(0); // Set root!
 
         HuffNode current = this.root;
 
@@ -180,13 +184,11 @@ public class HuffmanTree {
                 firstNode.parent = rootRight;
                 secondNode.parent = rootRight;
 
-                //create root > left child
                 HuffNode thirdNode = ar.remove(0);
                 HuffNode rootLeft = new HuffNode(-1, current.weight + thirdNode.weight, current, thirdNode, null);
                 thirdNode.parent = rootLeft;
                 current.parent = rootLeft;
 
-                //merge rootchilds
                 HuffNode rootNode = new HuffNode(-1, rootLeft.weight + rootRight.weight, rootLeft, rootRight, null);
                 rootLeft.parent = rootNode;
                 rootRight.parent = rootNode;
@@ -194,7 +196,6 @@ public class HuffmanTree {
             }
 
         }
-
 
     }
 }
