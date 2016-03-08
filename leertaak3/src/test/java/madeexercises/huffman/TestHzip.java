@@ -20,6 +20,8 @@ public class TestHzip extends TestCase {
 			System.err.println("Fatal error: could not Compress.");
 		}
 		int[] result = support.readFile(support.testFileEnc);
+		System.out.println(Arrays.toString(result));
+
 		assertTrue(Arrays.equals(support.rawEncoding1, result));
 		
 		// text 2 
