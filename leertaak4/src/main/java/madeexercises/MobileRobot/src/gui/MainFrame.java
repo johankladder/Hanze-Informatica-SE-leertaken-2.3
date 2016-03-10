@@ -1,4 +1,4 @@
-package gui;
+package madeexercises.MobileRobot.src.gui;
 
 /**
  * Title    :   The Mobile Robot Explorer Simulation Environment v2.0
@@ -12,16 +12,15 @@ package gui;
  * @version 2.0
  */
 
-import gui.controller.MenuBarController;
-import gui.controller.DelayController;
-import gui.controller.SimulationController;
-import gui.controller.OccupancyMapController;
 
-import gui.views.OccupancyMapView;
-import gui.views.SimulationView;
-
-import model.environment.Environment;
-import model.virtualmap.OccupancyMap;
+import madeexercises.MobileRobot.src.gui.controller.DelayController;
+import madeexercises.MobileRobot.src.gui.controller.MenuBarController;
+import madeexercises.MobileRobot.src.gui.controller.OccupancyMapController;
+import madeexercises.MobileRobot.src.gui.controller.SimulationController;
+import madeexercises.MobileRobot.src.gui.views.OccupancyMapView;
+import madeexercises.MobileRobot.src.gui.views.SimulationView;
+import madeexercises.MobileRobot.src.model.environment.Environment;
+import madeexercises.MobileRobot.src.model.virtualmap.OccupancyMap;
 
 import javax.swing.*;
 

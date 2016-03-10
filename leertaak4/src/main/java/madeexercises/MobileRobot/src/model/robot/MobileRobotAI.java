@@ -1,6 +1,7 @@
-package model.robot;
+package madeexercises.MobileRobot.src.model.robot;
 
-import model.virtualmap.OccupancyMap;
+
+import madeexercises.MobileRobot.src.model.virtualmap.OccupancyMap;
 
 import java.io.PipedInputStream;
 import java.io.BufferedReader;

@@ -1,4 +1,4 @@
-package model.device;
+package madeexercises.MobileRobot.src.model.device;
 
 /**
  * Title    :   The Mobile Robot Explorer Simulation Environment v2.0

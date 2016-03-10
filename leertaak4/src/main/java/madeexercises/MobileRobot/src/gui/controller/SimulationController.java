@@ -1,7 +1,8 @@
-package gui.controller;
+package madeexercises.MobileRobot.src.gui.controller;
 
-import gui.MainFrame;
-import model.robot.MobileRobot;
+
+import madeexercises.MobileRobot.src.gui.MainFrame;
+import madeexercises.MobileRobot.src.model.robot.MobileRobot;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;

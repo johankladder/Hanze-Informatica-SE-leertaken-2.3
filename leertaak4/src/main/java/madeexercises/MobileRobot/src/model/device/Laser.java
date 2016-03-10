@@ -1,4 +1,4 @@
-package model.device;
+package madeexercises.MobileRobot.src.model.device;
 
 /**
  * Title    :   The Mobile Robot Explorer Simulation Environment v2.0
@@ -12,10 +12,11 @@ package model.device;
  */
 
 
-import model.environment.Environment;
-import model.environment.Obstacle;
-import model.environment.Position;
-import model.robot.MobileRobot;
+
+import madeexercises.MobileRobot.src.model.environment.Environment;
+import madeexercises.MobileRobot.src.model.environment.Obstacle;
+import madeexercises.MobileRobot.src.model.environment.Position;
+import madeexercises.MobileRobot.src.model.robot.MobileRobot;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

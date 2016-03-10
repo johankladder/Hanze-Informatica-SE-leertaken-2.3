@@ -1,4 +1,4 @@
-package model.environment;
+package madeexercises.MobileRobot.src.model.environment;
 
 import java.awt.geom.Point2D;
 

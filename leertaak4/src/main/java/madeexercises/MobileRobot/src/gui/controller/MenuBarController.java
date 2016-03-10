@@ -1,4 +1,4 @@
-package gui.controller;
+package madeexercises.MobileRobot.src.gui.controller;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;

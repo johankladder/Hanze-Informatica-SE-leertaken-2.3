@@ -17,7 +17,7 @@
  * 02111-1307  USA
  */
 
-package gui.views;
+package madeexercises.MobileRobot.src.gui.views;
 
 /**
  * Title:
@@ -28,9 +28,10 @@ package gui.views;
  * @version 1.0
  */
 
-import model.device.Device;
-import model.environment.Environment;
-import model.environment.Obstacle;
+
+import madeexercises.MobileRobot.src.model.device.Device;
+import madeexercises.MobileRobot.src.model.environment.Environment;
+import madeexercises.MobileRobot.src.model.environment.Obstacle;
 
 import javax.swing.*;
 import java.awt.*;

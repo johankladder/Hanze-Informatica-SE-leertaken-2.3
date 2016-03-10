@@ -1,4 +1,4 @@
-package model.virtualmap;
+package madeexercises.MobileRobot.src.model.virtualmap;
 
 /**
  * Title    :   The Mobile Robot Explorer Simulation Environment v2.0
@@ -11,8 +11,9 @@ package model.virtualmap;
  * @version 2.0
  */
 
-import model.environment.Environment;
-import model.environment.Position;
+
+import madeexercises.MobileRobot.src.model.environment.Environment;
+import madeexercises.MobileRobot.src.model.environment.Position;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

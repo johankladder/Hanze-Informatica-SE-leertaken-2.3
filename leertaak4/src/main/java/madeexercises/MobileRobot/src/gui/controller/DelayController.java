@@ -1,7 +1,7 @@
-package gui.controller;
+package madeexercises.MobileRobot.src.gui.controller;
 
-import model.environment.Environment;
-import model.robot.MobileRobot;
+import madeexercises.MobileRobot.src.model.environment.Environment;
+import madeexercises.MobileRobot.src.model.robot.MobileRobot;
 
 import javax.swing.JMenu;
 import javax.swing.JTextField;

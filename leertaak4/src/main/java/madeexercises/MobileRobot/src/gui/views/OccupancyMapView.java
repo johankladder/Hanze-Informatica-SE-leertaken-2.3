@@ -1,7 +1,8 @@
-package gui.views;
+package madeexercises.MobileRobot.src.gui.views;
 
 
-import model.virtualmap.OccupancyMap;
+
+import madeexercises.MobileRobot.src.model.virtualmap.OccupancyMap;
 
 import javax.swing.*;
 import java.awt.*;

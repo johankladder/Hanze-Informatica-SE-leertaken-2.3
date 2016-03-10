@@ -1,7 +1,7 @@
-package model.environment;
+package madeexercises.MobileRobot.src.model.environment;
 
-import model.robot.MobileRobot;
-import model.virtualmap.OccupancyMap;
+import madeexercises.MobileRobot.src.model.robot.MobileRobot;
+import madeexercises.MobileRobot.src.model.virtualmap.OccupancyMap;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

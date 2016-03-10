@@ -1,16 +1,16 @@
-package model.robot;
+package madeexercises.MobileRobot.src.model.robot;
 
-import model.device.Device;
-import model.device.Laser;
-import model.device.Platform;
-import model.environment.Environment;
-import model.environment.Position;
-import model.virtualmap.OccupancyMap;
+
+import madeexercises.MobileRobot.src.model.device.Device;
+import madeexercises.MobileRobot.src.model.device.Laser;
+import madeexercises.MobileRobot.src.model.device.Platform;
+import madeexercises.MobileRobot.src.model.environment.Environment;
+import madeexercises.MobileRobot.src.model.environment.Position;
+import madeexercises.MobileRobot.src.model.virtualmap.OccupancyMap;
 
 import java.io.PrintWriter;
 
 import java.util.ArrayList;
-
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -42,7 +42,7 @@ public class MobileRobot {
 	private PrintWriter output;
 	private ThreadPoolExecutor executor;
 
-	public MobileRobot(String name, double x, double y, double t, Environment environment,OccupancyMap map) {
+	public MobileRobot(String name, double x, double y, double t, Environment environment, OccupancyMap map) {
 		this.sensors = new ArrayList<Device>();
 		this.name = name;
 		this.position = new Position(x, y, Math.toRadians(t));

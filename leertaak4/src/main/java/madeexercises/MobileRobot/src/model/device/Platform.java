@@ -1,8 +1,8 @@
-package model.device;
+package madeexercises.MobileRobot.src.model.device;
 
-import model.environment.Environment;
-import model.environment.Position;
-import model.robot.MobileRobot;
+import madeexercises.MobileRobot.src.model.environment.Environment;
+import madeexercises.MobileRobot.src.model.environment.Position;
+import madeexercises.MobileRobot.src.model.robot.MobileRobot;
 
 import java.awt.event.ActionEvent;
 
