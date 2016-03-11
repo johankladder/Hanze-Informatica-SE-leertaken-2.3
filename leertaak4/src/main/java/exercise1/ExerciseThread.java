@@ -14,11 +14,17 @@ public class ExerciseThread extends Thread {
 
     private int value;
 
+
     private static Object LOCK = new Object();
     private static ReentrantLock lock = new ReentrantLock();
 
-    public ExerciseThread(int value) {
+    private int nextValue;
+
+    public ExerciseThread(int value, int nextValue) {
+
         this.value = value;
+        this.nextValue = nextValue;
+
     }
 
 
