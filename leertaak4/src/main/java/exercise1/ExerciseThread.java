@@ -13,10 +13,13 @@ public class ExerciseThread extends Thread {
 
     private int value;
 
-    private static Object LOCK = new Object();
+    private int nextValue;
 
-    public ExerciseThread(int value) {
+    public ExerciseThread(int value, int nextValue) {
+
         this.value = value;
+        this.nextValue = nextValue;
+
     }
 
 
