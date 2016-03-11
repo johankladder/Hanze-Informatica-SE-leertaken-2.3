@@ -2,6 +2,7 @@ package exercise1;
 
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by johankladder on 11-3-16.
@@ -14,6 +15,7 @@ public class ExerciseThread extends Thread {
     private int value;
 
     private static Object LOCK = new Object();
+    private static ReentrantLock lock = new ReentrantLock();
 
     public ExerciseThread(int value) {
         this.value = value;
@@ -31,10 +33,13 @@ public class ExerciseThread extends Thread {
     }
 
     public void print() throws InterruptedException {
-            sem.acquire();
+        lock.lock();
+        try {
             System.out.print(value);
             System.out.print(value + "\n");
-            sem.release();
+        } finally {
+            lock.unlock();
+        }
     }
 
 
