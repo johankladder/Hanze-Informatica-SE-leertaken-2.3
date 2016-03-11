@@ -22,7 +22,7 @@ public class Main {
 
         // Add number of thread to the list:
         for (int i = 0; i < NUMBER_OF_THREADS; i++) {
-            threads.add(new ExerciseThread(this));
+            threads.add(new ExerciseThread(i+1));
         }
 
         // Run them all:
