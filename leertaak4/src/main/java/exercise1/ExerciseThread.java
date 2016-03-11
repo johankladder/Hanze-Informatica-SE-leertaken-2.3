@@ -39,12 +39,10 @@ public class ExerciseThread extends Thread {
     public void print() throws InterruptedException {
         lock.lock();
         try {
-            if(value < nextValue) {
+            while(value < nextValue) {
                 condition.await();
-            } else {
-                println();
             }
-
+            println();
         } finally {
             lock.unlock();
         }
@@ -53,7 +51,7 @@ public class ExerciseThread extends Thread {
     private void println() {
         System.out.print(value);
         System.out.print(value + "\n");
-        nextValue = value;
+        nextValue = value - 1;
         condition.signalAll();
     }
 
