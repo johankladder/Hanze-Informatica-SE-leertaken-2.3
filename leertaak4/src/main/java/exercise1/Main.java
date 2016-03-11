@@ -22,7 +22,11 @@ public class Main {
 
         // Add number of thread to the list:
         for (int i = 0; i < NUMBER_OF_THREADS; i++) {
-            threads.add(new ExerciseThread(i+1, i+2));
+            int nextValue = i + 2;
+            if(nextValue > 4) {
+                nextValue = 4;
+            }
+            threads.add(new ExerciseThread(i+1, nextValue));
         }
 
         // Run them all:

@@ -1,7 +1,6 @@
 package exercise1;
 
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -9,16 +8,15 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class ExerciseThread extends Thread {
 
-    private static final int PRINT_COUNTER = 2;
-    private static Semaphore sem = new Semaphore(1);
 
     private int value;
 
-
-    private static Object LOCK = new Object();
     private static ReentrantLock lock = new ReentrantLock();
 
-    private int nextValue;
+    private static Condition condition = lock.newCondition();
+
+
+    private static int nextValue;
 
     public ExerciseThread(int value, int nextValue) {
 
@@ -41,11 +39,22 @@ public class ExerciseThread extends Thread {
     public void print() throws InterruptedException {
         lock.lock();
         try {
-            System.out.print(value);
-            System.out.print(value + "\n");
+            if(value < nextValue) {
+                condition.await();
+            } else {
+                println();
+            }
+
         } finally {
             lock.unlock();
         }
+    }
+
+    private void println() {
+        System.out.print(value);
+        System.out.print(value + "\n");
+        nextValue = value;
+        condition.signalAll();
     }
 
 
