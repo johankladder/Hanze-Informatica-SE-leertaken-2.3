@@ -1,6 +1,7 @@
 package madeexercises.MobileRobot.src.model.robot;
 
 
+import madeexercises.MobileRobot.src.model.environment.Obstacle;
 import madeexercises.MobileRobot.src.model.virtualmap.OccupancyMap;
 
 import java.io.PipedInputStream;
@@ -226,6 +227,7 @@ public class MobileRobotAI implements Runnable {
 		for (int i = 0; i < 360; i++) {
 			measures[i] = 100.0;
 		}
+
 		if (value.length() >= 5) {
 			value = value.substring(5);  // removes the "SCAN " keyword
 

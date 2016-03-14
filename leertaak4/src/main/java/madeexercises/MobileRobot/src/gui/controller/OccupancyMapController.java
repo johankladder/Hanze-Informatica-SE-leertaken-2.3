@@ -53,7 +53,6 @@ public class OccupancyMapController extends JMenu implements ActionListener {
 		this.add(menuFileOpenMap);
 		this.add(menuFileExit);
 
-
 	}
 
 
