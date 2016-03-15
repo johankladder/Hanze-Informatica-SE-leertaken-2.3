@@ -31,6 +31,8 @@ public class MobileRobotAI implements Runnable {
     private boolean first = true;
     private boolean running;
 
+    private int stepSize = 10;
+
     public MobileRobotAI(MobileRobot robot, OccupancyMap map) {
         this.map = map;
         this.robot = robot;
@@ -79,14 +81,21 @@ public class MobileRobotAI implements Runnable {
                 if(first) {
                     robot.sendCommand("P1.ROTATERIGHT 90");
                     result = input.readLine();
+                    robot.sendCommand("P1.MOVEFW 10");
+                    result = input.readLine();
+                    robot.sendCommand("P1.ROTATELEFT 90");
+                    result = input.readLine();
                     first = false;
-                } else if (wallRight > 80) {
-                    robot.sendCommand("P1.MOVEFW 30");
+                } else if (wallRight > 50) {
+                    robot.sendCommand("P1.MOVEFW 50");
                     result = input.readLine();
                     robot.sendCommand("P1.ROTATERIGHT 90");
                     result = input.readLine();
-                } else if (wallForward > 10) {
-                    robot.sendCommand("P1.MOVEFW 10");
+                    robot.sendCommand("P1.MOVEFW 50");
+                    result = input.readLine();
+
+                } else if (wallForward > stepSize) {
+                    robot.sendCommand("P1.MOVEFW " + stepSize);
                     result = input.readLine();
                 } else {
                     robot.sendCommand("P1.ROTATELEFT 90");
