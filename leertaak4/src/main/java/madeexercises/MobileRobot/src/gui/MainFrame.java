@@ -112,7 +112,7 @@ public class MainFrame extends JFrame {
 
 		// FIXME: Load default map directly:
 		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource("files/map.xml").getFile());
+		File file = new File(classLoader.getResource("files/MapZonderSonarTest.xml").getFile());
 		environment.loadMap(file);
 
 	}
