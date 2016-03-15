@@ -3,13 +3,7 @@ package madeexercises.MobileRobot.src.model.robot;
 
 import madeexercises.MobileRobot.src.model.virtualmap.OccupancyMap;
 
-import java.io.PipedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.PipedOutputStream;
-import java.io.IOException;
-
+import java.io.*;
 import java.util.StringTokenizer;
 
 /**
@@ -28,15 +22,17 @@ public class MobileRobotAI implements Runnable {
     private final OccupancyMap map;
     private final MobileRobot robot;
 
-    private boolean first = true;
-    private boolean running;
+    private final int stepSize = 10; // Step-size the robot takes when going forward -> Crucial for narrow corners
+    private final int extraClicksBeforeCorner = 3; // Additional steps for passing trough corner // FIXME: Remove this one when knowing width and height of robot
+    private final int extraClicksAfterCorner = 3; // Additional steps for passing after corner // FIXME: Remove this one when knowing width and height of robot
+    private final int minimalSpacingRightWall = 50; // FIXME: Remove this one when knowing width and height of robot
+    private int extraClicks = 0; // FIXME: Remove this one when knowing width and height of robot
 
-    private int stepSize = 10;
+    private boolean first = true; // Status flag for initialising algorithm
 
     public MobileRobotAI(MobileRobot robot, OccupancyMap map) {
         this.map = map;
         this.robot = robot;
-
     }
 
     /**
@@ -47,7 +43,7 @@ public class MobileRobotAI implements Runnable {
      */
     public void run() {
         String result;
-        this.running = true;
+        boolean running = true;
         double position[] = new double[3];
         double measures[] = new double[360];
         while (running) {
@@ -59,209 +55,56 @@ public class MobileRobotAI implements Runnable {
 
                 robot.setOutput(output);
 
-//      ases where a variable value is never used after its assignment, i.e.:
-//                System.out.println("intelligence running");
-
                 robot.sendCommand("R1.GETPOS");
                 result = input.readLine();
-                double[] positions = parsePosition(result, position);
+                double[] foundPositions = parsePosition(result, position);
 
                 robot.sendCommand("L1.SCAN");
                 result = input.readLine();
-                double measure[] = parseMeasures(result, measures);
+                double foundMeasures[] = parseMeasures(result, measures);
                 map.drawLaserScan(position, measures);
 
+                double wallRight = foundMeasures[90];
+                double wallForward = foundMeasures[0];
 
-                //double wallLeft  = measure[90];
-                double wallRight = measure[90];
-                double wallForward = measure[0];
+                // Begin logic:
+                if (first) {
+                    // Because this is a right-handed wall following algorithm
+                    // the robot first need to go to the right side of a path
+                    robot.sendCommand("P1.ROTATERIGHT 90"); // FIXME: Doesn't work when robot has other default spawning degree
+                    input.readLine();
+                    robot.sendCommand("P1.MOVEFW " + wallForward); // Let the robot moves toward the right-handed wall
+                    input.readLine();
+                    robot.sendCommand("P1.ROTATELEFT 90"); // Rotates the robot back to original state (face up)
+                    input.readLine();
+                    first = false; // Set status-flag
 
-                System.out.println(wallRight);
+                } else if (wallRight > minimalSpacingRightWall) {
+                    // FIXME: The code with (**) notation is not as clean as it can get.
+                    if (extraClicks < extraClicksBeforeCorner) {
+                        robot.sendCommand("P1.MOVEFW " + stepSize); // **
+                        input.readLine(); // **
+                        extraClicks++;
+                    } else {
+                        robot.sendCommand("P1.ROTATERIGHT 90");
+                        input.readLine();
 
-                if(first) {
-                    robot.sendCommand("P1.ROTATERIGHT 90");
-                    result = input.readLine();
-                    robot.sendCommand("P1.MOVEFW 10");
-                    result = input.readLine();
-                    robot.sendCommand("P1.ROTATELEFT 90");
-                    result = input.readLine();
-                    first = false;
-                } else if (wallRight > 50) {
-                    robot.sendCommand("P1.MOVEFW 50");
-                    result = input.readLine();
-                    robot.sendCommand("P1.ROTATERIGHT 90");
-                    result = input.readLine();
-                    robot.sendCommand("P1.MOVEFW 50");
-                    result = input.readLine();
+                        for (int xClicks = 0; xClicks < extraClicksAfterCorner; xClicks++) {
+                            robot.sendCommand("P1.MOVEFW " + stepSize); // **
+                            input.readLine(); // **
+                        }
+
+                        extraClicks = 0;
+                    }
 
                 } else if (wallForward > stepSize) {
                     robot.sendCommand("P1.MOVEFW " + stepSize);
-                    result = input.readLine();
+                    input.readLine();
                 } else {
                     robot.sendCommand("P1.ROTATELEFT 90");
-                    result = input.readLine();
+                    input.readLine();
                 }
 
-
-
-
-//                if(wallLeft > c)
-//
-//                if(wallLeft > closeness + 10) {
-//                    robot.sendCommand("P1.ROTATELEFT 90");
-//                    result = input.readLine();
-//                    robot.sendCommand("P1.MOVEFW " + (wallLeft) + closeness + 10);
-//                    result = input.readLine();
-//                }
-
-//                System.out.println(wallLeft);
-//                if(wallLeft > 50) {
-//                    robot.sendCommand("P1.ROTATELEFT 90");
-//                    result = input.readLine();
-//                    robot.sendCommand("P1.MOVEFW " + (wallLeft));
-//                    result = input.readLine();
-//
-//                } else if (wallLeft > 15) {
-//                    robot.sendCommand("P1.ROTATELEFT 90");
-//                    result = input.readLine();
-//                    robot.sendCommand("P1.MOVEFW " + (wallLeft));
-//                    result = input.readLine();
-//
-//                } else if (wallForward > 10) {
-//                    robot.sendCommand("P1.MOVEFW " + wallForward);
-//                    result = input.readLine();
-//                } else {
-//                    robot.sendCommand("P1.ROTATELEFT 90");
-//                    result = input.readLine();
-//                }
-
-
-//
-//                robot.sendCommand("P1.MOVEBW 60");
-//                result = input.readLine();
-//
-//                robot.sendCommand("R1.GETPOS");
-//                result = input.readLine();
-//                parsePosition(result, position);
-//
-//                robot.sendCommand("L1.SCAN");
-//                result = input.readLine();
-//                parseMeasures(result, measures);
-//                map.drawLaserScan(position, measures);
-//
-//                robot.sendCommand("P1.ROTATERIGHT 90");
-//                result = input.readLine();
-//
-
-//
-//                robot.sendCommand("R1.GETPOS");
-//                result = input.readLine();
-//                parsePosition(result, position);
-//
-//                robot.sendCommand("L1.SCAN");
-//                result = input.readLine();
-//                parseMeasures(result, measures);
-//                map.drawLaserScan(position, measures);
-//
-//                robot.sendCommand("P1.ROTATELEFT 45");
-//                result = input.readLine();
-//
-//                robot.sendCommand("P1.MOVEFW 70");
-//                result = input.readLine();
-//
-//                robot.sendCommand("R1.GETPOS");
-//                result = input.readLine();
-//                parsePosition(result, position);
-//
-//                robot.sendCommand("L1.SCAN");
-//                result = input.readLine();
-//                parseMeasures(result, measures);
-//                map.drawLaserScan(position, measures);
-//
-//                robot.sendCommand("P1.MOVEFW 70");
-//                result = input.readLine();
-//
-//                robot.sendCommand("P1.ROTATERIGHT 45");
-//                result = input.readLine();
-//
-//                robot.sendCommand("R1.GETPOS");
-//                result = input.readLine();
-//                parsePosition(result, position);
-//
-//                robot.sendCommand("L1.SCAN");
-//                result = input.readLine();
-//                parseMeasures(result, measures);
-//                map.drawLaserScan(position, measures);
-//
-//                robot.sendCommand("P1.MOVEFW 90");
-//                result = input.readLine();
-//
-//                robot.sendCommand("R1.GETPOS");
-//                result = input.readLine();
-//                parsePosition(result, position);
-//
-//                robot.sendCommand("L1.SCAN");
-//                result = input.readLine();
-//                parseMeasures(result, measures);
-//                map.drawLaserScan(position, measures);
-//
-//                robot.sendCommand("P1.ROTATERIGHT 45");
-//                result = input.readLine();
-//
-//                robot.sendCommand("P1.MOVEFW 90");
-//                result = input.readLine();
-//
-//                robot.sendCommand("R1.GETPOS");
-//                result = input.readLine();
-//                parsePosition(result, position);
-//
-//                robot.sendCommand("L1.SCAN");
-//                result = input.readLine();
-//                parseMeasures(result, measures);
-//                map.drawLaserScan(position, measures);
-//
-//                robot.sendCommand("P1.ROTATERIGHT 45");
-//                result = input.readLine();
-//
-//                robot.sendCommand("P1.MOVEFW 100");
-//                result = input.readLine();
-//
-//                robot.sendCommand("R1.GETPOS");
-//                result = input.readLine();
-//                parsePosition(result, position);
-//
-//                robot.sendCommand("L1.SCAN");
-//                result = input.readLine();
-//                parseMeasures(result, measures);
-//                map.drawLaserScan(position, measures);
-//
-//                robot.sendCommand("P1.ROTATERIGHT 90");
-//                result = input.readLine();
-//
-//                robot.sendCommand("P1.MOVEFW 80");
-//                result = input.readLine();
-//
-//                robot.sendCommand("R1.GETPOS");
-//                result = input.readLine();
-//                parsePosition(result, position);
-//
-//                robot.sendCommand("L1.SCAN");
-//                result = input.readLine();
-//                parseMeasures(result, measures);
-//                map.drawLaserScan(position, measures);
-//
-//                robot.sendCommand("P1.MOVEFW 100");
-//                result = input.readLine();
-//
-//                robot.sendCommand("R1.GETPOS");
-//                result = input.readLine();
-//                parsePosition(result, position);
-//
-//                robot.sendCommand("L1.SCAN");
-//                result = input.readLine();
-//                parseMeasures(result, measures);
-//                map.drawLaserScan(position, measures);
-             //   this.running = false;
             } catch (IOException ioe) {
                 System.err.println("execution stopped");
                 running = false;
@@ -311,8 +154,6 @@ public class MobileRobotAI implements Runnable {
                     direction = 0;
                 }
                 measures[direction] = distance;
-                //Printing out all the degrees and what it encountered.
-                //System.out.println("direction = " + direction + " distance = " + distance);
             }
 
             // TODO: Opdracht 4
@@ -321,11 +162,11 @@ public class MobileRobotAI implements Runnable {
                 double object = measures[i];
 
                 if (object < 100) {
-//                    System.out.print("Obstacle: ");
+                    System.out.print("Obstacle: ");
                 }
-//                System.out.print(i + "=" + object + "| ");
+                System.out.print(i + "=" + object + "| ");
             }
-//            System.out.println("\n"); // Clears the line
+            System.out.print("\n"); // Clears the line
         }
 
         return measures;
