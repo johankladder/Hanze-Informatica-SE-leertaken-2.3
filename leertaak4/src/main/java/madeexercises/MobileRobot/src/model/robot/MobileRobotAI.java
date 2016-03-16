@@ -25,7 +25,7 @@ public class MobileRobotAI implements Runnable {
     private final int stepSize = 10; // Step-size the robot takes when going forward -> Crucial for narrow corners
     private final int extraClicksBeforeCorner = 3; // Additional steps for passing trough corner // FIXME: Remove this one when knowing width and height of robot
     private final int extraClicksAfterCorner = 3; // Additional steps for passing after corner // FIXME: Remove this one when knowing width and height of robot
-    private final int minimalSpacingRightWall = 50; // FIXME: Remove this one when knowing width and height of robot
+    //private final int minimalSpacingRightWall = 50; // FIXME: Remove this one when knowing width and height of robot
     private int extraClicks = 0; // FIXME: Remove this one when knowing width and height of robot
 
     private boolean first = true; // Status flag for initialising algorithm
@@ -73,18 +73,15 @@ public class MobileRobotAI implements Runnable {
                     // the robot first need to go to the right side of a path
                     robot.sendCommand("P1.ROTATERIGHT 90"); // FIXME: Doesn't work when robot has other default spawning degree
                     input.readLine();
-                    robot.sendCommand("P1.MOVEFW " + wallForward); // Let the robot moves toward the right-handed wall
-                    input.readLine();
-                    robot.sendCommand("P1.ROTATELEFT 90"); // Rotates the robot back to original state (face up)
-                    input.readLine();
                     first = false; // Set status-flag
 
-                } else if (wallRight > minimalSpacingRightWall) {
+                } else if (wallRight > 50) {
+
                     // FIXME: The code with (**) notation is not as clean as it can get.
                     if (extraClicks < extraClicksBeforeCorner) {
                         robot.sendCommand("P1.MOVEFW " + stepSize); // **
                         input.readLine(); // **
-                        extraClicks++;
+                        extraClicks++; // **
                     } else {
                         robot.sendCommand("P1.ROTATERIGHT 90");
                         input.readLine();
@@ -94,7 +91,7 @@ public class MobileRobotAI implements Runnable {
                             input.readLine(); // **
                         }
 
-                        extraClicks = 0;
+                        extraClicks = 0; //**
                     }
 
                 } else if (wallForward > stepSize) {
