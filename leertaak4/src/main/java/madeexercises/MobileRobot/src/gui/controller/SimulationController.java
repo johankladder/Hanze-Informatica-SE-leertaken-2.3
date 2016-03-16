@@ -3,6 +3,7 @@ package madeexercises.MobileRobot.src.gui.controller;
 
 import madeexercises.MobileRobot.src.gui.MainFrame;
 import madeexercises.MobileRobot.src.model.robot.MobileRobot;
+import madeexercises.MobileRobot.src.model.robot.MobileRobotAI;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -76,5 +77,8 @@ public class SimulationController extends JMenu implements ActionListener {
 			}
 
 		}
+
+
+
 	}
 }
