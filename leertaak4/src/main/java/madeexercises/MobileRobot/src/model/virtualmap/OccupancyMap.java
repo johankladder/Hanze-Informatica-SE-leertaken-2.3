@@ -25,6 +25,7 @@ public class OccupancyMap {
 	private final char EMPTY = 'e';
 	private final char OBSTACLE = 'o';
 	private final char ROBOT = 'r';
+	private final char UNREACHABLE_UNKNOWN = 'u';
 
 	private final int CELL_DIMENSION = 10;
 	private final int MAP_WIDTH = 510;
@@ -136,6 +137,10 @@ public class OccupancyMap {
 
 	public char getUnknown() {
 		return UNKNOWN;
+	}
+
+	public char getUnreachableUnknown() {
+		return UNREACHABLE_UNKNOWN;
 	}
 
 	public char getObstacle() {

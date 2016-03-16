@@ -25,6 +25,7 @@ public class OccupancyMapView extends JPanel implements ActionListener {
 	private static final char EMPTY = 'e';
 	private static final char OBSTACLE = 'o';
 	private static final char ROBOT = 'r';
+	private final static char UNREACHABLE_UNKNOWN = 'u';
 
 	private static final Color MAP_UNKNOWN_COLOR = Color.YELLOW;
 	private static final Color MAP_OBSTACLE_COLOR = Color.BLUE;
@@ -65,7 +66,7 @@ public class OccupancyMapView extends JPanel implements ActionListener {
 	private void drawMap(Graphics g) {
 		for (int row = 0; row < width / cellDimension; row++) {
 			for (int column = 0; column < height / cellDimension; column++) {
-				if (grid[row][column] == UNKNOWN) {
+				if (grid[row][column] == UNKNOWN || grid[row][column] == UNREACHABLE_UNKNOWN) {
 					g.setColor(OccupancyMapView.MAP_UNKNOWN_COLOR);
 					g.fillRect(row * cellDimension, column * cellDimension, cellDimension, cellDimension);
 				} else if (grid[row][column] == OBSTACLE) {
