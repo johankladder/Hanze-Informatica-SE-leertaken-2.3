@@ -47,7 +47,7 @@ public class MobileRobotAI implements Runnable {
         double position[] = new double[3];
         double measures[] = new double[360];
         while (running) {
-            if (map.isFullyDiscovered()) {
+            if (isFullyDiscovered()) {
                 running = false;
                 robot.quit();
             }
@@ -67,6 +67,7 @@ public class MobileRobotAI implements Runnable {
                 result = input.readLine();
                 double foundMeasures[] = parseMeasures(result, measures);
                 map.drawLaserScan(position, measures);
+                checkUnreachableUnknowns();
 
                 double wallRight = foundMeasures[90];
                 double wallForward = foundMeasures[0];
@@ -171,6 +172,49 @@ public class MobileRobotAI implements Runnable {
         }
 
         return measures;
+    }
+
+    private void checkUnreachableUnknowns()
+    {
+        //Eerst moeten we het aantal cellen bepalen
+        // Het aantal horizontale cellen is gelijk aan de breedte van het veld / de breedte van een cel
+        // Het aantal verticale cellen is gelijk aan de hoogte van het veld / de hoogte van een cel
+        int xCellSize = map.MAP_WIDTH / map.CELL_DIMENSION;
+        int yCellSize = map.MAP_HEIGHT / map.CELL_DIMENSION;
+
+        char[][] grid = map.getGrid();
+
+        // Alle cellen doorlopen
+        //Voor elke rij....
+        for (int x = 0; x < xCellSize; x++)
+        {
+            //Elke kolom....
+            for (int y = 0; y < yCellSize; y++)
+            {
+                //Alle cellen die UNKNOWN zijn op UNREACHABLE_UNKNOWN zetten
+                if (grid[x][y] == map.UNKNOWN) grid[x][y] = map.UNREACHABLE_UNKNOWN;
+
+                // Nou kijken of we er echt niet bij kunnen
+                // Dit kan door te kijken of één van de cellen er om heen EMPTY zijn
+                // Als dit zo is dan mag deze cel weer veranderd worden naar UNKNOWN
+                if (grid[x][y] == map.UNREACHABLE_UNKNOWN)
+                {
+                    if ((x > 0 && grid[x - 1][y] == map.EMPTY) || (y > 0 && grid[x][y - 1] == map.EMPTY) || (x < xCellSize - 1 && grid[x + 1][y] == map.EMPTY)
+                            || (y < yCellSize - 1 && grid[x][y + 1] == map.EMPTY)) grid[x][y] = map.UNKNOWN;
+                }
+            }
+        }
+    }
+
+    public Boolean isFullyDiscovered() {
+        char[][] grid = map.getGrid();
+        for (int x = 0; x < map.MAP_WIDTH / map.CELL_DIMENSION; x++) {
+            for(int y = 0; y < map.MAP_HEIGHT / map.CELL_DIMENSION; y++) {
+                if (grid[x][y] == map.UNKNOWN)
+                    return false;
+            }
+        }
+        return true;
     }
 
 
