@@ -21,15 +21,15 @@ import java.util.ArrayList;
 
 public class OccupancyMap {
 
-	public final char UNKNOWN = 'n';
-	public final char EMPTY = 'e';
-	public final char OBSTACLE = 'o';
-	public final char ROBOT = 'r';
-	public final char UNREACHABLE_UNKNOWN = 'u';
+	private final char UNKNOWN = 'n';
+	private final char EMPTY = 'e';
+	private final char OBSTACLE = 'o';
+	private final char ROBOT = 'r';
+	private final char UNREACHABLE_UNKNOWN = 'u';
 
-	public final int CELL_DIMENSION = 10;
-	public final int MAP_WIDTH = 510;
-	public final int MAP_HEIGHT = 460;
+	private final int CELL_DIMENSION = 10;
+	private final int MAP_WIDTH = 510;
+	private final int MAP_HEIGHT = 460;
 
 	private final char[][] grid;
 
@@ -137,6 +137,10 @@ public class OccupancyMap {
 
 	public char getUnknown() {
 		return UNKNOWN;
+	}
+
+	public char getUnreachableUnknown() {
+		return UNREACHABLE_UNKNOWN;
 	}
 
 	public char getObstacle() {
