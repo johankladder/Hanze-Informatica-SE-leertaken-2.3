@@ -23,8 +23,9 @@ public class OccupancyMap {
 
 	private final char UNKNOWN = 'n';
 	private final char EMPTY = 'e';
-	private final char OBSTACLE = 'o';
+	public final char OBSTACLE = 'o';
 	private final char ROBOT = 'r';
+	private final static char UNREACHABLE_UNKNOWN = 'u';
 
 	private final int CELL_DIMENSION = 10;
 	private final int MAP_WIDTH = 510;
@@ -50,6 +51,46 @@ public class OccupancyMap {
 
 	}
 
+	private void checkUnreachableUnknowns()
+	{
+		//Eerst moeten we het aantal cellen bepalen
+		// Het aantal horizontale cellen is gelijk aan de breedte van het veld / de breedte van een cel
+		// Het aantal verticale cellen is gelijk aan de hoogte van het veld / de hoogte van een cel
+		int xCellSize = MAP_WIDTH / CELL_DIMENSION;
+		int yCellSize = MAP_HEIGHT / CELL_DIMENSION;
+
+		// Alle cellen doorlopen
+		//Voor elke rij....
+		for (int x = 0; x < xCellSize; x++)
+		{
+			//Elke kolom....
+			for (int y = 0; y < yCellSize; y++)
+			{
+				//Alle cellen die UNKNOWN zijn op UNREACHABLE_UNKNOWN zetten
+				if (grid[x][y] == UNKNOWN) grid[x][y] = UNREACHABLE_UNKNOWN;
+
+				// Nou kijken of we er echt niet bij kunnen
+				// Dit kan door te kijken of één van de cellen er om heen EMPTY zijn
+				// Als dit zo is dan mag deze cel weer veranderd worden naar UNKNOWN
+				if (grid[x][y] == UNREACHABLE_UNKNOWN)
+				{
+					if ((x > 0 && grid[x - 1][y] == EMPTY) || (y > 0 && grid[x][y - 1] == EMPTY) || (x < xCellSize - 1 && grid[x + 1][y] == EMPTY)
+							|| (y < yCellSize - 1 && grid[x][y + 1] == EMPTY)) grid[x][y] = UNKNOWN;
+				}
+			}
+		}
+	}
+
+	public Boolean isFullyDiscovered() {
+		for (int x = 0; x < MAP_WIDTH / CELL_DIMENSION; x++) {
+			for(int y = 0; y < MAP_HEIGHT / CELL_DIMENSION; y++) {
+				if (grid[x][y] == UNKNOWN)
+					return false;
+			}
+		}
+		return true;
+	}
+
 	public void drawLaserScan(double position[], double measures[]) {
 		double rx = Math.round(position[0] + 20.0 * Math.cos(Math.toRadians(position[2])));
 		double ry = Math.round(position[1] + 20.0 * Math.sin(Math.toRadians(position[2])));
@@ -69,6 +110,8 @@ public class OccupancyMap {
 			} else {
 				drawLaserBeam(rx, ry, fx, fy, false);
 			}
+
+			checkUnreachableUnknowns();
 		}
 
 		//paint robot position on grid

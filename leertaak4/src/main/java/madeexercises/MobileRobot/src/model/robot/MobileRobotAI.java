@@ -47,6 +47,10 @@ public class MobileRobotAI implements Runnable {
         double position[] = new double[3];
         double measures[] = new double[360];
         while (running) {
+            if (map.isFullyDiscovered()) {
+                running = false;
+                robot.quit();
+            }
             try {
 
                 PipedInputStream pipeIn = new PipedInputStream();
