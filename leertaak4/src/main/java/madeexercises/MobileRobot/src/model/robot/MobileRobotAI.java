@@ -22,13 +22,21 @@ public class MobileRobotAI implements Runnable {
     private final OccupancyMap map;
     private final MobileRobot robot;
 
-    private final int stepSize = 10; // Step-size the robot takes when going forward -> Crucial for narrow corners
+    /*
+    Helper fields: Need to be removed when exercise is completed
+     */
+    private final int stepSize = 10; // Step-size the robot takes when going forward -> Crucial for narrow corners // FIXME: Do steps as far as it can see
     private final int extraClicksBeforeCorner = 3; // Additional steps for passing trough corner // FIXME: Remove this one when knowing width and height of robot
     private final int extraClicksAfterCorner = 3; // Additional steps for passing after corner // FIXME: Remove this one when knowing width and height of robot
-    //private final int minimalSpacingRightWall = 50; // FIXME: Remove this one when knowing width and height of robot
     private int extraClicks = 0; // FIXME: Remove this one when knowing width and height of robot
 
-    private boolean first = true; // Status flag for initialising algorithm
+
+    /*
+    Configuration:
+     */
+
+    private static boolean rightHanded = true;
+    private boolean first = true; // Status flag for initialising algorithm (Only for turning the robot the left or right)
 
     public MobileRobotAI(MobileRobot robot, OccupancyMap map) {
         this.map = map;
@@ -71,16 +79,26 @@ public class MobileRobotAI implements Runnable {
 
                 double wallRight = foundMeasures[90];
                 double wallForward = foundMeasures[0];
+                double wallLeft = foundMeasures[270];
+
+                double rotationWall;
+
+                if (!rightHanded) {
+                    rotationWall = wallLeft;
+                } else {
+                    rotationWall = wallRight;
+                }
+
 
                 // Begin logic:
                 if (first) {
-                    // Because this is a right-handed wall following algorithm
-                    // the robot first need to go to the right side of a path
-                    robot.sendCommand("P1.ROTATERIGHT 90"); // FIXME: Doesn't work when robot has other default spawning degree
+                    // The robot first needs to turn to the side of the desired algorithm!
+                    robot.sendCommand(getBeginRotationString()); // FIXME: Doesn't work when robot has other default spawning degree
+                    // -> Can be fixed by first calling that robot need to be on degree 0
                     input.readLine();
                     first = false; // Set status-flag
 
-                } else if (wallRight > 50) {
+                } else if (rotationWall > 50) {
 
                     // FIXME: The code with (**) notation is not as clean as it can get.
                     if (extraClicks < extraClicksBeforeCorner) {
@@ -88,7 +106,7 @@ public class MobileRobotAI implements Runnable {
                         input.readLine(); // **
                         extraClicks++; // **
                     } else {
-                        robot.sendCommand("P1.ROTATERIGHT 90");
+                        robot.sendCommand(getBeginRotationString());
                         input.readLine();
 
                         for (int xClicks = 0; xClicks < extraClicksAfterCorner; xClicks++) {
@@ -100,10 +118,13 @@ public class MobileRobotAI implements Runnable {
                     }
 
                 } else if (wallForward > stepSize) {
+
+                    // TODO: Stepsize is always to small, needs to be the maximum it can see, minus the wall-spacing
                     robot.sendCommand("P1.MOVEFW " + stepSize);
                     input.readLine();
+
                 } else {
-                    robot.sendCommand("P1.ROTATELEFT 90");
+                    robot.sendCommand(getInvertedRotation());
                     input.readLine();
                 }
 
@@ -113,6 +134,26 @@ public class MobileRobotAI implements Runnable {
             }
         }
 
+    }
+
+    public static void setRightWallFollowing(boolean status) {
+        rightHanded = status;
+    }
+
+    public String getBeginRotationString() {
+        if (rightHanded) {
+            return "P1.ROTATERIGHT 90";
+        } else {
+            return "P1.ROTATELEFT 90";
+        }
+    }
+
+    public String getInvertedRotation() {
+        if (!rightHanded) {
+            return "P1.ROTATERIGHT 90";
+        } else {
+            return "P1.ROTATELEFT 90";
+        }
     }
 
     private double[] parsePosition(String value, double position[]) {
