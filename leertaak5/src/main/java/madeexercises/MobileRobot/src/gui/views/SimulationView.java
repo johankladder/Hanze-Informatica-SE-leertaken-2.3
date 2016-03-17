@@ -129,7 +129,6 @@ public class SimulationView extends JPanel implements ActionListener {
 	/**
 	 * Invoked when an action occurs.
 	 */
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof Environment) {
 			Environment model = (Environment) e.getSource();

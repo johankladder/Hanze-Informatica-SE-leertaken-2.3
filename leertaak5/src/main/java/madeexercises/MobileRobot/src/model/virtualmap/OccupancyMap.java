@@ -84,6 +84,55 @@ public class OccupancyMap {
 		this.processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
 	}
 
+	public void drawSonarScan(double position[], double measures[]) {
+		// radialen
+		double rx = Math.round(position[0] + 20.0 * Math.cos(Math.toRadians(position[2])));
+		double ry = Math.round(position[1] + 20.0 * Math.sin(Math.toRadians(position[2])));
+		//richting
+		int dir = (int) Math.round(position[2]);
+
+		for (int i = 0; i < 360; i++) {
+			int d = i - dir;
+			while (d < 0) {
+				d += 360;
+			}
+			while (d >= 360) {
+				d -= 360;
+			}
+			double fx = Math.round(rx + measures[d] * Math.cos(Math.toRadians(i)));
+			double fy = Math.round(rx + measures[d] * Math.sin(Math.toRadians(i)));
+
+			if (measures[d] < 100) {
+				drawSonar(fx, fy, true);
+			}
+
+			//paint robot position on grid
+			Position robotPos = environment.getRobot().getPlatform().getRobotPosition();
+			//environment.getRobot().readPosition(robotPos);
+
+			int robotX = (int) robotPos.getX() / CELL_DIMENSION;
+			int robotY = (int) robotPos.getY() / CELL_DIMENSION;
+			this.grid[robotX][robotY] = ROBOT;
+
+
+			this.processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+		}
+	}
+
+	private void drawSonar(double x, double y, boolean obstacle) {
+		// x en y coördinaten in vakjes
+		int xi = (int) Math.ceil(x / CELL_DIMENSION);
+		int yi = (int) Math.ceil(y / CELL_DIMENSION);
+
+		// verkeerde mogelijkheden
+		if (xi < 0 || yi < 0 || xi >= MAP_WIDTH / CELL_DIMENSION || yi >= MAP_HEIGHT / CELL_DIMENSION) {
+			return;
+		}
+		if (obstacle) {
+			grid[xi][yi] = OBSTACLE;
+		}
+	}
+
 
 	/**
 	 * This method allows other objects to register as ActionListeners.

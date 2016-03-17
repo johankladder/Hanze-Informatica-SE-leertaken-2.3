@@ -20,23 +20,14 @@ import madeexercises.MobileRobot.src.model.robot.MobileRobot;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class Sonar extends Device {
-    // JB: The fact that this code has a lot of comments with question marks in it (see below)
-    // does not give a lot of confidence. I have chosen to let the comments in, as they could be
-    // indicators where to look if things break down.
-    private static final int CLOCKWISE = 1;
-    private static final int ANTICLOCKWISE = -1;
 
     // maximum range
     private final int range = 100;
 
-    private int orientation = 1;
-
-    private double rotStep = 1.0;     // one degree
     private double numSteps = 0;
 
     // JB: The use of the booleans detect and scan (and Device.running) makes the code very complex
@@ -74,8 +65,6 @@ public class Sonar extends Device {
             double ry = y + radius * Math.sin(i);
             this.addPoint((int) rx, (int) ry);
         }
-
-
     }
 
     double read(boolean first) {

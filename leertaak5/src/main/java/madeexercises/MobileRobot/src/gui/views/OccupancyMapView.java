@@ -92,7 +92,6 @@ public class OccupancyMapView extends JPanel implements ActionListener {
 	/**
 	 * Invoked when an action occurs.
 	 */
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof OccupancyMap) {
 			OccupancyMap model = (OccupancyMap) e.getSource();
