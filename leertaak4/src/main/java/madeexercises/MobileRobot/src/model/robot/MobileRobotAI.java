@@ -25,10 +25,12 @@ public class MobileRobotAI implements Runnable {
     /*
     Helper fields: Need to be removed when exercise is completed
      */
-    private final int stepSize = 10; // Step-size the robot takes when going forward -> Crucial for narrow corners // FIXME: Do steps as far as it can see
-    private final int extraClicksBeforeCorner = 3; // Additional steps for passing trough corner // FIXME: Remove this one when knowing width and height of robot
+    private final double stepSize = 8; // Step-size the robot takes when going forward -> Crucial for narrow corners // FIXME: Do steps as far as it can see
+    private final int extraClicksBeforeCorner = 4; // Additional steps for passing trough corner // FIXME: Remove this one when knowing width and height of robot
     private final int extraClicksAfterCorner = 3; // Additional steps for passing after corner // FIXME: Remove this one when knowing width and height of robot
     private int extraClicks = 0; // FIXME: Remove this one when knowing width and height of robot
+
+    private boolean corner = false;
 
 
     /*
@@ -92,35 +94,72 @@ public class MobileRobotAI implements Runnable {
 
                 // Begin logic:
                 if (first) {
-                    // The robot first needs to turn to the side of the desired algorithm!
-                    robot.sendCommand(getBeginRotationString()); // FIXME: Doesn't work when robot has other default spawning degree
-                    // -> Can be fixed by first calling that robot need to be on degree 0
-                    input.readLine();
+//                    // The robot first needs to turn to the side of the desired algorithm!
+//                    robot.sendCommand(getBeginRotationString()); // FIXME: Doesn't work when robot has other default spawning degree
+//                    // -> Can be fixed by first calling that robot need to be on degree 0
+//                    input.readLine();
+
                     first = false; // Set status-flag
 
-                } else if (rotationWall > 50) {
+                } else if (rotationWall > 50 || corner) {
 
                     // FIXME: The code with (**) notation is not as clean as it can get.
-                    if (extraClicks < extraClicksBeforeCorner) {
-                        robot.sendCommand("P1.MOVEFW " + stepSize); // **
-                        input.readLine(); // **
-                        extraClicks++; // **
-                    } else {
+                if (extraClicks < extraClicksBeforeCorner) {
+                       robot.sendCommand("P1.MOVEFW " + stepSize); // **
+                      input.readLine(); // **
+                     extraClicks++; // **
+                   } else {
                         robot.sendCommand(getBeginRotationString());
                         input.readLine();
 
-                        for (int xClicks = 0; xClicks < extraClicksAfterCorner; xClicks++) {
-                            robot.sendCommand("P1.MOVEFW " + stepSize); // **
-                            input.readLine(); // **
-                        }
+                       for (int xClicks = 0; xClicks < extraClicksAfterCorner; xClicks++) {
+                           robot.sendCommand("P1.MOVEFW " + stepSize); // **
+                         input.readLine(); // **
+                       }
 
-                        extraClicks = 0; //**
+                       extraClicks = 0; //**
+                    corner = false;
                     }
 
                 } else if (wallForward > stepSize) {
 
                     // TODO: Stepsize is always to small, needs to be the maximum it can see, minus the wall-spacing
-                    robot.sendCommand("P1.MOVEFW " + stepSize);
+
+                    double a = measures[90];
+                    double c = 0;
+                    boolean hit = false;
+
+                    for (int cValue = 89; cValue > 0; cValue--) {
+                        if (!hit) {
+                            double testc = measures[cValue];
+                            System.out.println(cValue + "  | " + testc);
+                            if (testc >= 100) {
+                                hit = true;
+                            } else {
+                                if((testc - c) > 10 && c != 0) {
+                                    hit = true;
+                                    corner = true;
+
+                                } else {
+                                    c = testc;
+                                }
+                            }
+                        }
+
+                    }
+
+                    c = Math.pow(c, 2);
+                    a = Math.pow(a, 2);
+
+                    double b = stepSize;
+
+                    if(c > a) {
+                        b = Math.sqrt((c - a));
+                    }
+
+
+                    System.out.println("-----------------" + rotationWall);
+                    robot.sendCommand("P1.MOVEFW " + b);
                     input.readLine();
 
                 } else {
@@ -215,8 +254,7 @@ public class MobileRobotAI implements Runnable {
         return measures;
     }
 
-    private void checkUnreachableUnknowns()
-    {
+    private void checkUnreachableUnknowns() {
         //Eerst moeten we het aantal cellen bepalen
         // Het aantal horizontale cellen is gelijk aan de breedte van het veld / de breedte van een cel
         // Het aantal verticale cellen is gelijk aan de hoogte van het veld / de hoogte van een cel
@@ -227,19 +265,16 @@ public class MobileRobotAI implements Runnable {
 
         // Alle cellen doorlopen
         //Voor elke rij....
-        for (int x = 0; x < xCellSize; x++)
-        {
+        for (int x = 0; x < xCellSize; x++) {
             //Elke kolom....
-            for (int y = 0; y < yCellSize; y++)
-            {
+            for (int y = 0; y < yCellSize; y++) {
                 //Alle cellen die UNKNOWN zijn op UNREACHABLE_UNKNOWN zetten
                 if (grid[x][y] == map.getUnknown()) grid[x][y] = map.getUnreachableUnknown();
 
                 // Nou kijken of we er echt niet bij kunnen
-                // Dit kan door te kijken of één van de cellen er om heen EMPTY zijn
+                // Dit kan door te kijken of ï¿½ï¿½n van de cellen er om heen EMPTY zijn
                 // Als dit zo is dan mag deze cel weer veranderd worden naar UNKNOWN
-                if (grid[x][y] == map.getUnreachableUnknown())
-                {
+                if (grid[x][y] == map.getUnreachableUnknown()) {
                     if ((x > 0 && grid[x - 1][y] == map.getEmpty()) || (y > 0 && grid[x][y - 1] == map.getEmpty()) || (x < xCellSize - 1 && grid[x + 1][y] == map.getEmpty())
                             || (y < yCellSize - 1 && grid[x][y + 1] == map.getEmpty())) grid[x][y] = map.getUnknown();
                 }
@@ -250,7 +285,7 @@ public class MobileRobotAI implements Runnable {
     public Boolean isFullyDiscovered() {
         char[][] grid = map.getGrid();
         for (int x = 0; x < map.getMapWidth() / map.getCellDimension(); x++) {
-            for(int y = 0; y < map.getMapHeight() / map.getCellDimension(); y++) {
+            for (int y = 0; y < map.getMapHeight() / map.getCellDimension(); y++) {
                 if (grid[x][y] == map.getUnknown())
                     return false;
             }
