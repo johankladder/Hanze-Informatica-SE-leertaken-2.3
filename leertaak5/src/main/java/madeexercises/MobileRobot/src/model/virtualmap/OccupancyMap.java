@@ -101,10 +101,12 @@ public class OccupancyMap {
 				d -= 360;
 			}
 			double fx = Math.round(rx + measures[d] * Math.cos(Math.toRadians(i)));
-			double fy = Math.round(rx + measures[d] * Math.sin(Math.toRadians(i)));
+			double fy = Math.round(ry + measures[d] * Math.sin(Math.toRadians(i)));
 
 			if (measures[d] < 100) {
 				drawSonar(fx, fy, true);
+			} else {
+				drawSonar(fx, fy, false);
 			}
 
 			//paint robot position on grid
@@ -216,7 +218,7 @@ public class OccupancyMap {
 
 		if (obstacle) {
 			grid[xi][yj] = OBSTACLE;
-		} else if (grid[xi][yj] != OBSTACLE) {
+		} else if (grid[xi][yj] != OBSTACLE && grid[xi][yj] != OBSTACLE_SONAR) {
 			grid[xi][yj] = EMPTY;
 		}
 
@@ -227,7 +229,7 @@ public class OccupancyMap {
 
 		if (rx == x) {
 			for (int j = ymin; j <= ymax; j++) {
-				if (grid[xmin][j] != OBSTACLE)
+				if (grid[xmin][j] != OBSTACLE && grid[xmin][j] != OBSTACLE_SONAR)
 					grid[xmin][j] = EMPTY;
 			}
 		} else {
@@ -236,7 +238,7 @@ public class OccupancyMap {
 			for (int i = xmin; i <= xmax; i++) {
 				int h = (int) Math.ceil((m * (i * CELL_DIMENSION) + q) / CELL_DIMENSION);
 				if (h >= ymin && h <= ymax) {
-					if (grid[i][h] != OBSTACLE)
+					if (grid[i][h] != OBSTACLE && grid[i][h] != OBSTACLE_SONAR)
 						grid[i][h] = EMPTY;
 
 				}

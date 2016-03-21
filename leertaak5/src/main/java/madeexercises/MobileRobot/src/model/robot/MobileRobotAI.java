@@ -83,6 +83,7 @@ public class MobileRobotAI implements Runnable {
                 robot.sendCommand("S1.SCAN");
                 result = input.readLine();
                 double scanSonar[] = parseMeasures(result, sonarMeasure, "Sonar");
+                map.drawSonarScan(position, sonarMeasure);
 
                 // Compare measures:
                 double[] correctMeasures = new double[360];
