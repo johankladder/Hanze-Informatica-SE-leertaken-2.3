@@ -105,7 +105,7 @@ public class MobileRobotAI implements Runnable {
                 System.out.println("\n");
 
 
-                System.out.println("-----------------");
+
 
 
                 checkUnreachableUnknowns();
@@ -127,7 +127,9 @@ public class MobileRobotAI implements Runnable {
                 // Begin logic:
                 if (first) {
 //                    // The robot first needs to turn to the side of the desired algorithm!
-//                    robot.sendCommand(getBeginRotationString()); // FIXME: Doesn't work when robot has other default spawning degree
+                       robot.sendCommand(getBeginRotationString()); // FIXME: Doesn't work when robot has other default spawning degree
+                    input.readLine();
+
 //                    // -> Can be fixed by first calling that robot need to be on degree 0
 //                    input.readLine();
 
@@ -203,6 +205,8 @@ public class MobileRobotAI implements Runnable {
                     input.readLine();
                 }
 
+                System.out.println("-----------------");
+
             } catch (IOException ioe) {
                 System.err.println("execution stopped");
                 running = false;
@@ -266,6 +270,7 @@ public class MobileRobotAI implements Runnable {
 
             double distance;
             int direction;
+            System.out.println(value);
             while (tokenizer.hasMoreTokens()) {
                 distance = Double.parseDouble(tokenizer.nextToken().substring(2));
                 direction = (int) Math.round(Math.toDegrees(Double.parseDouble(tokenizer.nextToken().substring(2))));
