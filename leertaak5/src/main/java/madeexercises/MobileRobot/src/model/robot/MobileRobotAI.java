@@ -26,7 +26,7 @@ public class MobileRobotAI implements Runnable {
     Helper fields: Need to be removed when exercise is completed
      */
     private final double stepSize = 8; // Step-size the robot takes when going forward -> Crucial for narrow corners // FIXME: Do steps as far as it can see
-    private final int extraClicksBeforeCorner = 4; // Additional steps for passing trough corner // FIXME: Remove this one when knowing width and height of robot
+    private final int extraClicksBeforeCorner = 5; // Additional steps for passing trough corner // FIXME: Remove this one when knowing width and height of robot
     private final int extraClicksAfterCorner = 3; // Additional steps for passing after corner // FIXME: Remove this one when knowing width and height of robot
     private int extraClicks = 0; // FIXME: Remove this one when knowing width and height of robot
 
