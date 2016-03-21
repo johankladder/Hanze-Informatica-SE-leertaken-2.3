@@ -87,8 +87,8 @@ public class MobileRobotAI implements Runnable {
                 // Compare measures:
                 double[] correctMeasures = new double[360];
 
-                for(int i = 0; i < foundMeasures.length; i++) {
-                    if(foundMeasures[i] < scanSonar[i]) {
+                for (int i = 0; i < foundMeasures.length; i++) {
+                    if (foundMeasures[i] < scanSonar[i]) {
                         correctMeasures[i] = foundMeasures[i];
                     } else {
                         correctMeasures[i] = scanSonar[i];
@@ -97,15 +97,11 @@ public class MobileRobotAI implements Runnable {
 
                 foundMeasures = correctMeasures;
 
-                for(int i = 0; i < foundMeasures.length; i++) {
+                for (int i = 0; i < foundMeasures.length; i++) {
                     System.out.print(i + " " + foundMeasures[i] + "|");
                 }
 
                 System.out.println("\n");
-
-
-
-
 
                 checkUnreachableUnknowns();
 
@@ -126,7 +122,7 @@ public class MobileRobotAI implements Runnable {
                 // Begin logic:
                 if (first) {
 //                    // The robot first needs to turn to the side of the desired algorithm!
-                       robot.sendCommand(getBeginRotationString()); // FIXME: Doesn't work when robot has other default spawning degree
+                    robot.sendCommand(getBeginRotationString()); // FIXME: Doesn't work when robot has other default spawning degree
                     input.readLine();
 
 //                    // -> Can be fixed by first calling that robot need to be on degree 0
@@ -165,7 +161,7 @@ public class MobileRobotAI implements Runnable {
                     for (int cValue = 89; cValue > 0; cValue--) {
                         if (!hit) {
                             double testc = measures[cValue];
-                           // System.out.println(cValue + "  | " + testc);
+                            // System.out.println(cValue + "  | " + testc);
                             if (testc >= 100) {
                                 hit = true;
                             } else {
@@ -191,7 +187,7 @@ public class MobileRobotAI implements Runnable {
                     }
 
                     // TODO:
-                    if(b > wallForward) {
+                    if (b > wallForward) {
                         b = wallForward - stepSize;
                     }
 
