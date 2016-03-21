@@ -12,7 +12,6 @@ package madeexercises.MobileRobot.src.model.device;
  */
 
 
-
 import madeexercises.MobileRobot.src.model.environment.Environment;
 import madeexercises.MobileRobot.src.model.environment.Obstacle;
 import madeexercises.MobileRobot.src.model.environment.Position;
@@ -46,7 +45,8 @@ public class Sonar extends Device {
 
         this.scanMeasurements = new ArrayList<LaserMeasurement>();
 
-        backgroundColor = Color.GREEN;
+        //backgroundColor = Color.GREEN;
+        backgroundColor = new Color(0, 255, 0, 150);
         drawSonar(10.0);
     }
 
@@ -171,7 +171,8 @@ public class Sonar extends Device {
                 this.orientation = CLOCKWISE;
             }
             this.executingCommand = true;
-        }*/  if (command.equalsIgnoreCase("READ")) {
+        }*/
+        if (command.equalsIgnoreCase("READ")) {
             writeOut("t=" + Double.toString(this.localPosition.getT()) + " d=" + Double.toString(this.read(true)));
             // ??????????????
         } else if (command.equalsIgnoreCase("SCAN")) {
@@ -218,7 +219,8 @@ public class Sonar extends Device {
 
     public void nextStep() {
         if (this.executingCommand && numSteps < this.range) {
-            if (numSteps >= this.range) {
+            // FIXME: - 1 is custom!
+            if (numSteps >= this.range-1) {
                 drawSonar(10.0);
             } else {
                 drawSonar(numSteps);

@@ -56,6 +56,8 @@ public class MobileRobotAI implements Runnable {
         boolean running = true;
         double position[] = new double[3];
         double measures[] = new double[360];
+        double sonarMeasure[] = new double[360];
+
         while (running) {
             if (isFullyDiscovered()) {
                 running = false;
@@ -77,7 +79,14 @@ public class MobileRobotAI implements Runnable {
                 result = input.readLine();
                 double foundMeasures[] = parseMeasures(result, measures);
                 map.drawLaserScan(position, measures);
+
+                robot.sendCommand("S1.SCAN");
+                result = input.readLine();
+                double scanSonar[] = parseMeasures(result, sonarMeasure);
+
+
                 checkUnreachableUnknowns();
+
 
                 double wallRight = foundMeasures[90];
                 double wallForward = foundMeasures[0];
@@ -104,21 +113,21 @@ public class MobileRobotAI implements Runnable {
                 } else if (rotationWall > 50 || corner) {
 
                     // FIXME: The code with (**) notation is not as clean as it can get.
-                if (extraClicks < extraClicksBeforeCorner) {
-                       robot.sendCommand("P1.MOVEFW " + stepSize); // **
-                      input.readLine(); // **
-                     extraClicks++; // **
-                   } else {
+                    if (extraClicks < extraClicksBeforeCorner) {
+                        robot.sendCommand("P1.MOVEFW " + stepSize); // **
+                        input.readLine(); // **
+                        extraClicks++; // **
+                    } else {
                         robot.sendCommand(getBeginRotationString());
                         input.readLine();
 
-                       for (int xClicks = 0; xClicks < extraClicksAfterCorner; xClicks++) {
-                           robot.sendCommand("P1.MOVEFW " + stepSize); // **
-                         input.readLine(); // **
-                       }
+                        for (int xClicks = 0; xClicks < extraClicksAfterCorner; xClicks++) {
+                            robot.sendCommand("P1.MOVEFW " + stepSize); // **
+                            input.readLine(); // **
+                        }
 
-                       extraClicks = 0; //**
-                    corner = false;
+                        extraClicks = 0; //**
+                        corner = false;
                     }
 
                 } else if (wallForward > stepSize) {
@@ -136,7 +145,7 @@ public class MobileRobotAI implements Runnable {
                             if (testc >= 100) {
                                 hit = true;
                             } else {
-                                if((testc - c) > 10 && c != 0) {
+                                if ((testc - c) > 10 && c != 0) {
                                     hit = true;
                                     corner = true;
 
@@ -153,7 +162,7 @@ public class MobileRobotAI implements Runnable {
 
                     double b = stepSize;
 
-                    if(c > a) {
+                    if (c > a) {
                         b = Math.sqrt((c - a));
                     }
 

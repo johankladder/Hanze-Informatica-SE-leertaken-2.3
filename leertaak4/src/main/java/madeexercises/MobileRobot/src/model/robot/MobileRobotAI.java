@@ -25,7 +25,7 @@ public class MobileRobotAI implements Runnable {
     /*
     Helper fields: Need to be removed when exercise is completed
      */
-    private final double stepSize = 8; // Step-size the robot takes when going forward -> Crucial for narrow corners // FIXME: Do steps as far as it can see
+    private final double stepSize = 10; // Step-size the robot takes when going forward -> Crucial for narrow corners // FIXME: Do steps as far as it can see
     private final int extraClicksBeforeCorner = 4; // Additional steps for passing trough corner // FIXME: Remove this one when knowing width and height of robot
     private final int extraClicksAfterCorner = 3; // Additional steps for passing after corner // FIXME: Remove this one when knowing width and height of robot
     private int extraClicks = 0; // FIXME: Remove this one when knowing width and height of robot
@@ -101,25 +101,25 @@ public class MobileRobotAI implements Runnable {
 
                     first = false; // Set status-flag
 
-                } else if (rotationWall > 50 || corner) {
-
+                } else if (corner) {
                     // FIXME: The code with (**) notation is not as clean as it can get.
-                if (extraClicks < extraClicksBeforeCorner) {
-                       robot.sendCommand("P1.MOVEFW " + stepSize); // **
-                      input.readLine(); // **
-                     extraClicks++; // **
-                   } else {
-                        robot.sendCommand(getBeginRotationString());
-                        input.readLine();
 
-                       for (int xClicks = 0; xClicks < extraClicksAfterCorner; xClicks++) {
-                           robot.sendCommand("P1.MOVEFW " + stepSize); // **
-                         input.readLine(); // **
-                       }
-
-                       extraClicks = 0; //**
-                    corner = false;
+                    for(int step = 0; step < extraClicksBeforeCorner; step++) {
+                        robot.sendCommand("P1.MOVEFW " + stepSize); // **
+                        input.readLine(); // **
                     }
+
+                    robot.sendCommand(getBeginRotationString());
+                    input.readLine();
+
+                    for (int xClicks = 0; xClicks < extraClicksAfterCorner; xClicks++) {
+                        robot.sendCommand("P1.MOVEFW " + stepSize); // **
+                        input.readLine(); // **
+                    }
+
+                    extraClicks = 0; //**
+                    corner = false;
+
 
                 } else if (wallForward > stepSize) {
 
@@ -132,11 +132,13 @@ public class MobileRobotAI implements Runnable {
                     for (int cValue = 89; cValue > 0; cValue--) {
                         if (!hit) {
                             double testc = measures[cValue];
-                            System.out.println(cValue + "  | " + testc);
-                            if (testc >= 100) {
+                            //System.out.println(cValue + "  | " + testc);
+                            if (testc >= 100 && a == 100) {
+                                System.out.println("TEST:   " + cValue);
                                 hit = true;
+                                corner = true;
                             } else {
-                                if((testc - c) > 10 && c != 0) {
+                                if ((testc - c) > 10 && c != 0) {
                                     hit = true;
                                     corner = true;
 
@@ -153,12 +155,12 @@ public class MobileRobotAI implements Runnable {
 
                     double b = stepSize;
 
-                    if(c > a) {
+                    if (c > a) {
                         b = Math.sqrt((c - a));
                     }
 
 
-                    System.out.println("-----------------" + rotationWall);
+                    //System.out.println("-----------------" + rotationWall);
                     robot.sendCommand("P1.MOVEFW " + b);
                     input.readLine();
 
