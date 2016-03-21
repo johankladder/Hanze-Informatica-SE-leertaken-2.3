@@ -24,12 +24,14 @@ public class OccupancyMapView extends JPanel implements ActionListener {
 	private static final char UNKNOWN = 'n';
 	private static final char EMPTY = 'e';
 	private static final char OBSTACLE = 'o';
+	private static final char OBSTACLE_SONAR = 's';
 	private static final char ROBOT = 'r';
 	private final static char UNREACHABLE_UNKNOWN = 'u';
 
 	private static final Color MAP_UNKNOWN_COLOR = Color.YELLOW;
 	private static final Color MAP_OBSTACLE_COLOR = Color.BLUE;
 	private static final Color MAP_ROBOT_COLOR = Color.BLACK;
+	private static final Color MAP_OBSTACLE_SONAR_COLOR = Color.MAGENTA;
 
 	private static final Color GRID_COLOR = Color.LIGHT_GRAY;
 
@@ -71,6 +73,9 @@ public class OccupancyMapView extends JPanel implements ActionListener {
 					g.fillRect(row * cellDimension, column * cellDimension, cellDimension, cellDimension);
 				} else if (grid[row][column] == OBSTACLE) {
 					g.setColor(OccupancyMapView.MAP_OBSTACLE_COLOR);
+					g.fillRect(row * cellDimension, column * cellDimension, cellDimension, cellDimension);
+				} else if (grid[row][column] == OBSTACLE_SONAR) {
+					g.setColor(OccupancyMapView.MAP_OBSTACLE_SONAR_COLOR);
 					g.fillRect(row * cellDimension, column * cellDimension, cellDimension, cellDimension);
 				} else if (grid[row][column] == ROBOT) {
 					g.setColor(OccupancyMapView.MAP_ROBOT_COLOR);
