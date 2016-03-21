@@ -31,6 +31,9 @@ public class SecondSonar extends Device {
     private static final int CLOCKWISE = 1;
     private static final int ANTICLOCKWISE = -1;
 
+    float size =0;
+    float incrementRadius = 0.27778f;
+
     // maximum range
     private final int range = 100;
 
@@ -56,10 +59,13 @@ public class SecondSonar extends Device {
         this.scanMeasurements = new ArrayList<LaserMeasurement>();
 
         backgroundColor = Color.black;
+        backgroundColor = new Color(0, 255, 0, 150);
         //this.addPoint(0, 2);
         //this.addPoint(100, 2);
        // this.addPoint(100, -2);
         //this.addPoint(0, -2);
+
+        //drawSonar(10);
     }
 
     double read(boolean first) {
@@ -210,12 +216,33 @@ public class SecondSonar extends Device {
             writeOut("DECLINED");
     }
 
+    private void drawSonar(double radius) {
+        this.getShape().reset();
+
+        //create circle
+        double x = localPosition.getX();
+        double y = localPosition.getY();
+
+        double twoPi = (2 * Math.PI);
+        double step = twoPi / 360.0;
+
+        for (double i = 0.0; i < twoPi; i += step) {
+            double rx = x + radius * Math.cos(i);
+            double ry = y + radius * Math.sin(i);
+            this.addPoint((int) rx, (int) ry);
+        }
+    }
+
 
     public void nextStep() {
         if (this.executingCommand && numSteps > 0.0) {
-            if (numSteps < 1.0) {
+            if (numSteps <= 1.0) {
+                drawSonar(10);
+                size = 0;
                 localPosition.rotateAroundAxis(0.0, 0.0, orientation * numSteps * rotStep);
             } else {
+                size = size + incrementRadius;
+                drawSonar(size);
                 localPosition.rotateAroundAxis(0.0, 0.0, orientation * rotStep);
             }
             environment.processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
