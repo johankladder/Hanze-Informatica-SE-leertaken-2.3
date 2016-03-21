@@ -1,10 +1,7 @@
 package madeexercises.MobileRobot.src.model.robot;
 
 
-import madeexercises.MobileRobot.src.model.device.Device;
-import madeexercises.MobileRobot.src.model.device.Laser;
-import madeexercises.MobileRobot.src.model.device.Platform;
-import madeexercises.MobileRobot.src.model.device.Sonar;
+import madeexercises.MobileRobot.src.model.device.*;
 import madeexercises.MobileRobot.src.model.environment.Environment;
 import madeexercises.MobileRobot.src.model.environment.Position;
 import madeexercises.MobileRobot.src.model.virtualmap.OccupancyMap;
@@ -49,7 +46,7 @@ public class MobileRobot {
 		this.position = new Position(x, y, Math.toRadians(t));
 		this.platform = new Platform("P1", this, environment);
 		this.sensors.add(new Laser("L1", this, new Position(20.0, 0.0, 0.0), environment));
-		this.sensors.add(new Sonar("S1", this, new Position(10.0, 0.0, 0.0), environment));
+		this.sensors.add(new SecondSonar("S1", this, new Position(20.0, 0.0, 0.0), environment));
 		delay = 50;
 
 		this.intelligence = new MobileRobotAI(this,map);

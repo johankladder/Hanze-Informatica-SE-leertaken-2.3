@@ -77,12 +77,34 @@ public class MobileRobotAI implements Runnable {
 
                 robot.sendCommand("L1.SCAN");
                 result = input.readLine();
-                double foundMeasures[] = parseMeasures(result, measures);
+                double foundMeasures[] = parseMeasures(result, measures, "Laser");
                 map.drawLaserScan(position, measures);
 
                 robot.sendCommand("S1.SCAN");
                 result = input.readLine();
-                double scanSonar[] = parseMeasures(result, sonarMeasure);
+                double scanSonar[] = parseMeasures(result, sonarMeasure, "Sonar");
+
+                // Compare measures:
+                double[] correctMeasures = new double[360];
+
+                for(int i = 0; i < foundMeasures.length; i++) {
+                    if(foundMeasures[i] < scanSonar[i]) {
+                        correctMeasures[i] = foundMeasures[i];
+                    } else {
+                        correctMeasures[i] = scanSonar[i];
+                    }
+                }
+
+                foundMeasures = correctMeasures;
+
+                for(int i = 0; i < foundMeasures.length; i++) {
+                    System.out.print(i + " " + foundMeasures[i] + "|");
+                }
+
+                System.out.println("\n");
+
+
+                System.out.println("-----------------");
 
 
                 checkUnreachableUnknowns();
@@ -141,7 +163,7 @@ public class MobileRobotAI implements Runnable {
                     for (int cValue = 89; cValue > 0; cValue--) {
                         if (!hit) {
                             double testc = measures[cValue];
-                            System.out.println(cValue + "  | " + testc);
+                           // System.out.println(cValue + "  | " + testc);
                             if (testc >= 100) {
                                 hit = true;
                             } else {
@@ -166,8 +188,12 @@ public class MobileRobotAI implements Runnable {
                         b = Math.sqrt((c - a));
                     }
 
+                    // TODO:
+                    if(b > wallForward) {
+                        b = wallForward - stepSize;
+                    }
 
-                    System.out.println("-----------------" + rotationWall);
+                    System.out.println("FW = " + b);
                     robot.sendCommand("P1.MOVEFW " + b);
                     input.readLine();
 
@@ -226,7 +252,8 @@ public class MobileRobotAI implements Runnable {
         return position;
     }
 
-    private double[] parseMeasures(String value, double measures[]) {
+    private double[] parseMeasures(String value, double measures[], String device) {
+        System.out.println("TEST" + " " + device);
         for (int i = 0; i < 360; i++) {
             measures[i] = 100.0;
         }
@@ -253,7 +280,7 @@ public class MobileRobotAI implements Runnable {
                 double object = measures[i];
 
                 if (object < 100) {
-                    System.out.print("Obstacle: ");
+                    System.out.print("Obstacle " + device + ": ");
                 }
                 System.out.print(i + "=" + object + "| ");
             }

@@ -12,6 +12,7 @@ package madeexercises.MobileRobot.src.model.device;
  */
 
 
+
 import madeexercises.MobileRobot.src.model.environment.Environment;
 import madeexercises.MobileRobot.src.model.environment.Obstacle;
 import madeexercises.MobileRobot.src.model.environment.Position;
@@ -19,14 +20,23 @@ import madeexercises.MobileRobot.src.model.robot.MobileRobot;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class Sonar extends Device {
+public class SecondSonar extends Device {
+    // JB: The fact that this code has a lot of comments with question marks in it (see below)
+    // does not give a lot of confidence. I have chosen to let the comments in, as they could be
+    // indicators where to look if things break down.
+    private static final int CLOCKWISE = 1;
+    private static final int ANTICLOCKWISE = -1;
 
     // maximum range
     private final int range = 100;
 
+    private int orientation = 1;
+
+    private double rotStep = 1.0;     // one degree
     private double numSteps = 0;
 
     // JB: The use of the booleans detect and scan (and Device.running) makes the code very complex
@@ -37,7 +47,7 @@ public class Sonar extends Device {
     private LaserMeasurement detectMeasure;
     private final ArrayList<LaserMeasurement> scanMeasurements;
 
-    public Sonar(String name, MobileRobot robot, Position localPos, Environment environment) {
+    public SecondSonar(String name, MobileRobot robot, Position localPos, Environment environment) {
         super(name, robot, localPos, environment);
 
         this.detect = false;
@@ -45,26 +55,11 @@ public class Sonar extends Device {
 
         this.scanMeasurements = new ArrayList<LaserMeasurement>();
 
-        //backgroundColor = Color.GREEN;
-        backgroundColor = new Color(0, 255, 0, 150);
-        drawSonar(10.0);
-    }
-
-    private void drawSonar(double radius) {
-        this.getShape().reset();
-
-        //create circle
-        double x = localPosition.getX();
-        double y = localPosition.getY();
-
-        double twoPi = (2 * Math.PI);
-        double step = twoPi / 360.0;
-
-        for (double i = 0.0; i < twoPi; i += step) {
-            double rx = x + radius * Math.cos(i);
-            double ry = y + radius * Math.sin(i);
-            this.addPoint((int) rx, (int) ry);
-        }
+        backgroundColor = Color.black;
+        //this.addPoint(0, 2);
+        //this.addPoint(100, 2);
+       // this.addPoint(100, -2);
+        //this.addPoint(0, -2);
     }
 
     double read(boolean first) {
@@ -83,7 +78,6 @@ public class Sonar extends Device {
             // This is really dirty: the laser uses direct access to environment's obstacles
             Obstacle obstacle = environment.getObstacles().get(i);
             if (obstacle.getOpaque()) {
-
                 double dist = pointToObstacle(obstacle.getPolygon(), centre, front, first);
                 if (minDistance == -1.0 || (dist > 0 && dist < minDistance)) {
                     minDistance = dist;
@@ -107,9 +101,9 @@ public class Sonar extends Device {
         double minDistance = -1.0;
         double dist;
         double px, py;
-        int x1, y1, x2, y2;
+        double x1, y1, x2, y2;
         double m1, q1, m2, q2;
-        int radius = (int) centre.distance(front) / 2;
+        Line2D.Double beam = new Line2D.Double(centre, front);
 
         for (int i = 0; i < polygon.npoints; i++) {
             j = i + 1;
@@ -119,9 +113,9 @@ public class Sonar extends Device {
             y1 = polygon.ypoints[i];
             x2 = polygon.xpoints[j];
             y2 = polygon.ypoints[j];
-            if (pythagoras(x1, y1, centre, radius)) {
+            if (beam.intersectsLine(x1, y1, x2, y2)) {
                 // calculates the intersection point
-                /*if (centre.getX() == front.getX()) {
+                if (centre.getX() == front.getX()) {
                     px = centre.getX();
                     py = (y2 - y1) / (x2 - x1) * (px - x1) + y1;
                 } else if (x1 == x2) {
@@ -134,11 +128,9 @@ public class Sonar extends Device {
                     q2 = centre.getY() - m2 * centre.getX();
                     px = (q2 - q1) / (m1 - m2);
                     py = m1 * px + q1;
-                }*/
-                Point2D p = new Point(x1, y1);
+                }
                 // calculates the distance between (cx, cy) and the intersection point
-                //dist = Point2D.Double.distance(centre.getX(), centre.getY(), px, py);
-                dist = centre.distance(p);
+                dist = Point2D.Double.distance(centre.getX(), centre.getY(), px, py);
                 if (minDistance == -1.0 || minDistance > dist)
                     minDistance = dist;
                 if (first && minDistance > 0.0)
@@ -149,7 +141,7 @@ public class Sonar extends Device {
     }
 
     public void executeCommand(String command) {
-/*        if (command.contains("ROTATETO")) {
+        if (command.contains("ROTATETO")) {
             this.rotStep = 4.0;
             double direction = Math.abs(Double.parseDouble(command.trim().substring(9).trim()));
 
@@ -172,13 +164,14 @@ public class Sonar extends Device {
                 this.orientation = CLOCKWISE;
             }
             this.executingCommand = true;
-        }*/
-        if (command.equalsIgnoreCase("READ")) {
+        } else if (command.equalsIgnoreCase("READ")) {
             writeOut("t=" + Double.toString(this.localPosition.getT()) + " d=" + Double.toString(this.read(true)));
             // ??????????????
         } else if (command.equalsIgnoreCase("SCAN")) {
+            this.rotStep = 1.0;
             this.scanMeasurements.clear();
-            this.numSteps = 10.0;
+            this.numSteps = 360.0 / rotStep;
+            this.orientation = CLOCKWISE;
             this.scan = true;
             // send the list of measures
             this.commands.add("GETMEASURES");
@@ -191,7 +184,7 @@ public class Sonar extends Device {
                 measures += " d=" + measure.distance + " t=" + measure.direction;
             }
             writeOut(measures);
-        } /*else if (command.equalsIgnoreCase("DETECT")) {
+        } else if (command.equalsIgnoreCase("DETECT")) {
             detect = true;
             rotStep = 8.0;
             if (detectMeasure != null) {
@@ -213,27 +206,26 @@ public class Sonar extends Device {
                 // repeats this command
                 commands.add("DETECT");
             }
-        }*/ else
+        } else
             writeOut("DECLINED");
     }
 
 
     public void nextStep() {
-        if (this.executingCommand && numSteps < this.range) {
-            // FIXME: - 1 is custom!
-            if (numSteps >= this.range) {
-                drawSonar(10.0);
+        if (this.executingCommand && numSteps > 0.0) {
+            if (numSteps < 1.0) {
+                localPosition.rotateAroundAxis(0.0, 0.0, orientation * numSteps * rotStep);
             } else {
-                drawSonar(numSteps);
+                localPosition.rotateAroundAxis(0.0, 0.0, orientation * rotStep);
             }
             environment.processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
-            numSteps += 1.0;
+            numSteps -= 1.0;
             this.executingCommand = true;
 
         } else if (this.executingCommand) {
             this.executingCommand = false;
             if (!detect && !scan) {
-                writeOut("SONAR ARRIVED");
+                writeOut("LASER ARRIVED");
             }
 
         }
@@ -253,26 +245,5 @@ public class Sonar extends Device {
                 scanMeasurements.add(new LaserMeasurement(distance, localPosition.getT()));  // ??????????????
             }
         }
-    }
-
-    private boolean pythagoras(int x, int y, Point2D center, int radius) {
-
-        double dx = Math.abs(x - center.getX());
-        double dy = Math.abs(y - center.getY());
-        int R = radius;
-
-        if (dx > R) {
-            return false;
-        } else if (dy > R) {
-            return false;
-        } else if (dx + dy <= R) {
-            return true;
-        } else if (Math.pow(dx, 2) + Math.pow(dy, 2) <= Math.pow(R, 2)) {
-            return true;
-        } else {
-            return false;
-        }
-
-
     }
 }
