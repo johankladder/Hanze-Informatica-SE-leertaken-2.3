@@ -24,6 +24,7 @@ public class OccupancyMap {
 	private final char UNKNOWN = 'n';
 	private final char EMPTY = 'e';
 	private final char OBSTACLE = 'o';
+	private final char OBSTACLE_SONAR = 's';
 	private final char ROBOT = 'r';
 	private final char UNREACHABLE_UNKNOWN = 'u';
 
@@ -129,7 +130,7 @@ public class OccupancyMap {
 			return;
 		}
 		if (obstacle) {
-			grid[xi][yi] = OBSTACLE;
+			grid[xi][yi] = OBSTACLE_SONAR;
 		}
 	}
 
