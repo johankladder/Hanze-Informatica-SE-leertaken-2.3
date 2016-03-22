@@ -243,7 +243,7 @@ public class SecondSonar extends Device {
             } else {
                 size = size + incrementRadius;
                 drawSonar(size);
-                localPosition.rotateAroundAxis(0.0, 0.0, orientation * rotStep);
+                localPosition.rotateAroundAxis(0.0, 0.0, orientation * numSteps * rotStep);
             }
             environment.processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
             numSteps -= 1.0;
