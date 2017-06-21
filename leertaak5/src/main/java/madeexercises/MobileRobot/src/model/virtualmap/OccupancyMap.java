@@ -24,6 +24,7 @@ public class OccupancyMap {
 	private final char UNKNOWN = 'n';
 	private final char EMPTY = 'e';
 	private final char OBSTACLE = 'o';
+	private final char OBSTACLE_SONAR = 's';
 	private final char ROBOT = 'r';
 	private final char UNREACHABLE_UNKNOWN = 'u';
 
@@ -82,6 +83,57 @@ public class OccupancyMap {
 
 
 		this.processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+	}
+
+	public void drawSonarScan(double position[], double measures[]) {
+		// radialen
+		double rx = Math.round(position[0] + 20.0 * Math.cos(Math.toRadians(position[2])));
+		double ry = Math.round(position[1] + 20.0 * Math.sin(Math.toRadians(position[2])));
+		//richting
+		int dir = (int) Math.round(position[2]);
+
+		for (int i = 0; i < 360; i++) {
+			int d = i - dir;
+			while (d < 0) {
+				d += 360;
+			}
+			while (d >= 360) {
+				d -= 360;
+			}
+			double fx = Math.round(rx + measures[d] * Math.cos(Math.toRadians(i)));
+			double fy = Math.round(ry + measures[d] * Math.sin(Math.toRadians(i)));
+
+			if (measures[d] < 100) {
+				drawSonar(fx, fy, true);
+			} else {
+				drawSonar(fx, fy, false);
+			}
+
+			//paint robot position on grid
+			Position robotPos = environment.getRobot().getPlatform().getRobotPosition();
+			//environment.getRobot().readPosition(robotPos);
+
+			int robotX = (int) robotPos.getX() / CELL_DIMENSION;
+			int robotY = (int) robotPos.getY() / CELL_DIMENSION;
+			this.grid[robotX][robotY] = ROBOT;
+
+
+			this.processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+		}
+	}
+
+	private void drawSonar(double x, double y, boolean obstacle) {
+		// x en y coördinaten in vakjes
+		int xi = (int) Math.ceil(x / CELL_DIMENSION);
+		int yi = (int) Math.ceil(y / CELL_DIMENSION);
+
+		// verkeerde mogelijkheden
+		if (xi < 0 || yi < 0 || xi >= MAP_WIDTH / CELL_DIMENSION || yi >= MAP_HEIGHT / CELL_DIMENSION) {
+			return;
+		}
+		if (obstacle) {
+			grid[xi][yi] = OBSTACLE_SONAR;
+		}
 	}
 
 
@@ -166,7 +218,7 @@ public class OccupancyMap {
 
 		if (obstacle) {
 			grid[xi][yj] = OBSTACLE;
-		} else if (grid[xi][yj] != OBSTACLE) {
+		} else if (grid[xi][yj] != OBSTACLE && grid[xi][yj] != OBSTACLE_SONAR) {
 			grid[xi][yj] = EMPTY;
 		}
 
@@ -177,7 +229,7 @@ public class OccupancyMap {
 
 		if (rx == x) {
 			for (int j = ymin; j <= ymax; j++) {
-				if (grid[xmin][j] != OBSTACLE)
+				if (grid[xmin][j] != OBSTACLE && grid[xmin][j] != OBSTACLE_SONAR)
 					grid[xmin][j] = EMPTY;
 			}
 		} else {
@@ -186,7 +238,7 @@ public class OccupancyMap {
 			for (int i = xmin; i <= xmax; i++) {
 				int h = (int) Math.ceil((m * (i * CELL_DIMENSION) + q) / CELL_DIMENSION);
 				if (h >= ymin && h <= ymax) {
-					if (grid[i][h] != OBSTACLE)
+					if (grid[i][h] != OBSTACLE && grid[i][h] != OBSTACLE_SONAR)
 						grid[i][h] = EMPTY;
 
 				}

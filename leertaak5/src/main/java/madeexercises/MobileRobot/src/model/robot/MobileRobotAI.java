@@ -25,8 +25,8 @@ public class MobileRobotAI implements Runnable {
     /*
     Helper fields: Need to be removed when exercise is completed
      */
-    private final double stepSize = 10; // Step-size the robot takes when going forward -> Crucial for narrow corners // FIXME: Do steps as far as it can see
-    private final int extraClicksBeforeCorner = 4; // Additional steps for passing trough corner // FIXME: Remove this one when knowing width and height of robot
+    private final double stepSize = 8; // Step-size the robot takes when going forward -> Crucial for narrow corners // FIXME: Do steps as far as it can see
+    private final int extraClicksBeforeCorner = 5; // Additional steps for passing trough corner // FIXME: Remove this one when knowing width and height of robot
     private final int extraClicksAfterCorner = 3; // Additional steps for passing after corner // FIXME: Remove this one when knowing width and height of robot
     private int extraClicks = 0; // FIXME: Remove this one when knowing width and height of robot
 
@@ -56,6 +56,8 @@ public class MobileRobotAI implements Runnable {
         boolean running = true;
         double position[] = new double[3];
         double measures[] = new double[360];
+        double sonarMeasure[] = new double[360];
+
         while (running) {
             if (isFullyDiscovered()) {
                 running = false;
@@ -75,9 +77,35 @@ public class MobileRobotAI implements Runnable {
 
                 robot.sendCommand("L1.SCAN");
                 result = input.readLine();
-                double foundMeasures[] = parseMeasures(result, measures);
+                double foundMeasures[] = parseMeasures(result, measures, "Laser");
                 map.drawLaserScan(position, measures);
+
+                robot.sendCommand("S1.SCAN");
+                result = input.readLine();
+                double scanSonar[] = parseMeasures(result, sonarMeasure, "Sonar");
+                map.drawSonarScan(position, sonarMeasure);
+
+                // Compare measures:
+                double[] correctMeasures = new double[360];
+
+                for (int i = 0; i < foundMeasures.length; i++) {
+                    if (foundMeasures[i] < scanSonar[i]) {
+                        correctMeasures[i] = foundMeasures[i];
+                    } else {
+                        correctMeasures[i] = scanSonar[i];
+                    }
+                }
+
+                foundMeasures = correctMeasures;
+
+                for (int i = 0; i < foundMeasures.length; i++) {
+                    System.out.print(i + " " + foundMeasures[i] + "|");
+                }
+
+                System.out.println("\n");
+
                 checkUnreachableUnknowns();
+
 
                 double wallRight = foundMeasures[90];
                 double wallForward = foundMeasures[0];
@@ -95,31 +123,33 @@ public class MobileRobotAI implements Runnable {
                 // Begin logic:
                 if (first) {
 //                    // The robot first needs to turn to the side of the desired algorithm!
-//                    robot.sendCommand(getBeginRotationString()); // FIXME: Doesn't work when robot has other default spawning degree
+                    robot.sendCommand(getBeginRotationString()); // FIXME: Doesn't work when robot has other default spawning degree
+                    input.readLine();
+
 //                    // -> Can be fixed by first calling that robot need to be on degree 0
 //                    input.readLine();
 
                     first = false; // Set status-flag
 
-                } else if (corner) {
+                } else if (rotationWall > 50 || corner) {
+
                     // FIXME: The code with (**) notation is not as clean as it can get.
-
-                    for(int step = 0; step < extraClicksBeforeCorner; step++) {
+                    if (extraClicks < extraClicksBeforeCorner) {
                         robot.sendCommand("P1.MOVEFW " + stepSize); // **
                         input.readLine(); // **
+                        extraClicks++; // **
+                    } else {
+                        robot.sendCommand(getBeginRotationString());
+                        input.readLine();
+
+                        for (int xClicks = 0; xClicks < extraClicksAfterCorner; xClicks++) {
+                            robot.sendCommand("P1.MOVEFW " + stepSize); // **
+                            input.readLine(); // **
+                        }
+
+                        extraClicks = 0; //**
+                        corner = false;
                     }
-
-                    robot.sendCommand(getBeginRotationString());
-                    input.readLine();
-
-                    for (int xClicks = 0; xClicks < extraClicksAfterCorner; xClicks++) {
-                        robot.sendCommand("P1.MOVEFW " + stepSize); // **
-                        input.readLine(); // **
-                    }
-
-                    extraClicks = 0; //**
-                    corner = false;
-
 
                 } else if (wallForward > stepSize) {
 
@@ -132,11 +162,9 @@ public class MobileRobotAI implements Runnable {
                     for (int cValue = 89; cValue > 0; cValue--) {
                         if (!hit) {
                             double testc = measures[cValue];
-                            //System.out.println(cValue + "  | " + testc);
-                            if (testc >= 100 && a == 100) {
-                                System.out.println("TEST:   " + cValue);
+                            // System.out.println(cValue + "  | " + testc);
+                            if (testc >= 100) {
                                 hit = true;
-                                corner = true;
                             } else {
                                 if ((testc - c) > 10 && c != 0) {
                                     hit = true;
@@ -159,8 +187,12 @@ public class MobileRobotAI implements Runnable {
                         b = Math.sqrt((c - a));
                     }
 
+                    // TODO:
+                    if (b > wallForward) {
+                        b = wallForward - stepSize;
+                    }
 
-                    //System.out.println("-----------------" + rotationWall);
+                    System.out.println("FW = " + b);
                     robot.sendCommand("P1.MOVEFW " + b);
                     input.readLine();
 
@@ -168,6 +200,8 @@ public class MobileRobotAI implements Runnable {
                     robot.sendCommand(getInvertedRotation());
                     input.readLine();
                 }
+
+                System.out.println("-----------------");
 
             } catch (IOException ioe) {
                 System.err.println("execution stopped");
@@ -219,7 +253,8 @@ public class MobileRobotAI implements Runnable {
         return position;
     }
 
-    private double[] parseMeasures(String value, double measures[]) {
+    private double[] parseMeasures(String value, double measures[], String device) {
+        System.out.println("TEST" + " " + device);
         for (int i = 0; i < 360; i++) {
             measures[i] = 100.0;
         }
@@ -231,6 +266,7 @@ public class MobileRobotAI implements Runnable {
 
             double distance;
             int direction;
+            System.out.println(value);
             while (tokenizer.hasMoreTokens()) {
                 distance = Double.parseDouble(tokenizer.nextToken().substring(2));
                 direction = (int) Math.round(Math.toDegrees(Double.parseDouble(tokenizer.nextToken().substring(2))));
@@ -246,7 +282,7 @@ public class MobileRobotAI implements Runnable {
                 double object = measures[i];
 
                 if (object < 100) {
-                    System.out.print("Obstacle: ");
+                    System.out.print("Obstacle " + device + ": ");
                 }
                 System.out.print(i + "=" + object + "| ");
             }
